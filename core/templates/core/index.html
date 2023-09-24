@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+<body>
+
+<h3>events</h3>
+
+{% for event in all_events %}
+  <p>{{ event.name }}</p>
+{% endfor %}
+
+<h3>venues</h3>
+
+{% for venue in all_venues %}
+  <p>{{ venue.name }}</p>
+{% endfor %}
+
+</body>
+</html>
