@@ -18,6 +18,8 @@ services:
         value: 4
       - key: DJANGO_SECRET_KEY
         generateValue: true
+      - key: ALLOWED_HOSTS
+        sync: false
       - key: DATABASE_URL
         fromDatabase:
           name: nycnoise
