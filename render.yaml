@@ -16,7 +16,7 @@ services:
         value: 3.10.7
       - key: WEB_CONCURRENCY
         value: 4
-      - key: DJANGO_SECRET_VALUE
+      - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
