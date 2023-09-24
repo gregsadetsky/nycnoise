@@ -19,3 +19,8 @@ less broadly:
 - bring over all static content from wordpress i.e. pages -- conserve URLs!
 - have to ability to re-edit any of the past pages/static content
 - potentially look into django only serving as an api and using a cdn-distributed next.js middle/frontend for the frontend (using netlify?)
+
+## tech-y things
+
+- deployed to render.com
+- issues tracked [here in the repo](https://github.com/gregsadetsky/nycnoise/issues)
