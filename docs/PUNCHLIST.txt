@@ -1,0 +1,9 @@
+pre-launch checlist:
+- make sitemap work
+- make sure apex & www. domains work
+- check that database is auto backed up
+- check that the previous site's URLs all work (or redirect to the homepage / do something sensible)
+- have some 404 page
+- have some minimal monitoring/alerting i.e. email/sms when site is down
+- send server logs to papertrail // s3
+- check favicon

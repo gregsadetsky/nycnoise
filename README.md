@@ -2,25 +2,24 @@
 
 ## what is this
 
-a rewrite of nyc-noise.com to move away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use, etc.
+a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural calendar web site to move it away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use for everyone.
 
-## plan
+## very high level plan
 
-very broadly:
-
-- get something up and running
-- iterate until we have some feature parity with the existing site
-- release it in alpha form?
-- swap out the current site for this?
-
-less broadly:
-
-- reimplement features: TODO list them...
-- bring over all static content from wordpress i.e. pages -- conserve URLs!
-- have to ability to re-edit any of the past pages/static content
-- potentially look into django only serving as an api and using a cdn-distributed next.js middle/frontend for the frontend (using netlify?)
+- implement core features - i.e. events & venues
+- re-implement the homepage i.e. list of events for the current month
+- import existing WP pages & keep them editable.
+- when the site has some feature parity and covers most/all existing URLs, launch it as an alpha version.
+- eventually replace the current site entirely.
 
 ## tech-y things
 
-- deployed to render.com
-- issues tracked [here in the repo](https://github.com/gregsadetsky/nycnoise/issues)
+- [ONBOARDING.md](docs/ONBOARDING.md) lists the steps to get started with the codebase
+
+## who/when/where
+
+[Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/).
+
+The migration to Django is being tackled by a group of people from the [Recurse Center](https://www.recurse.com/).
+
+TODO list contributors/use authorbot.

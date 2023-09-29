@@ -1,0 +1,1 @@
+- potentially look into django only serving as an api and using a cdn-distributed next.js middle/frontend for the frontend (using netlify?)
