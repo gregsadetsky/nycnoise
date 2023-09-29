@@ -15,6 +15,7 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 ## tech-y things
 
 - [ONBOARDING.md](docs/ONBOARDING.md) lists the steps to get started with the codebase
+- [DEVELOPMENT-CYCLE.md](docs/DEVELOPMENT-CYCLE.md) describes the development cycle i.e. open a branch + submit a PR, etc.
 
 ## who/when/where
 
