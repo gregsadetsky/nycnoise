@@ -1,5 +1,7 @@
 # nycnoise
 
+[![All Contributors](https://img.shields.io/github/all-contributors/projectOwner/projectName?color=ee8449&style=flat-square)](#contributors)
+
 ## what is this
 
 a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural calendar web site to move it away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use for everyone.
@@ -23,4 +25,13 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 
 The migration to Django is being tackled by a group of people from the [Recurse Center](https://www.recurse.com/).
 
-TODO list contributors/use authorbot.
+## contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
