@@ -4,3 +4,4 @@
   - deploy `dev` branch to separate domain with own database
   - deploy PR previews i.e. each PR gets its own deployment url+database
 - connect site in search console -- monitor new site issues/suggestions
+- venues should have a default age/access value BUT every event should be able to optionally override those values
