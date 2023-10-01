@@ -10,9 +10,9 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 
 - implement core features - i.e. events & venues
 - re-implement the homepage i.e. list of events for the current month
-- import existing WP pages & keep them editable.
-- when the site has some feature parity and covers most/all existing URLs, launch it as an alpha version.
-- eventually replace the current site entirely.
+- import existing WP pages & keep them editable in the admin (in "rich text" i.e. html)
+- when the site has enough feature parity and covers most/all existing URLs, launch it as an alpha version
+- eventually replace the current site entirely
 
 ## tech-y things
 
@@ -21,9 +21,9 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 
 ## who/when/where
 
-[Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/).
+[Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/)
 
-The migration to Django is being tackled by a group of people from the [Recurse Center](https://www.recurse.com/).
+The migration to Django is being tackled by a group of people from the [Recurse Center](https://www.recurse.com/)
 
 ## contributors
 

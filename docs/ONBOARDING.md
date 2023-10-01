@@ -21,6 +21,6 @@
   - locally, I recommend `admin`/`admin` (username/password) and a made up email like `a@a.ca`
   - you will get a warning about the bad password :-) ignore it :-) (it's fine for local development)
 - run the server: `python manage.py runserver`
-  - you should be able to visit `localhost:8000` and see the site
-  - you should be able to visit `localhost:8000/admin` and log in with the superuser you just created
+  - you should be able to visit http://localhost:8000 and see the site
+  - you should be able to visit http://localhost:8000/admin and log in with the superuser you just created
 - you're all set!
