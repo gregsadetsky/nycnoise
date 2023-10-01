@@ -1,1 +1,6 @@
 - potentially look into django only serving as an api and using a cdn-distributed next.js middle/frontend for the frontend (using netlify?)
+- the site could send emails? like an email calendar? with events for the next days? this requires coordination with Jessica as events get updated very frequently
+- more/better devops
+  - deploy `dev` branch to separate domain with own database
+  - deploy PR previews i.e. each PR gets its own deployment url+database
+- connect site in search console -- monitor new site issues/suggestions
