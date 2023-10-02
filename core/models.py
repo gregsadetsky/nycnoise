@@ -1,8 +1,10 @@
 from django.db import models
 
+from tinymce import models as tinymce_models
+
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
+    name = tinymce_models.HTMLField(max_length=255)
     venue = models.ForeignKey("Venue", on_delete=models.PROTECT)
 
     def __str__(self):

@@ -18,7 +18,7 @@
 <h3>events</h3>
 
 {% for event in all_events %}
-  <p>{{ event.name }}</p>
+  <p>{{ event.name|safe }}</p>
 {% endfor %}
 
 <h3>venues</h3>
