@@ -4,8 +4,9 @@ from tinymce import models as tinymce_models
 
 
 class Event(models.Model):
-    name = tinymce_models.HTMLField(max_length=255)
+    name = models.CharField(max_length=255)
     venue = models.ForeignKey("Venue", on_delete=models.PROTECT)
+    description = tinymce_models.HTMLField(max_length=1000, null = True, blank = True)
 
     def __str__(self):
         return self.name
