@@ -5,7 +5,7 @@
 
 ### step by step
 
-- create a new branch based on `main` for your feature or fix (e.g. make sure you're on `dev` and have git pulled, then `git checkout -b my-fix`)
+- create a new branch based on `dev` for your feature or fix (e.g. make sure you're on `dev` and have git pulled, then `git checkout -b my-fix`)
 - keep branch up to date with dev (e.g. `git pull origin dev`)
 - push code / branch to repo (e.g. `git push origin my-fix`)
 - open PR on github
