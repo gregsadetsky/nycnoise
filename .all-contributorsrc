@@ -1,4 +1,21 @@
 {
-    "projectName": "nycnoise",
-    "projectOwner": "gregsadetsky"
+  "projectName": "nycnoise",
+  "projectOwner": "gregsadetsky",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "SwantjeM",
+      "name": "SwantjeM",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28712729?v=4",
+      "profile": "https://github.com/SwantjeM",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ]
 }
