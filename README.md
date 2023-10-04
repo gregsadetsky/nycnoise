@@ -33,7 +33,7 @@ The migration to Django is being tackled by a group of people from the [Recurse 
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/SwantjeM"><img src="https://avatars.githubusercontent.com/u/28712729?v=4?s=100" width="100px;" alt="SwantjeM"/><br /><sub><b>SwantjeM</b></sub></a><br /><a href="#doc-SwantjeM" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/SwantjeM"><img src="https://avatars.githubusercontent.com/u/28712729?v=4?s=100" width="100px;" alt="SwantjeM"/><br /><sub><b>SwantjeM</b></sub></a><br /><a href="#doc-SwantjeM" title="Documentation">📖</a> <a href="#code-SwantjeM" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
