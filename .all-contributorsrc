@@ -27,6 +27,15 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "42lucasbezerra",
+      "name": "Lucas Bezerra",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50885067?v=4",
+      "profile": "https://github.com/42lucasbezerra",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
