@@ -19,7 +19,7 @@
   - if this works, that means that Django can talk to your local database. that's really great!
   - if you have trouble here - it could be due to the Postgres server not running or the database doesn't exist, or the connection string in `.env` is wrong
   - for windows: if you're getting a password error, try changing the USER in the .env document to USER:Password@
-  - if you already had passwords set for all users, make sure `Password` in the DATABASE_URL is your users password
+  - if you already had passwords set for all users, make sure Password in the DATABASE_URL is the password for USER
 - create a superuser: `python manage.py createsuperuser`
   - locally, I recommend `admin`/`admin` (username/password) and a made up email like `a@a.ca`
   - you will get a warning about the bad password :-) ignore it :-) (it's fine for local development)
