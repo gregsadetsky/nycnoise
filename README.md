@@ -37,6 +37,7 @@ The migration to Django is being tackled by a group of people from the [Recurse 
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/SwantjeM"><img src="https://avatars.githubusercontent.com/u/28712729?v=4?s=100" width="100px;" alt="SwantjeM"/><br /><sub><b>SwantjeM</b></sub></a><br /><a href="#doc-SwantjeM" title="Documentation">📖</a> <a href="#code-SwantjeM" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/gregsadetsky"><img src="https://avatars.githubusercontent.com/u/1017304?v=4?s=100" width="100px;" alt="Greg Sadetsky"/><br /><sub><b>Greg Sadetsky</b></sub></a><br /><a href="#doc-gregsadetsky" title="Documentation">📖</a> <a href="#code-gregsadetsky" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/42lucasbezerra"><img src="https://avatars.githubusercontent.com/u/50885067?v=4?s=100" width="100px;" alt="Lucas Bezerra"/><br /><sub><b>Lucas Bezerra</b></sub></a><br /><a href="#code-42lucasbezerra" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://evanconway.github.io/#/"><img src="https://avatars.githubusercontent.com/u/43253820?v=4?s=100" width="100px;" alt="Evan Conway"/><br /><sub><b>Evan Conway</b></sub></a><br /><a href="#doc-evanconway" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
