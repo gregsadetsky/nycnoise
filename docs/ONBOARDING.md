@@ -11,7 +11,7 @@
 - create a python virtual environment to store/manage the project's dependencies locally:
   - create the virtual environment: `python3 -m venv venv`
   - activate it: `source venv/bin/activate`
-  - for windows, this might be either `venv/Scripts/activate` or, when using git bash: `source venv/Scripts/activate`
+  - for windows, this might be either `venv/Scripts/activate`, `./venv/Scripts/Activate.ps1` or, when using git bash: `source venv/Scripts/activate`
   - your terminal should now have a `(venv)` prefix -- this means you're in the virtual environment
 - install the dependencies with the venv activated: `pip install -r requirements.txt`
 - (almost there!)
@@ -19,6 +19,7 @@
   - if this works, that means that Django can talk to your local database. that's really great!
   - if you have trouble here - it could be due to the Postgres server not running or the database doesn't exist, or the connection string in `.env` is wrong
   - for windows: if you're getting a password error, try changing the USER in the .env document to USER:Password@
+  - if you already had passwords set for all users, make sure Password in the DATABASE_URL is the password for USER
 - create a superuser: `python manage.py createsuperuser`
   - locally, I recommend `admin`/`admin` (username/password) and a made up email like `a@a.ca`
   - you will get a warning about the bad password :-) ignore it :-) (it's fine for local development)
