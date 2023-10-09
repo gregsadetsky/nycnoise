@@ -19,6 +19,7 @@
 
 {% for event in all_events %}
   <h4>{{ event.name }}</h4>
+  <p> {{event.starttime}}</p>
   <p>{{ event.description|safe }}</p>
 {% endfor %}
 
