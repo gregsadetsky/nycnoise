@@ -6,14 +6,91 @@
   <title>nyc noise</title>
   <style>
       body {
-        background-color: #d4d0c7
+        background-color: #d4d0c7;
+        font-family: "Open Sans", sans-serif;
       }
-  </style>
+
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 6rem);
+        grid-template-rows: 2rem repeat(6, 3rem);
+        background: #ddd;
+        grid-gap: 1px;
+        border: 1px solid #ddd;
+        width:fit-content;
+        margin: auto;
+      }
+
+      @media (max-width: 800px ) {
+        .calendar {
+          display: grid;
+          grid-template-columns: repeat(7, 1fr);
+          background: #ddd;
+          grid-gap: 1px;
+          border: 1px solid #ddd;
+          width: 100%;
+        }
+      }
+
+      .date-head {
+        background: #d4d0c7;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .date {
+        padding: 0.25rem;
+        display: grid;
+      }
+
+      .date .day {
+        text-align: right;
+        display: grid;
+      }
+
+      .date .linky {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+        text-transform: lowercase;
+      }
+
+      .date-today {
+        background: rgb(251,247,224);
+      }
+
+      .date-this-month {
+        background: #d4d0c7;
+      }
+
+      .date-other-month {
+        background: #d4d0c7;
+        color: #999;;
+      }
+</style>
 </head>
 <body>
 
 <h1 style='margin-bottom:0'>nyc noise</h1>
 <small>~ always incomplete ~</small>
+
+<div class="calendar">
+  <div class="date-head">Sun</div>
+  <div class="date-head">Mon</div>
+  <div class="date-head">Tue</div>
+  <div class="date-head">Wed</div>
+  <div class="date-head">Thu</div>
+  <div class="date-head">Fri</div>
+  <div class="date-head">Sat</div>
+  {% for date in calendar_dates %}
+    <div class="date date{% if date.is_today %}-today{% elif date.is_this_month %}-this-month{% else %}-other-month{% endif %}">
+      <div class="day">{{ date.date.day }}</div>
+      <div class="linky">{% if date.is_this_month %}{{ date.date|date:"b j (D)" }}{% endif %}</div>
+    </div>
+  {% endfor %}
+</div>
 
 <h3>events</h3>
 
