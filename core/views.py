@@ -23,7 +23,7 @@ def calendar_info(month=date.today(), today=date.today()):
         {
             "date": date,
             "is_this_month": date.month == month.month,
-            "is_today": date == date.today(),
+            "is_today": date == today,
         }
         for date in dates_for_calendar
     ]
