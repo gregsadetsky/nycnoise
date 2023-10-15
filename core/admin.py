@@ -12,9 +12,15 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_description_as_text(self, obj):
         return mark_safe(obj.description)
-    
-    get_description_as_text.short_description = 'Description'
+
+    get_description_as_text.short_description = "Description"
+
 
 admin.site.register(Event, EventAdmin)
 
-admin.site.register(Venue)
+
+class VenueAdmin(admin.ModelAdmin):
+    list_display = ("name", "age_policy", "neighborhood_and_borough")
+
+
+admin.site.register(Venue, VenueAdmin)
