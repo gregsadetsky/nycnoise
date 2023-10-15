@@ -1,9 +1,9 @@
 from collections import defaultdict
 
 from django.db.models.functions import TruncDay
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-from .models import Event, Venue
+from .models import Event, StaticPage, Venue
 
 
 def index(request):
@@ -24,3 +24,8 @@ def index(request):
             "all_venues": all_venues,
         },
     )
+
+
+def static_page(request, url_path):
+    page_obj = get_object_or_404(StaticPage, url_path=url_path)
+    return render(request, "core/static_page.html", {"page_obj": page_obj})

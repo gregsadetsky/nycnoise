@@ -1,21 +1,69 @@
+import lxml.etree as etree
+from core.models import StaticPage
 from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("file_to_wordpress_export_xml_file")
+        parser.add_argument("--delete_all_pages", default=False, action="store_true")
 
     def handle(self, *args, **options):
-        file_to_wordpress_export_xml_file = options["file_to_wordpress_export_xml_file"]
-        self.stdout.write(
-            self.style.SUCCESS(
-                f"Importing pages from {file_to_wordpress_export_xml_file}"
+        if options["delete_all_pages"]:
+            user_response = input(
+                "About to delete all pages. Are you absolutely sure? Type yes > "
             )
-        )
-        from core.models import Page
+            if user_response != "yes":
+                raise CommandError("Aborting")
+            StaticPage.objects.all().delete()
 
-        Page.objects.all().delete()
-        from core.utils import import_wordpress_pages
+        file_to_wordpress_export_xml_file = options["file_to_wordpress_export_xml_file"]
 
-        import_wordpress_pages(file_to_wordpress_export_xml_file)
-        self.stdout.write(self.style.SUCCESS("Done!"))
+        parser = etree.XMLParser(strip_cdata=False)
+        with open(file_to_wordpress_export_xml_file) as f:
+            content = f.read()
+
+            # manually clean up gremlins
+            content = content.replace(chr(3), "")
+            content = content.replace(chr(8), "")
+            content = content.replace(chr(0x1F), "")
+            content = content.replace(chr(0xA0), " ")
+
+            soup = etree.fromstring(content.encode("utf-8"), parser=parser)
+            prefix_map = {
+                "wp": "http://wordpress.org/export/1.2/",
+                "content": "http://purl.org/rss/1.0/modules/content/",
+            }
+
+            imported_pages = 0
+            # find all <item> sub-children by xpath
+            for item in soup.xpath("//item"):
+                if item.find("wp:post_type", prefix_map).text != "page":
+                    continue
+
+                url_path = item.find("link").text.replace("https://nyc-noise.com/", "")
+                # strip slash
+                if url_path == "":
+                    # skip the homepage
+                    continue
+                if url_path[-1] == "/":
+                    url_path = url_path[:-1]
+
+                title = item.find("title").text
+
+                content = item.find("content:encoded", prefix_map).text
+                # wordpress half encodes content in html and uses \n\n as an indicator
+                # of stuff to encode with <p>... un-do that.
+                content = "".join(
+                    [f"<p>{paragraph}</p>" for paragraph in content.split("\n\n")]
+                )
+                content = content.replace("\n", "<br/>")
+                # not great. but works.
+                content = content.replace("</h2><br/>", "</h2>")
+
+                StaticPage.objects.create(
+                    url_path=url_path, title=title, content=content
+                )
+                imported_pages += 1
+
+        self.stdout.write(self.style.SUCCESS(f"Imported {imported_pages} pages"))
