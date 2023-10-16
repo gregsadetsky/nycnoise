@@ -1,7 +1,6 @@
 from django.db import models
 
 from tinymce import models as tinymce_models
-from django.utils import timezone
 
 
 class Event(models.Model):
