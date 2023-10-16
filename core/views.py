@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+from django.db.models.functions import TruncDay
 from django.shortcuts import render
 from datetime import date, timedelta
 
@@ -30,14 +33,21 @@ def calendar_info(month=date.today(), today=date.today()):
 
 
 def index(request):
-    all_events = Event.objects.all()
+    all_events = (
+        Event.objects.all().order_by("-starttime").annotate(day=TruncDay("starttime"))
+    )
+    grouped_events = defaultdict(list)
+    for event in all_events:
+        grouped_events[event.day].append(event)
     all_venues = Venue.objects.all()
     return render(
         request,
         "core/index.html",
         {
-            "calendar_dates": calendar_info(),
-            "all_events": all_events,
+            # casting to dict since django doesn't deal with defaultdicts well
+            # https://stackoverflow.com/a/64666307
+            "all_events": dict(grouped_events),
             "all_venues": all_venues,
+            "calendar_dates": calendar_info(),
         },
     )
