@@ -27,9 +27,9 @@ def index(request):
         gcal_link += f'&text={event_name}'
         gcal_link += f'&dates={date_start}/{date_end}'
         gcal_link += f'&details={event.description.replace(" ", "+")}'
-        gcal_link += f'&location={event.venue.location}'
+        gcal_link += f'&location={event.venue.location.replace(" ", "+")}'
         gcal_link += '&sf=true&output=xml'
-        event_gcal_links[event_name] = gcal_link
+        event_gcal_links[event.name] = gcal_link
     
 
     all_venues = Venue.objects.all()
@@ -41,5 +41,6 @@ def index(request):
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
             "all_venues": all_venues,
+            "gcal_links": dict(event_gcal_links)
         },
     )

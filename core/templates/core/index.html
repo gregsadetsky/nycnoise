@@ -31,5 +31,11 @@
   <p>{{ venue.name }}</p>
 {% endfor %}
 
+<h3>Google Calendar Links</h3>
+
+{% for key, value in gcal_links.items %}
+  <a href={{value}}>{{ key }}</a>
+{% endfor %}
+
 </body>
 </html>
