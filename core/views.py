@@ -11,22 +11,27 @@ def index(request):
         Event.objects.all().order_by("-starttime").annotate(day=TruncDay("starttime"))
     )
     grouped_events = defaultdict(list)
-    grouped_event_gcal_links = list
+    event_gcal_links = defaultdict(str)
     for event in all_events:
         grouped_events[event.day].append(event)
         # example link
         # https://www.google.com/calendar/render?action=TEMPLATE&text=Your+Event+Name&dates=20140127T224000Z/20140320T221500Z&details=For+details,+link+here:+http://www.example.com&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022&sf=true&output=xml
         event_name = event.name.replace(' ', '+')
         print('printing event stuff')
-        print(event.starttime.date())
-        date_start = f'{event.starttime.date().isoformat().replace("-", "")}T224000Z'
-        print(date_start)
-        date_end = f'20140320T221500Z'
-        details = event.description.replace(' ', '+')
         print(event_name)
-        gcal_link = f'https://www.google.com/calendar/render?action=TEMPLATE&text={event_name}'
-        grouped_event_gcal_links.append(gcal_link)
-        
+        start_hour = event.starttime.hour
+        end_hour = (event.starttime.hour + 1) % 24
+        date_start = f'{event.starttime.date().isoformat().replace("-", "")}T{start_hour}{event.starttime.minute}00Z'
+        date_end = f'{event.starttime.date().isoformat().replace("-", "")}T{end_hour}{event.starttime.minute}00Z'
+        gcal_link = f'https://www.google.com/calendar/render?action=TEMPLATE'
+        gcal_link += f'&text={event_name}'
+        gcal_link += f'&dates={date_start}/{date_end}'
+        gcal_link += f'&details={event.description.replace(" ", "+")}'
+        gcal_link += f'&location={event.venue.location}'
+        gcal_link += '&sf=true&output=xml'
+        event_gcal_links[event_name] = gcal_link
+    
+
     all_venues = Venue.objects.all()
     return render(
         request,
