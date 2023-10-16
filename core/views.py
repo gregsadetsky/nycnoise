@@ -5,6 +5,8 @@ from django.shortcuts import render
 
 from .models import Event, Venue
 
+from .util import getICSDownloadLinkFromEvent
+
 
 def index(request):
     all_events = (
@@ -13,6 +15,7 @@ def index(request):
     grouped_events = defaultdict(list)
     for event in all_events:
         grouped_events[event.day].append(event)
+        getICSDownloadLinkFromEvent(event)
     all_venues = Venue.objects.all()
     return render(
         request,

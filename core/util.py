@@ -1,5 +1,5 @@
+import datetime, tempfile, os
 from uuid import uuid4
-import datetime
 from .models import Event as ModelEvent
 from icalendar import Event as ICalEvent, Calendar
 
@@ -17,4 +17,10 @@ def getICSDownloadLinkFromEvent(event: ModelEvent):
     cal_event.add('DESCRIPTION', event.description)
     cal_event.add('LOCATION', event.venue.name)
     cal.add_component(cal_event)
-    cal.to_ical()
+
+    # dir = tempfile.mkdtemp()
+    # f = open(os.path.join(dir, 'example.ics'), 'wb')
+    # f.write(cal.to_ical())
+    # f.close()
+    print(cal.to_ical().decode("utf-8"))
+
