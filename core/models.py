@@ -9,7 +9,6 @@ class Event(models.Model):
     venue = models.ForeignKey("Venue", on_delete=models.PROTECT)
     starttime = models.DateTimeField("Start time", null=True)
     description = tinymce_models.HTMLField(max_length=1000, null=True, blank=True)
-  
 
     def __str__(self):
         return self.name
@@ -20,3 +19,11 @@ class Venue(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DateMessage(models.Model):
+    date = models.DateField("Date", null=True)
+    message = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.date)
