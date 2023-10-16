@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Event, Venue
+from .models import Event, Venue, DateMessage
 
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
@@ -27,3 +27,5 @@ class VenueAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Venue, VenueAdmin)
+admin.site.register(DateMessage)
+
