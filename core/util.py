@@ -3,7 +3,7 @@ from uuid import uuid4
 from .models import Event as ModelEvent
 from icalendar import Event as ICalEvent, Calendar
 
-def getICSDownloadLinkFromEvent(event: ModelEvent):
+def get_ics_string_from_event(event: ModelEvent):
     cal = Calendar()
     cal_event = ICalEvent()
     t = event.starttime
@@ -17,10 +17,5 @@ def getICSDownloadLinkFromEvent(event: ModelEvent):
     cal_event.add('DESCRIPTION', event.description)
     cal_event.add('LOCATION', event.venue.name)
     cal.add_component(cal_event)
-
-    # dir = tempfile.mkdtemp()
-    # f = open(os.path.join(dir, 'example.ics'), 'wb')
-    # f.write(cal.to_ical())
-    # f.close()
-    print(cal.to_ical().decode("utf-8"))
+    return cal.to_ical().decode("utf-8")
 
