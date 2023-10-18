@@ -1,3 +1,6 @@
+from django.shortcuts import render
+from django.db.models.functions import TruncDay
+from django.db.models import Count
 from collections import defaultdict
 from datetime import datetime, timedelta
 
@@ -6,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from pytz import timezone
 
-from .models import Event, Venue
+from .models import Event, Venue, DateMessage
 from .util import get_ics_string_from_event
 
 nyctz = timezone("US/Eastern")
@@ -49,8 +52,12 @@ def index(request):
     )
     grouped_events = defaultdict(list)
     for event in all_events:
-        grouped_events[event.day].append(event)
+        grouped_events[event.day.date()].append(event)
     all_venues = Venue.objects.all()
+    date_messages = DateMessage.objects.all()
+    date_map = {}
+    for date in date_messages:
+        date_map[date.date] = date.message
     return render(
         request,
         "core/index.html",
@@ -60,6 +67,7 @@ def index(request):
             "all_events": dict(grouped_events),
             "all_venues": all_venues,
             "calendar_dates": calendar_info(),
+            "date_messages": date_map,
         },
     )
 
