@@ -11,7 +11,6 @@ def index(request):
         Event.objects.all().order_by("-starttime").annotate(day=TruncDay("starttime"))
     )
     grouped_events = defaultdict(list)
-    event_gcal_links = defaultdict(str)
     for event in all_events:
         grouped_events[event.day].append(event)
     
@@ -25,6 +24,5 @@ def index(request):
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
             "all_venues": all_venues,
-            "gcal_links": dict(event_gcal_links),
         },
     )
