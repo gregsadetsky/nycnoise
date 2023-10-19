@@ -13,8 +13,6 @@ def index(request):
     grouped_events = defaultdict(list)
     for event in all_events:
         grouped_events[event.day].append(event)
-    
-
     all_venues = Venue.objects.all()
     return render(
         request,
