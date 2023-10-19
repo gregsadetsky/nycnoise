@@ -1,4 +1,3 @@
-{% load custom %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +23,7 @@
     <p> {{ event.starttime }}</p>
     <p>{{ event.description|safe }}</p>
     <div>
-      <a href='{% gcal_link event %}'>add to google calendar</a>
+      <a href='{{ event.gcal_link }}'>add to google calendar</a>
     </div>
   {% endfor %}
 {% endfor %}
