@@ -20,7 +20,7 @@
   <h4>{{ date|date:"D d M Y" }}</h4>
   {% for event in events %}
     <h4>{{ event.name }}</h4>
-    <p> {{event.starttime}}</p>
+    <p> {{ event.starttime }}</p>
     <p>{{ event.description|safe }}</p>
     <a href='{{ event.gcal_link }}'>add to google calendar</a>
   {% endfor %}
