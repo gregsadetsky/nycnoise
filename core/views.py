@@ -5,8 +5,6 @@ from django.shortcuts import render
 
 from .models import Event, Venue
 
-from .util import eventToGCalLink
-
 
 def index(request):
     all_events = (
@@ -16,7 +14,6 @@ def index(request):
     event_gcal_links = defaultdict(str)
     for event in all_events:
         grouped_events[event.day].append(event)
-        event_gcal_links[event.name] = eventToGCalLink(event)
     
 
     all_venues = Venue.objects.all()
