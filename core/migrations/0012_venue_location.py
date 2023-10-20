@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0011_alter_event_starttime'),
+        ("core", "0011_alter_event_starttime"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='venue',
-            name='location',
-            field=models.CharField(default='397 Bridge St, Brooklyn, NY 11201', max_length=255),
+            model_name="venue",
+            name="location",
+            field=models.CharField(default="", max_length=255),
             preserve_default=False,
         ),
     ]
