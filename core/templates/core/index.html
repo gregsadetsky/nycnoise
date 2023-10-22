@@ -6,7 +6,8 @@
   <title>nyc noise</title>
   <style>
       body {
-        background-color: #d4d0c7
+        background-color: #d4d0c7;
+        font-family: "Open Sans", sans-serif;
       }
       #centered_content
       {
@@ -19,12 +20,15 @@
         font-size: 0.9em;
       }
   </style>
+  {% include "calendar/style.html" %}
 </head>
 <body>
 
 <div id='centered_content'>
   <h1 style='margin-bottom:0'>nyc noise</h1>
   <small>~ always incomplete ~</small>
+
+  {% include "calendar/calendar.html" %}
 
   {% for date, events in all_events.items %}
     <h4>{{ date|date:"D d M Y" }}</h4>
@@ -49,8 +53,17 @@
         </a>
 
         {% if event.venue %}
-          @ {{ event.venue.name }} ({{ event.venue.age_policy }})</a>,
-          {{ event.venue.neighborhood_and_borough }}
+          @
+
+          {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          {% elif event.venue.age_policy %}
+            {{ event.venue.name }} ({{ event.venue.age_policy }})
+          {% elif event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
+          {% else %}
+            {{ event.venue.name }}
+          {% endif %}
 
           {% if event.venue.accessibility_emoji or event.venue.accessibility_note or event.venue.accessibility_link %}
             <span class='smallInfo'>
@@ -65,9 +78,9 @@
           {% endif %}
 
           //
-          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>
-            MAP
-          </a>
+          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>
+          //
+          <a href="{% url 'event_ics_download' event.id %}">Add to iCal</a>
         {% else %}
           Unknown venue
         {% endif %}

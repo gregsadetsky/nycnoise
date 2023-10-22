@@ -43,7 +43,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/43253820?v=4",
       "profile": "https://evanconway.github.io/#/",
       "contributions": [
-        "doc"
+        "doc",
+        "code"
       ]
     },
     {
@@ -51,6 +52,15 @@
       "name": "Andrea Garcia",
       "avatar_url": "https://avatars.githubusercontent.com/u/20407254?v=4",
       "profile": "https://github.com/andrea749",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "robsimmons",
+      "name": "Robert J. Simmons",
+      "avatar_url": "https://avatars.githubusercontent.com/u/442315?v=4",
+      "profile": "https://github.com/robsimmons",
       "contributions": [
         "code"
       ]
