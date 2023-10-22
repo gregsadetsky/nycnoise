@@ -48,9 +48,13 @@
 
         {{ event.starttime|date:"gA" }}:
 
-        <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>
+        {% if event.hyperlink %}
+          <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>
+            {{ event.name }}
+          </a>
+        {% else %}
           {{ event.name }}
-        </a>
+        {% endif %}
 
         {% if event.venue %}
           @
