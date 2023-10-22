@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils.http import urlencode
+from django.utils.html import strip_tags
 
 from tinymce import models as tinymce_models
 
@@ -9,7 +10,6 @@ from icalendar import Event as ICalEvent, Calendar
 
 from uuid import uuid4
 
-from .util import strip_html
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
@@ -28,7 +28,7 @@ class Event(models.Model):
         cal_event.add('CREATED', datetime.datetime.now())
         cal_event.add('UID', uuid4())
         cal_event.add('SUMMARY', self.name)
-        cal_event.add('DESCRIPTION', strip_html(self.description))
+        cal_event.add('DESCRIPTION', strip_tags(self.description))
         cal_event.add('LOCATION', self.venue.name)
         cal.add_component(cal_event)
         return cal.to_ical().decode("utf-8")
@@ -44,7 +44,7 @@ class Event(models.Model):
             'action': 'TEMPLATE',
             'text': self.name,
             'dates': date_start + '/' + date_end,
-            'details': strip_html(self.description),
+            'details': strip_tags(self.description),
             'location': self.venue.location,
             'sf': 'true',
             'output': 'xml',
