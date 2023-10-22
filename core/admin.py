@@ -9,6 +9,7 @@ admin.site.site_header = "nyc noise"
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ("name", "venue", "starttime", "get_description_as_text")
+    autocomplete_fields = ("venue",)
 
     def get_description_as_text(self, obj):
         return mark_safe(obj.description)
@@ -22,6 +23,7 @@ admin.site.register(Event, EventAdmin)
 class VenueAdmin(admin.ModelAdmin):
     list_display = ("name", "age_policy", "neighborhood_and_borough")
     search_fields = ("name",)
+    ordering = ("name",)
 
 
 admin.site.register(Venue, VenueAdmin)
