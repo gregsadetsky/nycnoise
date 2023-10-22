@@ -1,6 +1,5 @@
 import datetime, uuid
 
-from django.utils.http import urlencode
 from django.utils.html import strip_tags
 
 from icalendar import Event as ICalEvent, Calendar
