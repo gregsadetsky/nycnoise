@@ -1,19 +1,20 @@
 {% load static %}
-  <!-- HTML Meta Tags -->
-  <title>NYC Noise</title>
-  <meta name="description" content="NYC experimental live music calendar • noise, improv, jazz, new music, avant-electronics, weirdos • performance against corporate interests!">
+{% load custom %}
+<!-- HTML Meta Tags -->
+<title>{% meta_title %}</title>
+<meta name="description" content={% meta_description %}>
 
-  <!-- Facebook Meta Tags -->
-  <meta property="og:url" content="https://nyc-noise.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="NYC Noise">
-  <meta property="og:description" content="NYC experimental live music calendar • noise, improv, jazz, new music, avant-electronics, weirdos • performance against corporate interests!">
-  <meta property="og:image" content={% static 'images/NYC-Noise-facebook-preview-TOO-BIG.png' %}>
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="https://nyc-noise.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content={% meta_title %}>
+<meta property="og:description" content={% meta_description %}>
+<meta property="og:image" content={% static 'images/NYC-Noise-facebook-preview-TOO-BIG.png' %}>
 
-  <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta property="twitter:domain" content="nyc-noise.com/">
-  <meta property="twitter:url" content="https://nyc-noise.com/">
-  <meta name="twitter:title" content="NYC Noise">
-  <meta name="twitter:description" content="NYC experimental live music calendar • noise, improv, jazz, new music, avant-electronics, weirdos • performance against corporate interests!">
-  <meta name="twitter:image" content={% static 'images/NYC-Noise-facebook-preview-TOO-BIG.png' %}>
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="nyc-noise.com/">
+<meta property="twitter:url" content="https://nyc-noise.com/">
+<meta name="twitter:title" content={% meta_title %}>
+<meta name="twitter:description" content={% meta_description %}>
+<meta name="twitter:image" content={% static 'images/NYC-Noise-facebook-preview-TOO-BIG.png' %}>
