@@ -69,15 +69,15 @@
             {{ event.venue.name }}
           {% endif %}
 
-          {% if event.venue.accessibility_emoji or event.venue.accessibility_note or event.venue.accessibility_link %}
+          {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
             <span class='smallInfo'>
             //
               {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
               {% if event.venue.accessibility_emoji %}
                 {{ event.venue.accessibility_emoji }}
               {% endif %}
-              {% if event.venue.accessibility_note %}
-                {{ event.venue.accessibility_note }}
+              {% if event.venue.accessibility_notes %}
+                {{ event.venue.accessibility_notes }}
               {% endif %}
           {% endif %}
 
