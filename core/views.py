@@ -8,6 +8,8 @@ from pytz import timezone
 
 from .models import Event, Venue
 
+from .util import get_ics_string_from_event
+
 nyctz = timezone("US/Eastern")
 
 
@@ -65,8 +67,6 @@ def index(request):
 
 def event_ics_download(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
-    response = HttpResponse(
-        event.ics_string(), content_type="text/calendar"
-    )
+    response = HttpResponse(get_ics_string_from_event(event), content_type="text/calendar")
     response["Content-Disposition"] = "inline; filename=event.ics"
     return response
