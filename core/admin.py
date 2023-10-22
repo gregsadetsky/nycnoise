@@ -21,6 +21,7 @@ admin.site.register(Event, EventAdmin)
 
 class VenueAdmin(admin.ModelAdmin):
     list_display = ("name", "age_policy", "neighborhood_and_borough")
+    search_fields = ("name",)
 
 
 admin.site.register(Venue, VenueAdmin)
