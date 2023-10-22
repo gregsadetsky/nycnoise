@@ -6,15 +6,17 @@
   <title>nyc noise</title>
   <style>
       body {
-        background-color: #d4d0c7
+        background-color: #d4d0c7;
+        font-family: "Open Sans", sans-serif;
       }
   </style>
+  {% include "calendar/style.html" %}
 </head>
 <body>
 
 <h1 style='margin-bottom:0'>nyc noise</h1>
 <small>~ always incomplete ~</small>
-
+{% include "calendar/calendar.html" %}
 <h3>events</h3>
 {% for date, events in all_events.items %}
   <h4>{{ date|date:"D d M Y" }}</h4>
@@ -24,6 +26,9 @@
     <p>{{ event.description|safe }}</p>
     <div>
       <a href='{{ event.gcal_link }}'>add to google calendar</a>
+    </div>
+    <div>
+      <a href="{% url 'event_ics_download' event.id %}">Add to iCal</a>
     </div>
   {% endfor %}
 {% endfor %}
