@@ -45,7 +45,7 @@ def calendar_info(month=None, today=None):
 
 def index(request):
     all_events = (
-        Event.objects.all().order_by("-starttime").annotate(day=TruncDay("starttime"))
+        Event.objects.all().order_by("starttime").annotate(day=TruncDay("starttime"))
     )
     grouped_events = defaultdict(list)
     for event in all_events:
