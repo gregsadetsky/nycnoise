@@ -1,3 +1,4 @@
+{% load custom %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,7 +87,7 @@
           //
           <a href="{% url 'event_ics_download' event.id %}">Add to iCal</a>
           //
-          <a href='{{ event.gcal_link }}'>add to google calendar</a>
+          <a href={% get_gcal_link_from_event event %}>add to google calendar</a>
         {% else %}
           Unknown venue
         {% endif %}
