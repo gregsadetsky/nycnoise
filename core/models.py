@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.http import urlencode
 
 from tinymce import models as tinymce_models
 
@@ -15,13 +16,16 @@ class Event(models.Model):
         end_hour = (self.starttime.hour + 1) % 24
         date_start = f'{self.starttime.date().isoformat().replace("-", "")}T{start_hour}{self.starttime.minute}00Z'
         date_end = f'{self.starttime.date().isoformat().replace("-", "")}T{end_hour}{self.starttime.minute}00Z'
-        gcal_link = f'https://www.google.com/calendar/render?action=TEMPLATE'
-        gcal_link += f'&text={self.name.replace(" ", "+")}'
-        gcal_link += f'&dates={date_start}/{date_end}'
-        gcal_link += f'&details={self.description.replace(" ", "+")}'
-        gcal_link += f'&location={self.venue.location.replace(" ", "+")}'
-        gcal_link += '&sf=true&output=xml'
-        return gcal_link
+        query_string = urlencode({
+            'action': 'TEMPLATE',
+            'text': self.name,
+            'dates': date_start + '/' + date_end,
+            'details': self.description,
+            'location': self.venue.location,
+            'sf': 'true',
+            'output': 'xml',
+        })
+        return 'https://www.google.com/calendar/render?' + query_string
 
     def __str__(self):
         return self.name
