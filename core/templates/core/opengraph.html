@@ -1,11 +1,12 @@
 {% load static %}
 {% load custom %}
+
 <!-- HTML Meta Tags -->
 <title>{% meta_title %}</title>
 <meta name="description" content={% meta_description %}>
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="https://nyc-noise.com/">
+<meta property="og:url" content={% meta_url %}>
 <meta property="og:type" content="website">
 <meta property="og:title" content={% meta_title %}>
 <meta property="og:description" content={% meta_description %}>
@@ -13,8 +14,8 @@
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="nyc-noise.com/">
-<meta property="twitter:url" content="https://nyc-noise.com/">
+<meta property="twitter:domain" content={% meta_domain %}>
+<meta property="twitter:url" content={% meta_url %}>
 <meta name="twitter:title" content={% meta_title %}>
 <meta name="twitter:description" content={% meta_description %}>
 <meta name="twitter:image" content={% static 'images/NYC-Noise-facebook-preview-TOO-BIG.png' %}>
