@@ -51,10 +51,10 @@ def index(request):
     for event in all_events:
         grouped_events[event.day.date()].append(event)
     all_venues = Venue.objects.all()
-    date_messages = DateMessage.objects.all()
-    date_map = {}
-    for date in date_messages:
-        date_map[date.date] = date.message
+    all_messages = DateMessage.objects.all()
+    date_messages = {}
+    for date in all_messages:
+        date_messages[date.date] = date.message
     return render(
         request,
         "core/index.html",
@@ -64,7 +64,7 @@ def index(request):
             "all_events": dict(grouped_events),
             "all_venues": all_venues,
             "calendar_dates": calendar_info(),
-            "date_messages": date_map,
+            "date_messages": date_messages,
         },
     )
 

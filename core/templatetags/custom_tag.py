@@ -1,6 +1,6 @@
-from django.template.Library import register
+from django.template.defaulttags import register
 
 
 @register.filter
-def keyvalue(dicti, key):
+def get_item(dicti, key):
     return dicti[key]
