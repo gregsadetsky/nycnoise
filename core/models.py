@@ -21,10 +21,10 @@ class Venue(models.Model):
         ordering = [Upper("name")]
 
     name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
-
     accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
     accessibility_notes = models.CharField(max_length=255, null=True, blank=True)
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
