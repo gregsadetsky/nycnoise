@@ -1,8 +1,7 @@
 from django.db import models
-from django.utils.http import urlencode
-from django.utils.html import strip_tags
-
 from django.db.models.functions import Upper
+from django.utils.html import strip_tags
+from django.utils.http import urlencode
 from tinymce import models as tinymce_models
 
 
@@ -12,7 +11,6 @@ class Event(models.Model):
     starttime = models.DateTimeField("Start time", null=True)
     description = tinymce_models.HTMLField(max_length=1000, null=True, blank=True)
     hyperlink = models.CharField(max_length=255, null=True, blank=True)
-
 
     def __str__(self):
         return self.name
@@ -25,7 +23,7 @@ class Venue(models.Model):
         ordering = [Upper("name")]
 
     name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
