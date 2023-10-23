@@ -1,7 +1,5 @@
 from django.db import models
 from django.db.models.functions import Upper
-from django.utils.html import strip_tags
-from django.utils.http import urlencode
 from tinymce import models as tinymce_models
 
 
