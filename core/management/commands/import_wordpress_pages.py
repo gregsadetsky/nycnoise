@@ -1,9 +1,30 @@
+from argparse import RawTextHelpFormatter
+
 import lxml.etree as etree
 from core.models import StaticPage
 from django.core.management.base import BaseCommand, CommandError
 
 
 class Command(BaseCommand):
+    help = """
+        Imports "static" pages from a nyc-noise.com wordpress xml dump.
+        The goal is to recreate all existing pages from nyc-noise.com pages, for example:
+        - https://nyc-noise.com/bandcamp-roundup/
+        - https://nyc-noise.com/about/
+        etc.
+        Ideally, we'd want all of the existing urls (e.g., /about/) to be perfectly
+        ported over to the new site. Which means the page's <title>, the opengraph tags,
+        the url, the rich text content and the images should all port over seemlessly.
+        TODO a lot of these things are not handled by the code below :-)
+    """.strip()
+
+    # customization so that above help string keeps its newlines when printed to the console
+    # https://stackoverflow.com/a/35470682
+    def create_parser(self, *args, **kwargs):
+        parser = super(Command, self).create_parser(*args, **kwargs)
+        parser.formatter_class = RawTextHelpFormatter
+        return parser
+
     def add_arguments(self, parser):
         parser.add_argument("file_to_wordpress_export_xml_file")
         parser.add_argument("--delete_all_pages", default=False, action="store_true")

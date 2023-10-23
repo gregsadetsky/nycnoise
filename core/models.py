@@ -1,9 +1,5 @@
 from django.db import models
-<<<<<<< HEAD
-from django.utils import timezone
-=======
 from django.db.models.functions import Upper
->>>>>>> dev
 from tinymce import models as tinymce_models
 
 
@@ -12,10 +8,7 @@ class Event(models.Model):
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True)
     starttime = models.DateTimeField("Start time", null=True)
     description = tinymce_models.HTMLField(max_length=1000, null=True, blank=True)
-<<<<<<< HEAD
-=======
     hyperlink = models.CharField(max_length=255, null=True, blank=True)
->>>>>>> dev
 
     def __str__(self):
         return self.name
@@ -40,7 +33,6 @@ class Venue(models.Model):
         return self.name
 
 
-<<<<<<< HEAD
 class StaticPage(models.Model):
     url_path = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
@@ -48,11 +40,11 @@ class StaticPage(models.Model):
 
     def __str__(self):
         return self.title
-=======
+
+
 class DateMessage(models.Model):
     date = models.DateField("Date", null=True)
     message = models.CharField(max_length=1000)
 
     def __str__(self):
         return str(self.date)
->>>>>>> dev
