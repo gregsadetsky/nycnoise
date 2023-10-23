@@ -1,0 +1,19 @@
+<div class="calendar">
+  <div class="date-head">Sun</div>
+  <div class="date-head">Mon</div>
+  <div class="date-head">Tue</div>
+  <div class="date-head">Wed</div>
+  <div class="date-head">Thu</div>
+  <div class="date-head">Fri</div>
+  <div class="date-head">Sat</div>
+  {% for date in calendar_dates %}
+  <div
+    class="date date{% if date.is_today %}-today{% elif date.is_this_month %}-this-month{% else %}-other-month{% endif %}"
+  >
+    <div class="day">{{ date.date.day }}</div>
+    <div class="linky">
+      {% if date.is_this_month %}{{ date.date|date:"b j (D)" }}{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
