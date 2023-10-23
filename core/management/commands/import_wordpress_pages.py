@@ -63,10 +63,10 @@ class Command(BaseCommand):
                     continue
 
                 url_path = item.find("link").text.replace("https://nyc-noise.com/", "")
-                # strip slash
                 if url_path == "":
                     # skip the homepage
                     continue
+                # strip slash
                 if url_path[-1] == "/":
                     url_path = url_path[:-1]
 
