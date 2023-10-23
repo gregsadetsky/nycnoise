@@ -51,6 +51,8 @@ class Command(BaseCommand):
             content = content.replace(chr(0xA0), " ")
 
             soup = etree.fromstring(content.encode("utf-8"), parser=parser)
+            # absolutely necessary to have this 'prefix map', otherwise
+            # the xml parser won't be able to find tags. why.
             prefix_map = {
                 "wp": "http://wordpress.org/export/1.2/",
                 "content": "http://purl.org/rss/1.0/modules/content/",
