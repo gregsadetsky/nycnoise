@@ -38,15 +38,15 @@ def get_gcal_link_from_event(event: Event):
     date_iso_format = event.starttime.date().isoformat().replace("-", "")
     date_start = f"{date_iso_format}T{start_hour}{event.starttime.minute}00Z"
     date_end = f"{date_iso_format}T{end_hour}{event.starttime.minute}00Z"
-    query_string = urlencode(
-        {
-            "action": "TEMPLATE",
-            "text": event.name,
-            "dates": date_start + "/" + date_end,
-            "details": strip_tags(event.description),
-            "location": event.venue.location,
-            "sf": "true",
-            "output": "xml",
-        }
-    )
+    query_string_params = {
+        "action": "TEMPLATE",
+        "text": event.name,
+        "dates": date_start + "/" + date_end,
+        "details": strip_tags(event.description),
+        "sf": "true",
+        "output": "xml",
+    }
+    if event.venue.location:
+        query_string_params["location"] = event.venue.location
+    query_string = urlencode(query_string_params)
     return "https://www.google.com/calendar/render?" + query_string
