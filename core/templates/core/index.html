@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load custom_tag %}
 <html>
 <head>
   <meta charset="utf-8">
@@ -32,6 +33,9 @@
 
   {% for date, events in all_events.items %}
     <h4>{{ date|date:"D d M Y" }}</h4>
+    {% if date in date_messages %}
+      <h4>{{ date_messages|get_item:date }}</h4>
+    {% endif %}
     {% for event in events %}
       {% comment %}
         <h4>{{ event.name }}</h4>
