@@ -1,4 +1,5 @@
 {% load get_gcal_link_from_event %}
+{% load get_item %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,6 +35,13 @@
 
   {% for date, events in all_events.items %}
     <h4>{{ date|date:"D d M Y" }}</h4>
+
+    {% if date in date_messages %}
+      {% for message in date_messages|get_item:date %}
+        <h4>{{ message }}</h4>
+      {% endfor %}
+    {% endif %}
+
     {% for event in events %}
       {% comment %}
         <h4>{{ event.name }}</h4>

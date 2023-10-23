@@ -31,3 +31,11 @@ class Venue(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DateMessage(models.Model):
+    date = models.DateField("Date", null=True)
+    message = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.date)
