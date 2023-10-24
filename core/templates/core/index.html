@@ -11,13 +11,16 @@
         background-color: #d4d0c7;
         font-family: "Open Sans", sans-serif;
       }
+
       #centered_content
       {
         max-width:42em; margin:15px auto;
       }
-      p.event {
+
+      div.event {
         margin-bottom: 5px;
       }
+
       span.smallInfo {
         font-size: 0.9em;
       }
@@ -49,55 +52,59 @@
     {% endif %}
 
     {% for event in events %}
-      {{ event.starttime|date:"gA" }}:
+      <div class='event'>
+        {{ event.starttime|date:"gA" }}:
 
-      {% if event.hyperlink %}
-        <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
-      {% else %}
-        {{ event.name }}
-      {% endif %}
-
-      {% if event.venue %}
-        @
-
-        {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
-          {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
-        {% elif event.venue.age_policy %}
-          {{ event.venue.name }} ({{ event.venue.age_policy }})
-        {% elif event.venue.neighborhood_and_borough %}
-          {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
+        {% if event.hyperlink %}
+          <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
         {% else %}
-          {{ event.venue.name }}
+          {{ event.name }}
         {% endif %}
 
-        {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
-          <span class='smallInfo'>
+        {% if event.venue %}
+          @
+
+          {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          {% elif event.venue.age_policy %}
+            {{ event.venue.name }} ({{ event.venue.age_policy }})
+          {% elif event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
+          {% else %}
+            {{ event.venue.name }}
+          {% endif %}
+
+          {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
+            <span class='smallInfo'>
+            //
+              {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
+              {% if event.venue.accessibility_emoji %}
+                {{ event.venue.accessibility_emoji }}
+              {% endif %}
+              {% if event.venue.accessibility_notes %}
+                {{ event.venue.accessibility_notes }}
+              {% endif %}
+            </span>
+          {% endif %}
+        {% else %}
+          Unknown venue
+        {% endif %}
+
+        {% if event.description %}
           //
-            {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
-            {% if event.venue.accessibility_emoji %}
-              {{ event.venue.accessibility_emoji }}
-            {% endif %}
-            {% if event.venue.accessibility_notes %}
-              {{ event.venue.accessibility_notes }}
-            {% endif %}
-          </span>
+          <div class='eventDescription'>{{ event.description | safe }}</div>
         {% endif %}
-      {% else %}
-        Unknown venue
-      {% endif %}
 
-      //
-      <div class='eventDescription'>{{ event.description | safe }}</div>
+        {% if event.venue %}
+          //
+          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>      
+        {% endif %}
 
-      {% if event.venue %}
         //
-        <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>      
-      {% endif %}
-
-      //
-      <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
-      //
-      <a href={% get_gcal_link_from_event event %}>GCAL</a>
+        <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
+        //
+        <a href={% get_gcal_link_from_event event %}>GCAL</a>
+      </div>
     {% endfor %}
   {% endfor %}
 </div>
