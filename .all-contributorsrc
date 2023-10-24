@@ -64,6 +64,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "nycnoise",
+      "name": "nyc noise",
+      "avatar_url": "https://avatars.githubusercontent.com/u/135757981?v=4",
+      "profile": "http://nyc-noise.com",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
