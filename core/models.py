@@ -1,14 +1,31 @@
 from django.db import models
 from django.db.models.functions import Upper
-from tinymce import models as tinymce_models
 
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True)
     starttime = models.DateTimeField("Start time", null=True)
-    description = tinymce_models.HTMLField(max_length=1000, null=True, blank=True)
-    hyperlink = models.CharField(max_length=255, null=True, blank=True)
+    # `description` will be presented as a tinymce field in the admin
+    # because we're overriding `formfield_for_dbfield` in `EventAdmin`.
+    # could use HMTLField from tinymce here too, probably, but stick with TextField
+    # which we know works.
+    description = models.TextField(null=True, blank=True)
+    hyperlink = models.CharField(max_length=255, null=True, blank=True)  #
+    # some events override the venue's age policy
+    age_policy_override = models.CharField(max_length=255, null=True, blank=True)
+
+    # make age policy attribute that attempts to fetch its own
+    # age policy by default, then tries to get venue's age policy if a venue is set,
+    # and otherwise returns none
+    @property
+    def age_policy(self):
+        if self.age_policy_override:
+            return self.age_policy_override
+        elif self.venue:
+            return self.venue.age_policy
+        else:
+            return None
 
     def __str__(self):
         return self.name

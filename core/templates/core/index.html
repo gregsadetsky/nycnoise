@@ -43,7 +43,7 @@
   {% include "calendar/calendar.html" %}
 
   {% for date, events in all_events.items %}
-    <h4>{{ date|date:"D d M Y" }}</h4>
+    <h4>{{ date|date:"M d (D)"|lower }}</h4>
 
     {% if date in date_messages %}
       {% for message in date_messages|get_item:date %}
@@ -53,21 +53,21 @@
 
     {% for event in events %}
       <div class='event'>
-        {{ event.starttime|date:"gA" }}:
+        • {{ event.starttime|date:"gA"|lower }}:
 
         {% if event.hyperlink %}
           <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
         {% else %}
-          {{ event.name }}
+          <span style="font-weight:bold">{{ event.name }}</span>
         {% endif %}
 
         {% if event.venue %}
           @
 
-          {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
-            {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
-          {% elif event.venue.age_policy %}
-            {{ event.venue.name }} ({{ event.venue.age_policy }})
+          {% if event.age_policy and event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }} ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          {% elif event.age_policy %}
+            {{ event.venue.name }} ({{ event.age_policy }})
           {% elif event.venue.neighborhood_and_borough %}
             {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
           {% else %}
