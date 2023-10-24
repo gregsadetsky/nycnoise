@@ -21,6 +21,12 @@
       span.smallInfo {
         font-size: 0.9em;
       }
+
+      /* ignore first p, i.e. make it not a block level element */
+      .eventDescription, .eventDescription p:first-child {
+        display: inline;
+      }
+
   </style>
   {% include 'core/opengraph.html' %}
   {% include "calendar/style.html" %}
@@ -43,64 +49,55 @@
     {% endif %}
 
     {% for event in events %}
-      {% comment %}
-        <h4>{{ event.name }}</h4>
-        <p>{{ event.starttime }}</p>
-        <p>{{ event.description|safe }}</p>
-        <p>{% if event.venue %}{{ event.venue.name }}{% else %}Unknown venue{% endif %}</p>
-      {% endcomment %}
+      {{ event.starttime|date:"gA" }}:
 
-      <p class='event'>
-        {% comment %}
-          original nyc noise format:
-          📶 • 8pm: youbet, Peaer, Jachary @ purgatory (21+), 675 central ave, bushwick, bklyn // MAP
-        {% endcomment %}
+      {% if event.hyperlink %}
+        <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
+      {% else %}
+        {{ event.name }}
+      {% endif %}
 
-        {{ event.starttime|date:"gA" }}:
+      {% if event.venue %}
+        @
 
-        {% if event.hyperlink %}
-          <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>
-            {{ event.name }}
-          </a>
+        {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
+          {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+        {% elif event.venue.age_policy %}
+          {{ event.venue.name }} ({{ event.venue.age_policy }})
+        {% elif event.venue.neighborhood_and_borough %}
+          {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
         {% else %}
-          {{ event.name }}
+          {{ event.venue.name }}
         {% endif %}
 
-        {% if event.venue %}
-          @
-
-          {% if event.venue.age_policy and event.venue.neighborhood_and_borough %}
-            {{ event.venue.name }} ({{ event.venue.age_policy }}), {{ event.venue.neighborhood_and_borough }}
-          {% elif event.venue.age_policy %}
-            {{ event.venue.name }} ({{ event.venue.age_policy }})
-          {% elif event.venue.neighborhood_and_borough %}
-            {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
-          {% else %}
-            {{ event.venue.name }}
-          {% endif %}
-
-          {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
-            <span class='smallInfo'>
-            //
-              {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
-              {% if event.venue.accessibility_emoji %}
-                {{ event.venue.accessibility_emoji }}
-              {% endif %}
-              {% if event.venue.accessibility_notes %}
-                {{ event.venue.accessibility_notes }}
-              {% endif %}
-          {% endif %}
-
+        {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
+          <span class='smallInfo'>
           //
-          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>
-          //
-          <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
-          //
-          <a href={% get_gcal_link_from_event event %}>GCAL</a>
-        {% else %}
-          Unknown venue
+            {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
+            {% if event.venue.accessibility_emoji %}
+              {{ event.venue.accessibility_emoji }}
+            {% endif %}
+            {% if event.venue.accessibility_notes %}
+              {{ event.venue.accessibility_notes }}
+            {% endif %}
+          </span>
         {% endif %}
-      </p>
+      {% else %}
+        Unknown venue
+      {% endif %}
+
+      //
+      <div class='eventDescription'>{{ event.description | safe }}</div>
+
+      {% if event.venue %}
+        //
+        <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>      
+      {% endif %}
+
+      //
+      <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
+      //
+      <a href={% get_gcal_link_from_event event %}>GCAL</a>
     {% endfor %}
   {% endfor %}
 </div>
