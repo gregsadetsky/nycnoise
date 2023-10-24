@@ -94,9 +94,9 @@
           //
           <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>
           //
-          <a href="{% url 'event_ics_download' event.id %}">Add to iCal</a>
+          <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
           //
-          <a href={% get_gcal_link_from_event event %}>add to google calendar</a>
+          <a href={% get_gcal_link_from_event event %}>GCAL</a>
         {% else %}
           Unknown venue
         {% endif %}
