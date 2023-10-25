@@ -1,3 +1,5 @@
+import calendar
+
 from collections import defaultdict
 from datetime import datetime, timedelta
 
@@ -84,3 +86,22 @@ def event_ics_download(request, event_id):
     )
     response["Content-Disposition"] = "inline; filename=event.ics"
     return response
+
+
+
+def event_month_archive(request, year, month):
+    all_events = Event.objects.filter(starttime__year = year, starttime__month = month).annotate(date=TruncDate("starttime"))
+
+    grouped_events = defaultdict(list)
+    for event in all_events:
+        grouped_events[event.date].append(event)
+
+    return render(
+        request, 
+        "core/event_month_archive.html", 
+        {
+            'events': dict(grouped_events), 
+            'year': year, 
+            'month': calendar.month_name[month]
+        }
+    )
