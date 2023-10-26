@@ -1,6 +1,8 @@
 asgiref==3.7.2
 astroid==2.15.7
+beautifulsoup4==4.12.2
 certifi==2023.7.22
+charset-normalizer==3.3.0
 colorama==0.4.6
 dill==0.3.7
 distlib==0.3.7
@@ -12,9 +14,12 @@ django-stubs-ext==4.2.2
 django-tinymce==3.6.1
 filelock==3.12.4
 gunicorn==21.2.0
+icalendar==5.0.10
+idna==3.4
 install==1.3.5
 isort==5.12.0
 lazy-object-proxy==1.9.0
+lxml==4.9.3
 mccabe==0.7.0
 mypy==1.5.1
 mypy-extensions==1.0.0
@@ -26,8 +31,12 @@ psycopg2-binary==2.9.8
 pylint==2.17.5
 pylint-django==2.5.3
 pylint-plugin-utils==0.8.2
+python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3.post1
+requests==2.31.0
+six==1.16.0
+soupsieve==2.5
 sqlparse==0.4.4
 tomli==2.0.1
 tomlkit==0.12.1
@@ -35,6 +44,7 @@ types-pytz==2023.3.1.1
 types-PyYAML==6.0.12.12
 typing_extensions==4.8.0
 tzdata==2023.3
+urllib3==2.0.6
 virtualenv==20.24.5
 whitenoise==6.5.0
 wrapt==1.15.0

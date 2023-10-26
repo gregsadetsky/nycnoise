@@ -1,3 +1,5 @@
+{% load get_gcal_link_from_event %}
+{% load get_item %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,29 +11,103 @@
         background-color: #d4d0c7;
         font-family: "Open Sans", sans-serif;
       }
+
+      #centered_content
+      {
+        max-width:42em; margin:15px auto;
+      }
+
+      div.event {
+        margin-bottom: 5px;
+      }
+
+      span.smallInfo {
+        font-size: 0.9em;
+      }
+
+      /* ignore first p, i.e. make it not a block level element */
+      .eventDescription, .eventDescription p:first-child {
+        display: inline;
+      }
+
   </style>
+  {% include 'core/opengraph.html' %}
   {% include "calendar/style.html" %}
 </head>
 <body>
 
-<h1 style='margin-bottom:0'>nyc noise</h1>
-<small>~ always incomplete ~</small>
-{% include "calendar/calendar.html" %}
-<h3>events</h3>
-{% for date, events in all_events.items %}
-  <h4>{{ date|date:"D d M Y" }}</h4>
-  {% for event in events %}
-    <h4>{{ event.name }}</h4>
-    <p> {{event.starttime}}</p>
-    <p>{{ event.description|safe }}</p>
+<div id='centered_content'>
+  <h1 style='margin-bottom:0'>nyc noise</h1>
+  <small>~ always incomplete ~</small>
+
+  {% include "calendar/calendar.html" %}
+
+  {% for date, events in all_events.items %}
+    <h4>{{ date|date:"M d (D)"|lower }}</h4>
+
+    {% if date in date_messages %}
+      {% for message in date_messages|get_item:date %}
+        <h4>{{ message }}</h4>
+      {% endfor %}
+    {% endif %}
+
+    {% for event in events %}
+      <div class='event'>
+        • {{ event.starttime|date:"gA"|lower }}:
+
+        {% if event.hyperlink %}
+          <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
+        {% else %}
+          <span style="font-weight:bold">{{ event.name }}</span>
+        {% endif %}
+
+        {% if event.venue %}
+          @
+
+          {% if event.age_policy and event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }} ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          {% elif event.age_policy %}
+            {{ event.venue.name }} ({{ event.age_policy }})
+          {% elif event.venue.neighborhood_and_borough %}
+            {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
+          {% else %}
+            {{ event.venue.name }}
+          {% endif %}
+
+          {% if event.venue.accessibility_emoji or event.venue.accessibility_notes or event.venue.accessibility_link %}
+            <span class='smallInfo'>
+            //
+              {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
+              {% if event.venue.accessibility_emoji %}
+                {{ event.venue.accessibility_emoji }}
+              {% endif %}
+              {% if event.venue.accessibility_notes %}
+                {{ event.venue.accessibility_notes }}
+              {% endif %}
+            </span>
+          {% endif %}
+        {% else %}
+          Unknown venue
+        {% endif %}
+
+        {% if event.description %}
+          //
+          <div class='eventDescription'>{{ event.description | safe }}</div>
+        {% endif %}
+
+        {% if event.venue %}
+          //
+          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>      
+        {% endif %}
+
+        //
+        <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
+        //
+        <a href={% get_gcal_link_from_event event %}>GCAL</a>
+      </div>
+    {% endfor %}
   {% endfor %}
-{% endfor %}
-
-<h3>venues</h3>
-
-{% for venue in all_venues %}
-  <p>{{ venue.name }}</p>
-{% endfor %}
+</div>
 
 </body>
 </html>

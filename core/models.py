@@ -1,22 +1,58 @@
 from django.db import models
-
-from tinymce import models as tinymce_models
-from django.utils import timezone
+from django.db.models.functions import Upper
 
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
-    venue = models.ForeignKey("Venue", on_delete=models.PROTECT)
+    venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True)
     starttime = models.DateTimeField("Start time", null=True)
-    description = tinymce_models.HTMLField(max_length=1000, null=True, blank=True)
-  
+    # `description` will be presented as a tinymce field in the admin
+    # because we're overriding `formfield_for_dbfield` in `EventAdmin`.
+    # could use HMTLField from tinymce here too, probably, but stick with TextField
+    # which we know works.
+    description = models.TextField(null=True, blank=True)
+    hyperlink = models.CharField(max_length=255, null=True, blank=True)  #
+    # some events override the venue's age policy
+    age_policy_override = models.CharField(max_length=255, null=True, blank=True)
+
+    # make age policy attribute that attempts to fetch its own
+    # age policy by default, then tries to get venue's age policy if a venue is set,
+    # and otherwise returns none
+    @property
+    def age_policy(self):
+        if self.age_policy_override:
+            return self.age_policy_override
+        elif self.venue:
+            return self.venue.age_policy
+        else:
+            return None
 
     def __str__(self):
         return self.name
 
 
 class Venue(models.Model):
+    class Meta:
+        # declare default ordering to be case insensitive name ascending
+        # case insensitive trick: https://stackoverflow.com/a/52501004
+        ordering = [Upper("name")]
+
     name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True, blank=True)
+    age_policy = models.CharField(max_length=255, null=True, blank=True)
+    neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
+    google_maps_link = models.CharField(max_length=255, null=True, blank=True)
+    accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
+    accessibility_notes = models.CharField(max_length=255, null=True, blank=True)
+    accessibility_link = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class DateMessage(models.Model):
+    date = models.DateField("Date", null=True)
+    message = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.date)
