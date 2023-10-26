@@ -10,7 +10,7 @@ from .models import Event, Venue
 nyctz = timezone("US/Eastern")
 
 
-def calendar_info(month=None, today=None):
+def calendar_info(today, month=None):
     """Create data for a calendar display.
 
     Creates 7*6 = 42 dates, starting on a Sunday, with the first day
@@ -18,11 +18,8 @@ def calendar_info(month=None, today=None):
     days.
     """
 
-    current_date = datetime.now(nyctz).date()
     if month is None:
-        month = current_date
-    if today is None:
-        today = current_date
+        month = today
 
     first_day_of_month = month.replace(day=1)
     first_day_on_calendar = first_day_of_month - timedelta(
@@ -42,6 +39,11 @@ def calendar_info(month=None, today=None):
 
 
 def index(request):
+    try:
+        today = datetime.strptime(request.GET["date"], "%Y-%m-%d")
+    except:
+        today = datetime.now(nyctz).date()
+
     all_events = (
         Event.objects.all().order_by("-starttime").annotate(day=TruncDay("starttime"))
     )
@@ -57,6 +59,6 @@ def index(request):
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
             "all_venues": all_venues,
-            "calendar_dates": calendar_info(),
+            "calendar_dates": calendar_info(today),
         },
     )
