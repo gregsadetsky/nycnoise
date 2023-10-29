@@ -33,6 +33,9 @@ class Event(models.Model):
     ]
     price = models.CharField(max_length=255, choices=PRICE_RANGE, null=True, blank=True)
 
+    # will strikethrough most of the event information, except for the preface
+    is_cancelled = models.BooleanField(default=False)
+
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
     # and otherwise returns none

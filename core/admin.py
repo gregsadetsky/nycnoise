@@ -17,6 +17,7 @@ class EventAdmin(admin.ModelAdmin):
         "venue",
         "get_description_as_text",
         "price",
+        "is_cancelled",
     )
     autocomplete_fields = ("venue",)
     # define a custom order for the fields
@@ -32,6 +33,7 @@ class EventAdmin(admin.ModelAdmin):
         "age_policy_override",
         "description",
         "price",
+        "is_cancelled",
     )
     list_display_links = ("starttime",)
     ordering = ("-starttime",)

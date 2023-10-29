@@ -21,16 +21,35 @@
         margin-bottom: 5px;
       }
 
+      div.event.cancelled {
+        text-decoration: line-through;
+        color: #666;
+      }
+
+      div.event.cancelled a {
+        color: #666;
+      }
+
+      div.event.cancelled .eventPreface {
+        text-decoration: none;
+        /* this is the weird trick to un-text-decorate this child element */
+        display: inline-block;
+        color: black;
+      }
+
       span.smallInfo {
         font-size: 0.9em;
       }
 
       /* ignore first p, i.e. make it not a block level element */
-      .eventDescription, .eventDescription p:first-child, .eventPreface, .eventPreface p:first-child
+      .eventDescription, .eventDescription p:first-child, .eventPreface p:first-child
       {
         display: inline;
       }
 
+      a {
+        color: blue;
+      }
   </style>
   {% include 'core/opengraph.html' %}
   {% include "calendar/style.html" %}
@@ -53,9 +72,9 @@
     {% endif %}
 
     {% for event in events %}
-      <div class='event'>
-        {% if event.preface %}<div class='eventPreface'>{{ event.preface|safe }}</div>{% endif %}
-        •
+      <div class='event {% if event.is_cancelled %}cancelled{% endif %}'>
+        {% if event.preface %}<div class='eventPreface'>{{ event.preface|safe }}&nbsp;</div>{% endif %}•
+
         {{ event.starttime|date:"gA"|lower }}:
 
         {% comment %}
@@ -128,7 +147,7 @@
           <div class='eventDescription'>{{ event.description | safe }}</div>
         {% endif %}
 
-        {% if event.venue %}
+        {% if event.venue and event.venue.google_maps_link %}
           //
           <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo'>MAP</a>      
         {% endif %}
