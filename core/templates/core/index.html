@@ -26,7 +26,8 @@
       }
 
       /* ignore first p, i.e. make it not a block level element */
-      .eventDescription, .eventDescription p:first-child {
+      .eventDescription, .eventDescription p:first-child, .eventPreface, .eventPreface p:first-child
+      {
         display: inline;
       }
 
@@ -53,7 +54,9 @@
 
     {% for event in events %}
       <div class='event'>
-        • {{ event.starttime|date:"gA"|lower }}:
+        {% if event.preface %}<div class='eventPreface'>{{ event.preface|safe }}</div>{% endif %}
+        •
+        {{ event.starttime|date:"gA"|lower }}:
 
         {% comment %}
           if title and artists are present, show title in not bold, and artists in bold

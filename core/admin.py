@@ -9,11 +9,19 @@ admin.site.site_header = "nyc noise"
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ("title", "artists", "venue", "starttime", "get_description_as_text")
+    list_display = (
+        "starttime",
+        "get_preface_as_text",
+        "title",
+        "artists",
+        "venue",
+        "get_description_as_text",
+    )
     autocomplete_fields = ("venue",)
     # define a custom order for the fields
     # TODO always keep in sync with the fields in the model..!
     fields = (
+        "preface",
         "title",
         "artists",
         "venue",
@@ -22,6 +30,8 @@ class EventAdmin(admin.ModelAdmin):
         "age_policy_override",
         "description",
     )
+    list_display_links = ("starttime",)
+    ordering = ("-starttime",)
 
     class Media:
         js = [
@@ -37,7 +47,7 @@ class EventAdmin(admin.ModelAdmin):
     # not taken into account by tinymce, which also receives a width/height value...)
     # TLDR: mce_attrs.height/width is where it's at!!
     def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name == "description":
+        if db_field.name in ["description", "preface"]:
             return db_field.formfield(
                 widget=TinyMCE(
                     mce_attrs={"height": "200"},
@@ -45,8 +55,13 @@ class EventAdmin(admin.ModelAdmin):
             )
         return super().formfield_for_dbfield(db_field, **kwargs)
 
+    def get_preface_as_text(self, obj):
+        return mark_safe(obj.preface) if obj.preface else ""
+
+    get_preface_as_text.short_description = "Preface"
+
     def get_description_as_text(self, obj):
-        return mark_safe(obj.description)
+        return mark_safe(obj.description) if obj.description else ""
 
     get_description_as_text.short_description = "Description"
 
