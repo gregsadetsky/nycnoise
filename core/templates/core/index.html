@@ -55,10 +55,29 @@
       <div class='event'>
         • {{ event.starttime|date:"gA"|lower }}:
 
+        {% comment %}
+          if title and artists are present, show title in not bold, and artists in bold
+          also check if hyperlink is present or not to see whether artists is hyperlinked (in addition to being bold)
+
+          if only title or artists are present, show either one of them in bold
+          and also check whether hyperlink is present...
+        {% endcomment %}
+
         {% if event.hyperlink %}
-          <a href="{{ event.hyperlink }}" target="_blank" style='font-weight:bold'>{{ event.name }}</a>
-        {% else %}
-          <span style="font-weight:bold">{{ event.name }}</span>
+          <a href="{{ event.hyperlink }}" target="_blank">
+        {% endif %}
+
+        {% if event.title and event.artists %}
+          {{ event.title }}:
+          <span style="font-weight:bold">{{ event.artists }}</span>
+        {% elif event.title %}
+          <span style="font-weight:bold">{{ event.title }}</span>
+        {% elif event.artists %}
+          <span style="font-weight:bold">{{ event.artists }}</span>
+        {% endif %}
+
+        {% if event.hyperlink %}
+          </a>
         {% endif %}
 
         {% if event.venue %}

@@ -9,12 +9,13 @@ admin.site.site_header = "nyc noise"
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ("name", "venue", "starttime", "get_description_as_text")
+    list_display = ("title", "artists", "venue", "starttime", "get_description_as_text")
     autocomplete_fields = ("venue",)
     # define a custom order for the fields
     # TODO always keep in sync with the fields in the model..!
     fields = (
-        "name",
+        "title",
+        "artists",
         "venue",
         "starttime",
         "hyperlink",

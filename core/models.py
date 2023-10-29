@@ -3,7 +3,12 @@ from django.db.models.functions import Upper
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
+    # title and artists are separate fields
+    # when both are present, title will be not bold and artists will be bold
+    # when either are present, whichever is present will be shown in bold
+    title = models.CharField(max_length=255, null=True, blank=True)
+    artists = models.CharField(max_length=255, null=True, blank=True)
+
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True)
     starttime = models.DateTimeField("Start time", null=True)
     # `description` will be presented as a tinymce field in the admin
@@ -14,6 +19,8 @@ class Event(models.Model):
     hyperlink = models.CharField(max_length=255, null=True, blank=True)  #
     # some events override the venue's age policy
     age_policy_override = models.CharField(max_length=255, null=True, blank=True)
+    # same as `description` - this will be rich text
+    preface = models.TextField(null=True, blank=True)
 
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
@@ -22,13 +29,24 @@ class Event(models.Model):
     def age_policy(self):
         if self.age_policy_override:
             return self.age_policy_override
-        elif self.venue:
+        if self.venue:
             return self.venue.age_policy
-        else:
-            return None
+        # should not happen
+        return ""
+
+    @property
+    def title_and_artists(self):
+        if self.title and self.artists:
+            return f"{self.title}: {self.artists}"
+        if self.title:
+            return self.title
+        if self.artists:
+            return self.artists
+        # should not happen
+        return ""
 
     def __str__(self):
-        return self.name
+        return self.title_and_artists
 
 
 class Venue(models.Model):
