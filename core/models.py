@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.functions import Upper
+from icalendar import prop
 
 
 class Event(models.Model):
@@ -9,7 +10,9 @@ class Event(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     artists = models.CharField(max_length=255, null=True, blank=True)
 
-    venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True)
+    venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
+    venue_override = models.CharField(max_length=255, null=True, blank=True)
+
     starttime = models.DateTimeField("Start time", null=True)
     # `description` will be presented as a tinymce field in the admin
     # because we're overriding `formfield_for_dbfield` in `EventAdmin`.
@@ -59,6 +62,17 @@ class Event(models.Model):
         # should not happen
         return ""
 
+    @property
+    def venue_name_and_address(self):
+        if self.venue_override:
+            return self.venue_override
+        if self.venue:
+            if self.venue.address:
+                return f"{self.venue.name} ({self.venue.address})"
+            return self.venue.name
+        # should not happen
+        return ""
+
     def __str__(self):
         return self.title_and_artists
 
@@ -70,7 +84,7 @@ class Venue(models.Model):
         ordering = [Upper("name")]
 
     name = models.CharField(max_length=255)
-    location = models.CharField(max_length=255, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)

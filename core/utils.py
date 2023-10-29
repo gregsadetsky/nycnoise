@@ -19,7 +19,8 @@ def get_ics_string_from_event(event: Event):
     cal_event.add("UID", uuid.uuid4())
     cal_event.add("SUMMARY", event.title_and_artists)
     cal_event.add("DESCRIPTION", strip_tags(event.description))
-    cal_event.add("LOCATION", event.venue.name)
+    cal_event.add("LOCATION", event.venue_name_and_address)
+
     cal.add_component(cal_event)
     return cal.to_ical().decode("utf-8")
 
@@ -48,7 +49,8 @@ def get_gcal_link_from_event(event: Event):
         "sf": "true",
         "output": "xml",
     }
-    if event.venue.location:
-        query_string_params["location"] = event.venue.location
+
+    query_string_params["location"] = event.venue_name_and_address
+
     query_string = urlencode(query_string_params)
     return "https://www.google.com/calendar/render?" + query_string

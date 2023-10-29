@@ -27,6 +27,7 @@ class EventAdmin(admin.ModelAdmin):
         "title",
         "artists",
         "venue",
+        "venue_override",
         "starttime",
         "hyperlink",
         "ticket_hyperlink",
@@ -75,7 +76,7 @@ admin.site.register(Event, EventAdmin)
 
 
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ("name", "age_policy", "neighborhood_and_borough")
+    list_display = ("name", "address", "age_policy", "neighborhood_and_borough")
     search_fields = ("name",)
     ordering = ("name",)
 

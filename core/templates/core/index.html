@@ -30,6 +30,10 @@
         color: #666;
       }
 
+      div.event:not(.cancelled) .eventPreface {
+        display: inline;
+      }
+
       div.event.cancelled .eventPreface {
         text-decoration: none;
         /* this is the weird trick to un-text-decorate this child element */
@@ -113,7 +117,9 @@
           ({{ event.price }})
         {% endif %}
 
-        {% if event.venue %}
+        {% if event.venue_override %}
+          @ {{ event.venue_override }}
+        {% elif event.venue %}
           @
 
           {% if event.age_policy and event.venue.neighborhood_and_borough %}
