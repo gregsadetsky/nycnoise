@@ -16,6 +16,7 @@ class EventAdmin(admin.ModelAdmin):
         "artists",
         "venue",
         "get_description_as_text",
+        "price",
     )
     autocomplete_fields = ("venue",)
     # define a custom order for the fields
@@ -30,6 +31,7 @@ class EventAdmin(admin.ModelAdmin):
         "ticket_hyperlink",
         "age_policy_override",
         "description",
+        "price",
     )
     list_display_links = ("starttime",)
     ordering = ("-starttime",)

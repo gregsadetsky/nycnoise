@@ -25,6 +25,14 @@ class Event(models.Model):
     # optional hyperlink to tickets, separate from event.hyperlink value
     ticket_hyperlink = models.CharField(max_length=255, null=True, blank=True)
 
+    PRICE_RANGE = [
+        ("$", "$"),
+        ("$$", "$$"),
+        ("$$$", "$$$"),
+        ("$$$$", "$$$$"),
+    ]
+    price = models.CharField(max_length=255, choices=PRICE_RANGE, null=True, blank=True)
+
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
     # and otherwise returns none

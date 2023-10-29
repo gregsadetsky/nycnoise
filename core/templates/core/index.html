@@ -90,6 +90,10 @@
           <a href="{{ event.ticket_hyperlink }}" target="_blank" style='font-weight:bold'>(tix)</a>
         {% endif %}
 
+        {% if event.price %}
+          ({{ event.price }})
+        {% endif %}
+
         {% if event.venue %}
           @
 
