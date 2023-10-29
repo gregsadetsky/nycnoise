@@ -22,6 +22,9 @@ class Event(models.Model):
     # same as `description` - this will be rich text
     preface = models.TextField(null=True, blank=True)
 
+    # optional hyperlink to tickets, separate from event.hyperlink value
+    ticket_hyperlink = models.CharField(max_length=255, null=True, blank=True)
+
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
     # and otherwise returns none

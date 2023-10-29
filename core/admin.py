@@ -27,6 +27,7 @@ class EventAdmin(admin.ModelAdmin):
         "venue",
         "starttime",
         "hyperlink",
+        "ticket_hyperlink",
         "age_policy_override",
         "description",
     )

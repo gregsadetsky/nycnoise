@@ -66,21 +66,28 @@
           and also check whether hyperlink is present...
         {% endcomment %}
 
-        {% if event.hyperlink %}
-          <a href="{{ event.hyperlink }}" target="_blank">
-        {% endif %}
+        {% spaceless %}
+          {% if event.hyperlink %}
+            <a href="{{ event.hyperlink }}" target="_blank">
+          {% endif %}
 
-        {% if event.title and event.artists %}
-          {{ event.title }}:
-          <span style="font-weight:bold">{{ event.artists }}</span>
-        {% elif event.title %}
-          <span style="font-weight:bold">{{ event.title }}</span>
-        {% elif event.artists %}
-          <span style="font-weight:bold">{{ event.artists }}</span>
-        {% endif %}
+          {% if event.title and event.artists %}
+            {{ event.title }}:
+            <span style="font-weight:bold">{{ event.artists }}</span>
+          {% elif event.title %}
+            <span style="font-weight:bold">{{ event.title }}</span>
+          {% elif event.artists %}
+            <span style="font-weight:bold">{{ event.artists }}</span>
+          {% endif %}
 
-        {% if event.hyperlink %}
-          </a>
+          {% if event.hyperlink %}
+            </a>
+          {% endif %}
+        {% endspaceless %}
+
+
+        {% if event.ticket_hyperlink %}
+          <a href="{{ event.ticket_hyperlink }}" target="_blank" style='font-weight:bold'>(tix)</a>
         {% endif %}
 
         {% if event.venue %}
