@@ -8,5 +8,5 @@ urlpatterns = [
     path("tinymce/", include("tinymce.urls")),
     # catch any other urls and check
     # if they are static page urls
-    re_path(r"^(?P<url_path>.*)/$", static_page),
+    re_path(r"^(?P<url_path>.*)/$", static_page, name="static_page"),
 ]

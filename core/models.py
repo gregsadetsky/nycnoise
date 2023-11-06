@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.functions import Upper
-from icalendar import prop
+from django.urls import reverse
+from tinymce import models as tinymce_models
 
 
 class Event(models.Model):
@@ -100,6 +101,9 @@ class StaticPage(models.Model):
     url_path = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     content = tinymce_models.HTMLField(null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse("static_page", kwargs={"url_path": self.url_path})
 
     def __str__(self):
         return self.title
