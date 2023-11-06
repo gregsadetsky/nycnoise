@@ -1,0 +1,15 @@
+/* fix interaction between date & time preset menus,
+and tinymce clashing. specifically, tinymce's toolbar
+buttons were appearing on 'top' of the native date/time
+preset menus. the below fixes this */
+/* thanks to
+https://stackoverflow.com/a/76236123
+*/
+
+.clockbox.module {
+  z-index: 100;
+}
+
+.calendarbox.module {
+  z-index: 100;
+}

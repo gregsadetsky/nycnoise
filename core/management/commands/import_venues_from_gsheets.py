@@ -38,6 +38,7 @@ class Command(BaseCommand):
             venue_obj = Venue()
 
             venue_obj.name = row["venue name"]
+            venue_obj.address = row["address"]
             venue_obj.age_policy = row["age"]
             venue_obj.neighborhood_and_borough = row["neighborhood+borough"]
             venue_obj.google_maps_link = row["MAP LINK"]
