@@ -8,17 +8,18 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 
 ## very high level plan
 
-- implement core features - i.e. events & venues
-- re-implement the homepage i.e. list of events for the current month
-- import existing WP pages & keep them editable in the admin (in "rich text" i.e. html)
-- when the site has enough feature parity and covers most/all existing URLs, launch it as an alpha version
-- eventually replace the current site entirely
+- implement core features - i.e. events & venues -- pretty much done
+- re-implement the homepage i.e. list of events for the current month -- looking good
+- import existing WP pages & keep them editable in the admin (in "rich text" i.e. html) -- work in progress
+- when the site has enough feature parity and covers most/all existing URLs, launch it as an alpha version -- soon!
+- eventually replace the current site entirely -- soon!
 
 ## tech-y things
 
 - [ONBOARDING.md](docs/ONBOARDING.md) lists the steps to get started with the codebase
 - [DEVELOPMENT-CYCLE.md](docs/DEVELOPMENT-CYCLE.md) describes the development cycle i.e. open a branch + submit a PR, etc.
 - [UPDATING-DEV.md](docs/UPDATING-DEV.md) describes how to update your local dev environment when someone else has made changes to the codebase / to the `dev` branch
+- [TESTING.md](docs.TESTING.md) for notes on testing
 
 ## who/when/where
 
