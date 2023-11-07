@@ -156,7 +156,7 @@
         //
         <a href="{% url 'event_ics_download' event.id %}">ICAL</a>
         //
-        <a href={% get_gcal_link_from_event event %}>GCAL</a>
+        <a href="{% get_gcal_link_from_event event %}">GCAL</a>
 
         {% if event.venue and event.venue.google_maps_link %}
           //
