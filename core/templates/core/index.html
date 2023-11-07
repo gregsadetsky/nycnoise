@@ -162,7 +162,7 @@
         //
         <a href="{% get_gcal_link_from_event event %}" style="color:#000000">GCAL</a>
 
-        {% if event.venue and event.venue.google_maps_link %}
+        {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
           //
           <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo' style="color:#993366">MAP</a>
         {% endif %}
