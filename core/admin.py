@@ -4,8 +4,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from tinymce.widgets import TinyMCE
 
-from .models import Event, StaticPage, Venue
-from .models import DateMessage, Event, Venue, StaticPage
+from .models import DateMessage, Event, StaticPage, Venue
 
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
@@ -32,6 +31,7 @@ class EventAdmin(admin.ModelAdmin):
         "venue",
         "venue_override",
         "starttime",
+        "starttime_override",
         "hyperlink",
         "ticket_hyperlink",
         "age_policy_override",

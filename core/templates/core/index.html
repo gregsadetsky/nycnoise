@@ -79,7 +79,11 @@
       <div class='event {% if event.is_cancelled %}cancelled{% endif %}'>
         {% if event.preface %}<div class='eventPreface'>{{ event.preface|safe }}&nbsp;</div>{% endif %}•
 
-        {{ event.starttime|date:"gA"|lower }}:
+        {% if event.starttime_override %}
+          {{ event.starttime_override }}:
+        {% else %}
+          {{ event.starttime|date:"gA"|lower }}:
+        {% endif %}
 
         {% comment %}
           if title and artists are present, show title in not bold, and artists in bold
