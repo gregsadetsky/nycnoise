@@ -25,17 +25,17 @@ class EventAdmin(admin.ModelAdmin):
     # define a custom order for the fields
     # TODO always keep in sync with the fields in the model..!
     fields = (
-        "preface",
+        "starttime",
+        "hyperlink",
         "title",
         "artists",
         "venue",
-        "venue_override",
-        "starttime",
-        "starttime_override",
-        "hyperlink",
         "ticket_hyperlink",
-        "age_policy_override",
         "description",
+        "preface",
+        "starttime_override",
+        "venue_override",
+        "age_policy_override",
         "price",
         "is_cancelled",
     )
@@ -59,7 +59,9 @@ class EventAdmin(admin.ModelAdmin):
         if db_field.name in ["description", "preface"]:
             return db_field.formfield(
                 widget=TinyMCE(
-                    mce_attrs={"height": "200"},
+                    mce_attrs={
+                        "height": "200" if db_field.name == "description" else "150"
+                    }
                 )
             )
         return super().formfield_for_dbfield(db_field, **kwargs)

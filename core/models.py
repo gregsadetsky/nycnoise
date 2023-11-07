@@ -16,7 +16,6 @@ class Event(models.Model):
         max_length=255,
         null=True,
         blank=True,
-        help_text="if given, venue_override will override the entire venue information i.e. the venue name, address, etc.",
     )
 
     starttime = models.DateTimeField("Start time", null=True)
@@ -24,7 +23,6 @@ class Event(models.Model):
         max_length=255,
         null=True,
         blank=True,
-        help_text="if given, the starttime_override will be used instead of showing the time at the beginning of an event listing.<br/>this is especially useful for events that have multiple start times i.e. '8pm *&* 9pm'.<br/>note that GCAL and ICAL links will always use the (presumably earlier) start time, i.e. GCAL and ICAL are not affected by starttime_override",
     )
 
     # `description` will be presented as a tinymce field in the admin
@@ -38,13 +36,11 @@ class Event(models.Model):
         max_length=255,
         null=True,
         blank=True,
-        help_text="if given, age_policy_override will override the venue's age policy",
     )
     # same as `description` - this will be rich text
     preface = models.TextField(
         null=True,
         blank=True,
-        help_text="if given, the preface will be displayed before the time i.e. 'some-preface • 8pm: event title'",
     )
 
     # optional hyperlink to tickets, separate from event.hyperlink value
@@ -52,7 +48,6 @@ class Event(models.Model):
         max_length=255,
         null=True,
         blank=True,
-        help_text="if given, ticket_hyperlink will show up in the event description as a hyperlink called '(tix)'",
     )
 
     PRICE_RANGE = [
@@ -66,7 +61,6 @@ class Event(models.Model):
         choices=PRICE_RANGE,
         null=True,
         blank=True,
-        help_text="if given, the price will be included as part of the event description",
     )
 
     # will strikethrough most of the event information, except for the preface
