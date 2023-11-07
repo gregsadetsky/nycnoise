@@ -42,7 +42,11 @@
       }
 
       span.smallInfo {
-        font-size: 0.9em;
+        font-size: 0.85em;
+      }
+
+      .eventDescription {
+        font-size: 0.85rem;
       }
 
       /* ignore first p, i.e. make it not a block level element */
@@ -158,13 +162,13 @@
         {% endif %}
 
         //
-        <a href="{% url 'event_ics_download' event.id %}" style="color:#000000">ICAL</a>
+        <a href="{% url 'event_ics_download' event.id %}" style="color:#000000; font-size: 0.85rem;">ICAL</a>
         //
-        <a href="{% get_gcal_link_from_event event %}" style="color:#000000">GCAL</a>
+        <a href="{% get_gcal_link_from_event event %}" style="color:#000000; font-size: 0.85rem;">GCAL</a>
 
         {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
           //
-          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo' style="color:#993366">MAP</a>
+          <a href="{{ event.venue.google_maps_link }}" target="_blank" class='smallInfo' style="color:#993366; font-size: 0.85rem;">MAP</a>
         {% endif %}
         
       </div>
