@@ -16,10 +16,10 @@ a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural 
 
 ## tech-y things
 
-- [ONBOARDING.md](docs/ONBOARDING.md) lists the steps to get started with the codebase
-- [DEVELOPMENT-CYCLE.md](docs/DEVELOPMENT-CYCLE.md) describes the development cycle i.e. open a branch + submit a PR, etc.
-- [UPDATING-DEV.md](docs/UPDATING-DEV.md) describes how to update your local dev environment when someone else has made changes to the codebase / to the `dev` branch
-- [TESTING.md](docs.TESTING.md) for notes on testing
+- [ONBOARDING](docs/ONBOARDING.md) lists the steps to get started with the codebase
+- [DEVELOPMENT-CYCLE](docs/DEVELOPMENT-CYCLE.md) describes the development cycle i.e. open a branch + submit a PR, etc.
+- [UPDATING-DEV](docs/UPDATING-DEV.md) describes how to update your local dev environment when someone else has made changes to the codebase / to the `dev` branch
+- [TESTING](docs/TESTING.md) for notes on testing
 
 ## who/when/where
 
