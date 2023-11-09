@@ -79,7 +79,7 @@
   {% include "calendar/calendar.html" %}
 
   {% for date, events in all_events.items %}
-    <h4><a name="{{date|date:'mdy'}}" href="/#{{date|date:'mdy'}}">{{ date|date:"M d (D)"|lower }}</a></h4>
+    <h4><a name="{{ date|date:'mdy' }}" href="/#{{ date|date:'mdy' }}">{{ date|date:"M d (D)"|lower }}</a></h4>
 
     {% if date in date_messages %}
       {% for message in date_messages|get_item:date %}
