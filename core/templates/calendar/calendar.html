@@ -12,7 +12,7 @@
   >
     <div class="day">{{ date.date.day }}</div>
     <div class="linky">
-      {% if date.is_this_month %}{{ date.date|date:"b j (D)" }}{% endif %}
+      {% if date.is_this_month %}<a href="/#{{ date.date|date:'mdy' }}">{{ date.date|date:"b j (D)" }}</a>{% endif %}
     </div>
   </div>
   {% endfor %}
