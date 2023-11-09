@@ -43,6 +43,9 @@ The migration to Django is being tackled by a group of people from the [Recurse 
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/robsimmons"><img src="https://avatars.githubusercontent.com/u/442315?v=4?s=100" width="100px;" alt="Robert J. Simmons"/><br /><sub><b>Robert J. Simmons</b></sub></a><br /><a href="#code-robsimmons" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://nyc-noise.com"><img src="https://avatars.githubusercontent.com/u/135757981?v=4?s=100" width="100px;" alt="nyc noise"/><br /><sub><b>nyc noise</b></sub></a><br /><a href="#code-nycnoise" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/reyaw"><img src="https://avatars.githubusercontent.com/u/82685635?v=4?s=100" width="100px;" alt="Reya Wallace"/><br /><sub><b>Reya Wallace</b></sub></a><br /><a href="#code-reyaw" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
