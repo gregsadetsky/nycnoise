@@ -160,3 +160,6 @@ STORAGES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+RC_DEVELOPER_INTERNAL_TOKEN = os.environ["RC_DEVELOPER_INTERNAL_TOKEN"]
+PROD_INTERNAL_API_SERVER = os.environ["PROD_INTERNAL_API_SERVER"]
