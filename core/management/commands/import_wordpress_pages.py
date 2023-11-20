@@ -41,7 +41,7 @@ class Command(BaseCommand):
         file_to_wordpress_export_xml_file = options["file_to_wordpress_export_xml_file"]
 
         parser = etree.XMLParser(strip_cdata=False)
-        with open(file_to_wordpress_export_xml_file) as f:
+        with open(file_to_wordpress_export_xml_file, encoding="UTF-8") as f:
             content = f.read()
 
             # manually clean up gremlins
