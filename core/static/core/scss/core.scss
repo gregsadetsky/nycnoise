@@ -1,0 +1,160 @@
+$background-main: #d4d0c7;
+
+
+/*************************************/
+/** Styles for major html elements  **/
+/*************************************/
+
+body {
+  background-color: $background-main;
+  font-family: "Open Sans", sans-serif;
+}
+
+main
+{
+  max-width:42em;
+  margin:15px auto;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+
+a {
+  color: blue;
+}
+
+p {
+  display: inline;
+}
+
+/*************************************/
+/** Event styles                    **/
+/*************************************/
+
+article {
+
+  h4 {
+    top: 0;
+    padding: 1em 0;
+    position: sticky;
+    background-color: $background-main;
+
+    a {
+      color: black;
+    }
+  }
+  
+  :last-child {
+    border-bottom: none;
+  }
+}
+
+
+.event {
+  text-indent: -2.5em;
+  padding-left: 2.5em;
+  padding-top:5px;
+  padding-bottom:5px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  .title-only {
+    font-weight: bold;
+  }
+  .artists {
+    font-weight: bold
+  }
+}
+
+.time {
+}
+
+.event.cancelled{
+  text-decoration: line-through;
+  color: #666;
+  a {
+    color: #444;
+  }
+}
+
+.event.cancelled .eventPreface {
+  display:inline-block;
+  text-indent:0;
+  text-decoration: none!important;
+  /* this is the weird trick to un-text-decorate this child element */
+  color: black;
+}
+
+.accessibility {
+  font-size: 0.85em;
+
+  a {
+    font-size: 1em;
+    color: #008080;
+  }
+}
+
+.gcal {
+  color: #000000;
+  font-size: 0.85rem;
+}
+
+.eventDescription {
+  font-size: 0.85rem;
+}
+
+.ical {
+  color: #000000;
+  font-size: 0.85rem;
+}
+
+.map {
+  color: #000000;
+  font-size: 0.85rem;
+}
+
+
+
+/*************************************/
+/** Calendar styles                 **/
+/*************************************/
+
+#calendar {
+
+  display: grid;
+  position: relative;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  tr {
+    font-weight: bold;
+  }
+
+  td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    margin:0;
+    position:relative; 
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .date a{
+    text-transform: lowercase;
+  }
+
+  .date-today {
+    background: rgb(251, 247, 224);
+  }
+
+  .date-other-month a {
+    color: #999;
+  }
+}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core",
     "tinymce",
+    "sass_processor",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "sass_processor.finders.CssFinder",
 ]
 
 ROOT_URLCONF = "nycnoise.urls"
@@ -143,6 +150,10 @@ TIME_ZONE = "America/New_York"
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+CORE_FOLDER = BASE_DIR.parent
+SASS_PROCESSOR_ROOT = CORE_FOLDER / "core/static/"
+STATICFILES_DIRS = [CORE_FOLDER / "core/static/core"]
 
 # https://stackoverflow.com/a/76117900
 # overridden in test.py

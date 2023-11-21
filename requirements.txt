@@ -8,7 +8,11 @@ dill==0.3.7
 distlib==0.3.7
 dj-database-url==2.1.0
 Django==4.2.5
+django-admin-sortable2==2.1.10
+django-appconf==1.0.6
+django-compressor==4.4
 django-js-asset==2.1.0
+django-sass-processor==1.3
 django-stubs==4.2.4
 django-stubs-ext==4.2.2
 django-tinymce==3.6.1
@@ -20,6 +24,7 @@ iniconfig==2.0.0
 install==1.3.5
 isort==5.12.0
 lazy-object-proxy==1.9.0
+libsass==0.22.0
 lxml==4.9.3
 mccabe==0.7.0
 mypy==1.5.1
@@ -38,7 +43,9 @@ pytest-django==4.6.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3.post1
+rcssmin==1.1.1
 requests==2.31.0
+rjsmin==1.2.1
 six==1.16.0
 soupsieve==2.5
 sqlparse==0.4.4
