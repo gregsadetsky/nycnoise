@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from tinymce.widgets import TinyMCE
 
-from .models import DateMessage, Event, StaticPage, Venue
+from .models import DateMessage, EmailSubscriber, Event, StaticPage, Venue
 
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
@@ -110,3 +110,11 @@ class DateMessageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DateMessage, DateMessageAdmin)
+
+
+class EmailSubscriberAdmin(admin.ModelAdmin):
+    list_display = ("email", "created_at")
+    ordering = ("-created_at",)
+
+
+admin.site.register(EmailSubscriber, EmailSubscriberAdmin)

@@ -3,6 +3,14 @@
 {% block content %}
   {% include "calendar/calendar.html" %}
 
+  <div class="emailForm">
+    <form method='POST' action="{% url 'email_subscribe' %}">
+      {% csrf_token %}
+      <input type='email' name='email' placeholder='you@somewhere.com' required>
+      <input type='submit' value='subscribe'>
+    </form>
+  </div>
+
   {% for date, events in all_events.items %}
     <article>
       <h4><a name="{{ date|date:'mdy' }}" href="/#{{ date|date:'mdy' }}">{{ date|date:"M d (D)"|lower }}</a></h4>
