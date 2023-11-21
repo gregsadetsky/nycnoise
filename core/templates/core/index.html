@@ -1,20 +1,6 @@
-{% load sass_tags %}
-{% load get_item %}
+{% extends 'core/base.html' %}
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% include 'core/opengraph.html' %}
-  <link href="{% sass_src 'scss/core.scss' %}" rel="stylesheet" type="text/css" />
-</head>
-<body>
-
-<main>
-  <h1>nyc noise</h1>
-  <small>~ always incomplete ~</small>
-
+{% block content %}
   {% include "calendar/calendar.html" %}
 
   {% for date, events in all_events.items %}
@@ -32,7 +18,4 @@
       {% endfor %}
     </article>
   {% endfor %}
-</main>
-
-</body>
-</html>
+{% endblock content %}

@@ -6,6 +6,7 @@ from django.shortcuts import render
 from pytz import timezone
 
 from ..models import DateMessage, Event, Venue
+from .search import search
 
 
 def get_calendar_dates(month=None, today=None):
@@ -58,6 +59,10 @@ def get_calendar_dates(month=None, today=None):
 
 
 def index(request):
+    if request.method == "GET" and request.GET.get("s"):
+        # this is actually a search, let the search view handle it!
+        return search(request)
+
     all_events = (
         Event.objects.all().order_by("starttime").annotate(date=TruncDate("starttime"))
     )

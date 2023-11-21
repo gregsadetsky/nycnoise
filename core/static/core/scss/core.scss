@@ -158,3 +158,16 @@ article {
     color: #999;
   }
 }
+
+/*************************************/
+/** Search                          **/
+/*************************************/
+
+main .search {
+  text-align: right;
+
+  input[type=search] {
+    width: 200px;
+  }
+}
+

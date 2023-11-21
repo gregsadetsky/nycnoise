@@ -25,7 +25,7 @@
     {% endif %}
     
     {% if event.title and event.artists %}
-      <span class='artist-present'>{{ event.title }}:</span>
+      <span class='artist-present'>{{ event.title }}:&nbsp;</span>
     {% elif event.title %}
       <span class="title-only">{{ event.title }}</span>
     {% endif %}
