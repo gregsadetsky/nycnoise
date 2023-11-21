@@ -1,6 +1,8 @@
 from django.urls import path
 
-from .views import event_ics_download, index, internal_db_dump
+from .views.event_ics_download import event_ics_download
+from .views.index import index
+from .views.internal_db_dump import internal_db_dump
 
 urlpatterns = [
     path("", index),
