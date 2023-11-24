@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
 from tinymce import models as tinymce_models
+from solo.models import SingletonModel
 
 
 class Event(models.Model):
@@ -149,3 +150,14 @@ class EmailSubscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class MainMessage(SingletonModel):
+    pre_cal_msg = models.TextField("Pre calendar message", null=True, blank=True)
+    post_cal_msg = models.TextField("Post calendar message", null=True, blank=True)
+
+    def __str__(self):
+        return "Main Page Messages"
+
+    class Meta:
+        verbose_name = "Main page messages"

@@ -5,7 +5,7 @@ from django.db.models.functions import TruncDate
 from django.shortcuts import render
 from pytz import timezone
 
-from ..models import DateMessage, Event, Venue
+from ..models import DateMessage, Event, Venue, MainMessage
 from .search import search
 
 
@@ -81,6 +81,8 @@ def index(request):
     for date in all_messages:
         date_messages[date.date].append(date.message)
 
+    main_messages = MainMessage.objects.get()
+
     return render(
         request,
         "core/index.html",
@@ -92,5 +94,6 @@ def index(request):
             "calendar_dates": get_calendar_dates(),
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
+            "main_messages": main_messages,
         },
     )

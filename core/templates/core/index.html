@@ -1,7 +1,14 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div id="pre-cal-msg">
+  <p> {{main_messages.pre_cal_msg}} </p>
+</div>
   {% include "calendar/calendar.html" %}
+  <div id="post-cal-msg">
+    <p> {{main_messages.post_cal_msg}} </p>
+  </div>
+
 
   <div class="emailForm">
     <form method='POST' action="{% url 'email_subscribe' %}">

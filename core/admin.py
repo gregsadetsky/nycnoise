@@ -3,11 +3,15 @@ import re
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from tinymce.widgets import TinyMCE
+from solo.admin import SingletonModelAdmin
 
-from .models import DateMessage, EmailSubscriber, Event, StaticPage, Venue
+from .models import DateMessage, EmailSubscriber, Event, StaticPage, Venue, MainMessage
 
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
+
+
+admin.site.register(MainMessage, SingletonModelAdmin)
 
 
 class EventAdmin(admin.ModelAdmin):

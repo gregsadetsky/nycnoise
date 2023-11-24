@@ -13,6 +13,7 @@ django-appconf==1.0.6
 django-compressor==4.4
 django-js-asset==2.1.0
 django-sass-processor==1.3
+django-solo==2.1.0
 django-stubs==4.2.4
 django-stubs-ext==4.2.2
 django-tinymce==3.6.1
