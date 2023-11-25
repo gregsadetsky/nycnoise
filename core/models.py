@@ -118,6 +118,7 @@ class Venue(models.Model):
     name_the = models.BooleanField(default=False, verbose_name="the")
     address = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
+    age_policy_emoji = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
     accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)

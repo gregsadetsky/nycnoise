@@ -33,13 +33,12 @@
           <h4>{{ message }}</h4>
         {% endfor %}
       {% endif %}
-      <ul>
+
       {% for event in events %}
-       <li>{% include 'core/event.html' with event=event only %}</li> 
+        {% include 'core/event.html' with event=event only %}
       {% endfor %}
 
       <div class="goToTopLink">[<a href="#">go to top</a>]</div>
-    </ul>
     </article>
   {% endfor %}
 {% endblock content %}

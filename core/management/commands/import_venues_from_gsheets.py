@@ -24,6 +24,20 @@ to insert/update only updated venues.
 DEBUG_MODE_THAT_DOES_NOT_SAVE = False
 
 
+def update_venue_object_fields_from_csv_row(venue_obj, csv_row):
+    venue_obj.name = csv_row["venue name"]
+    venue_obj.name_the = csv_row["the"] == "the"
+    venue_obj.address = csv_row["address"]
+    venue_obj.age_policy = csv_row["age"]
+    venue_obj.neighborhood_and_borough = csv_row["neighborhood+borough"]
+    venue_obj.google_maps_link = csv_row["MAP LINK"]
+
+    venue_obj.age_policy_emoji = csv_row["age emoji"]
+    venue_obj.accessibility_emoji = csv_row["acc."]
+    venue_obj.accessibility_notes = csv_row["access note"]
+    venue_obj.accessibility_link = csv_row["access link"]
+
+
 def get_all_venues_from_google_sheets_csv(url):
     all_venues = []
 
@@ -33,17 +47,7 @@ def get_all_venues_from_google_sheets_csv(url):
 
     for row in csv_reader:
         venue_obj = Venue()
-
-        venue_obj.name = row["venue name"]
-        venue_obj.name_the = row["the"] == "the"
-        venue_obj.address = row["address"]
-        venue_obj.age_policy = row["age"]
-        venue_obj.neighborhood_and_borough = row["neighborhood+borough"]
-        venue_obj.google_maps_link = row["MAP LINK"]
-
-        venue_obj.accessibility_emoji = row["acc."]
-        venue_obj.accessibility_notes = row["access note"]
-        venue_obj.accessibility_link = row["access link"]
+        update_venue_object_fields_from_csv_row(venue_obj, row)
         all_venues.append(venue_obj)
 
     return all_venues
@@ -98,21 +102,8 @@ class Command(BaseCommand):
         def update_existing_venue_with_venue_from_google_sheets(
             existing_venue, venue_from_google_sheets
         ):
-            existing_venue.name_the = venue_from_google_sheets.name_the == "the"
-            existing_venue.address = venue_from_google_sheets.address
-            existing_venue.age_policy = venue_from_google_sheets.age_policy
-            existing_venue.neighborhood_and_borough = (
-                venue_from_google_sheets.neighborhood_and_borough
-            )
-            existing_venue.google_maps_link = venue_from_google_sheets.google_maps_link
-            existing_venue.accessibility_emoji = (
-                venue_from_google_sheets.accessibility_emoji
-            )
-            existing_venue.accessibility_notes = (
-                venue_from_google_sheets.accessibility_notes
-            )
-            existing_venue.accessibility_link = (
-                venue_from_google_sheets.accessibility_link
+            update_venue_object_fields_from_csv_row(
+                existing_venue, venue_from_google_sheets
             )
             if not DEBUG_MODE_THAT_DOES_NOT_SAVE:
                 existing_venue.save()
