@@ -1,14 +1,20 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div id="pre-cal-msg">
-  <p> {{main_messages.pre_cal_msg}} </p>
-</div>
-  {% include "calendar/calendar.html" %}
-  <div id="post-cal-msg">
-    <p> {{main_messages.post_cal_msg}} </p>
-  </div>
 
+{% if main_messages and main_messages.pre_cal_msg %}
+  <div id="pre-cal-msg">
+    <p>{{ main_messages.pre_cal_msg }}</p>
+  </div>
+{% endif %}
+
+{% include "calendar/calendar.html" %}
+
+{% if main_messages and main_messages.post_cal_msg %}
+  <div id="post-cal-msg">
+    <p>{{ main_messages.post_cal_msg }}</p>
+  </div>
+{% endif %}
 
   <div class="emailForm">
     <form method='POST' action="{% url 'email_subscribe' %}">

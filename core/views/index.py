@@ -5,7 +5,7 @@ from django.db.models.functions import TruncDate
 from django.shortcuts import render
 from pytz import timezone
 
-from ..models import DateMessage, Event, Venue, MainMessage
+from ..models import DateMessage, Event, MainMessage, Venue
 from .search import search
 
 
@@ -81,7 +81,9 @@ def index(request):
     for date in all_messages:
         date_messages[date.date].append(date.message)
 
-    main_messages = MainMessage.objects.get()
+    # use .first() to get either the first object or None.
+    # using .get() would raise an exception if the object does not exist in the database
+    main_messages = MainMessage.objects.first()
 
     return render(
         request,
