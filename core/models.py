@@ -127,6 +127,9 @@ class Venue(models.Model):
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
 
+    def full_name_with_the(self):
+        return f"{'the ' if self.name_the else ''}{self.name}"
+
 
 class StaticPage(models.Model):
     url_path = models.CharField(max_length=255, unique=True)

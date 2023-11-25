@@ -54,13 +54,13 @@
     @
 
     {% if event.age_policy and event.venue.neighborhood_and_borough %}
-      {{ event.venue.name }} ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+      {{ event.venue.full_name_with_the }} ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
     {% elif event.age_policy %}
-      {{ event.venue.name }} ({{ event.age_policy }})
+      {{ event.venue.full_name_with_the }} ({{ event.age_policy }})
     {% elif event.venue.neighborhood_and_borough %}
-      {{ event.venue.name }}, {{ event.venue.neighborhood_and_borough }}
+      {{ event.venue.full_name_with_the }}, {{ event.venue.neighborhood_and_borough }}
     {% else %}
-      {{ event.venue.name }}
+      {{ event.venue.full_name_with_the }}
     {% endif %}
 
   {% else %}

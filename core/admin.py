@@ -58,6 +58,13 @@ class EventAdmin(admin.ModelAdmin):
     # namely, the fact that both 'save as new' and 'save and add another' buttons
     # appear simultanously is not something that can be set using 'regular'
     # django admin options
+    search_fields = (
+        "title",
+        "artists",
+        "venue__name",
+        "description",
+        "preface",
+    )
 
     class Media:
         js = [
