@@ -24,6 +24,8 @@
       {% for event in events %}
         {% include 'core/event.html' with event=event only %}
       {% endfor %}
+
+      <div class="goToTopLink">[<a href="#">go to top</a>]</div>
     </article>
   {% endfor %}
 {% endblock content %}
