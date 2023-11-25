@@ -35,6 +35,7 @@ def get_all_venues_from_google_sheets_csv(url):
         venue_obj = Venue()
 
         venue_obj.name = row["venue name"]
+        venue_obj.name_the = row["the"] == "the"
         venue_obj.address = row["address"]
         venue_obj.age_policy = row["age"]
         venue_obj.neighborhood_and_borough = row["neighborhood+borough"]
@@ -97,6 +98,7 @@ class Command(BaseCommand):
         def update_existing_venue_with_venue_from_google_sheets(
             existing_venue, venue_from_google_sheets
         ):
+            existing_venue.name_the = venue_from_google_sheets.name_the == "the"
             existing_venue.address = venue_from_google_sheets.address
             existing_venue.age_policy = venue_from_google_sheets.age_policy
             existing_venue.neighborhood_and_borough = (

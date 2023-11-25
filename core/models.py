@@ -112,6 +112,10 @@ class Venue(models.Model):
         ordering = [Upper("name")]
 
     name = models.CharField(max_length=255)
+    # does the event have a 'the' as a prefix?
+    # this is useful to keep separate for when we want to have an alphabetized list of venues
+    # i.e. not have all of the 'the ...' venues all together
+    name_the = models.BooleanField(default=False)
     address = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
@@ -121,7 +125,7 @@ class Venue(models.Model):
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{'the ' if self.name_the else ''}{self.name}"
 
 
 class StaticPage(models.Model):

@@ -52,6 +52,12 @@ class EventAdmin(admin.ModelAdmin):
     )
     list_display_links = ("starttime",)
     ordering = ("-starttime",)
+    save_on_top = True
+    # there are move save_* options that are being overriden
+    # in templatetags/admin_save_buttons_override --
+    # namely, the fact that both 'save as new' and 'save and add another' buttons
+    # appear simultanously is not something that can be set using 'regular'
+    # django admin options
 
     class Media:
         js = [
@@ -110,6 +116,7 @@ class VenueAdmin(admin.ModelAdmin):
     list_display = ("name", "address", "age_policy", "neighborhood_and_borough")
     search_fields = ("name",)
     ordering = ("name",)
+    save_on_top = True
 
 
 admin.site.register(Venue, VenueAdmin)
