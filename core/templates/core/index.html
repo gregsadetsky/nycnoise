@@ -2,19 +2,19 @@
 
 {% block content %}
 
-{% if index_page_messages and index_page_messages.pre_cal_msg %}
-  <div id="pre-cal-msg">
-    <p>{{ index_page_messages.pre_cal_msg|safe }}</p>
-  </div>
-{% endif %}
+  {% if index_page_messages and index_page_messages.pre_cal_msg %}
+    <div id="pre-cal-msg">
+      <p>{{ index_page_messages.pre_cal_msg|safe }}</p>
+    </div>
+  {% endif %}
 
-{% include "calendar/calendar.html" %}
+  {% include "calendar/calendar.html" %}
 
-{% if index_page_messages and index_page_messages.post_cal_msg %}
-  <div id="post-cal-msg">
-    <p>{{ index_page_messages.post_cal_msg|safe }}</p>
-  </div>
-{% endif %}
+  {% if index_page_messages and index_page_messages.post_cal_msg %}
+    <div id="post-cal-msg">
+      <p>{{ index_page_messages.post_cal_msg|safe }}</p>
+    </div>
+  {% endif %}
 
   <div class="emailForm">
     <form method='POST' action="{% url 'email_subscribe' %}">
