@@ -5,8 +5,8 @@ set -o errexit
 pip install --upgrade pippip install --force-reinstall -U setuptools
 pip install -r requirements.txt
 
-# run tests -- build should fail if they fail..?
-DJANGO_SETTINGS_MODULE=nycnoise.settings.test python manage.py test
+# run tests -- build should fail if they fail!
+DJANGO_SETTINGS_MODULE=nycnoise.settings.test python manage.py test --noinput
 
 # all good, proceed!
 python manage.py compilescss
