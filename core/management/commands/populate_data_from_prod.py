@@ -30,7 +30,7 @@ class Command(BaseCommand):
         remote_migration_names = set(server_data["all_migration_names"])
         if local_migration_names != remote_migration_names:
             raise CommandError(
-                f"Local migrations {local_migration_names} do not match remote migrations {remote_migration_names}"
+                f"Local migrations do not match remote migrations!! Delta: {local_migration_names.symmetric_difference(remote_migration_names)}"
             )
 
         # confirm with user that all events and venues will be erased
