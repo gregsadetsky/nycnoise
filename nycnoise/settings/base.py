@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "core",
     "tinymce",
     "sass_processor",
+    "solo",
 ]
 
 MIDDLEWARE = [

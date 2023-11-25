@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
+from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
 
@@ -149,3 +150,18 @@ class EmailSubscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class IndexPageMessages(SingletonModel):
+    pre_cal_msg = tinymce_models.HTMLField(
+        "Pre calendar message", null=True, blank=True
+    )
+    post_cal_msg = tinymce_models.HTMLField(
+        "Post calendar message", null=True, blank=True
+    )
+
+    def __str__(self):
+        return "Index Page Messages"
+
+    class Meta:
+        verbose_name = "Index Page Messages"
