@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
-from tinymce import models as tinymce_models
 from solo.models import SingletonModel
+from tinymce import models as tinymce_models
 
 
 class Event(models.Model):
