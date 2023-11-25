@@ -141,7 +141,7 @@ class Command(BaseCommand):
                 nmb_updated += 1
                 continue
             elif len(found_venues) > 1:
-                # in the case of more than 2, we've seen that we can actually find a perfect match.
+                # in the case of more than 1, we've seen that we can actually find a perfect match.
                 # attempt to find a perfect match using the name. if not found, THEN throw an error
                 perfect_match = Venue.objects.filter(name=venue.name)
                 if len(perfect_match) == 1:
@@ -150,9 +150,9 @@ class Command(BaseCommand):
                     )
                     nmb_updated += 1
                     continue
-                elif len(perfect_match) > 1:
+                else:
                     raise CommandError(
-                        f"ERROR Found more than one perfect match for {venue.name}"
+                        f"ERROR Did not find perfect match for {venue.name}"
                     )
             raise Exception("should never happen", len(found_venues))
 
