@@ -153,8 +153,12 @@ class EmailSubscriber(models.Model):
 
 
 class MainMessage(SingletonModel):
-    pre_cal_msg = models.TextField("Pre calendar message", null=True, blank=True)
-    post_cal_msg = models.TextField("Post calendar message", null=True, blank=True)
+    pre_cal_msg = tinymce_models.HTMLField(
+        "Pre calendar message", null=True, blank=True
+    )
+    post_cal_msg = tinymce_models.HTMLField(
+        "Post calendar message", null=True, blank=True
+    )
 
     def __str__(self):
         return "Main Page Messages"

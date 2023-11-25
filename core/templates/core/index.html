@@ -4,7 +4,7 @@
 
 {% if main_messages and main_messages.pre_cal_msg %}
   <div id="pre-cal-msg">
-    <p>{{ main_messages.pre_cal_msg }}</p>
+    <p>{{ main_messages.pre_cal_msg|safe }}</p>
   </div>
 {% endif %}
 
@@ -12,7 +12,7 @@
 
 {% if main_messages and main_messages.post_cal_msg %}
   <div id="post-cal-msg">
-    <p>{{ main_messages.post_cal_msg }}</p>
+    <p>{{ main_messages.post_cal_msg|safe }}</p>
   </div>
 {% endif %}
 
