@@ -5,7 +5,7 @@ from django.db.models.functions import TruncDate
 from django.shortcuts import render
 from pytz import timezone
 
-from ..models import DateMessage, Event, MainMessage, Venue
+from ..models import DateMessage, Event, IndexPageMessages, Venue
 from .search import search
 
 
@@ -83,7 +83,7 @@ def index(request):
 
     # use .first() to get either the first object or None.
     # using .get() would raise an exception if the object does not exist in the database
-    main_messages = MainMessage.objects.first()
+    index_page_messages = IndexPageMessages.objects.first()
 
     return render(
         request,
@@ -96,6 +96,6 @@ def index(request):
             "calendar_dates": get_calendar_dates(),
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
-            "main_messages": main_messages,
+            "index_page_messages": index_page_messages,
         },
     )

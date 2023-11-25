@@ -2,17 +2,17 @@
 
 {% block content %}
 
-{% if main_messages and main_messages.pre_cal_msg %}
+{% if index_page_messages and index_page_messages.pre_cal_msg %}
   <div id="pre-cal-msg">
-    <p>{{ main_messages.pre_cal_msg|safe }}</p>
+    <p>{{ index_page_messages.pre_cal_msg|safe }}</p>
   </div>
 {% endif %}
 
 {% include "calendar/calendar.html" %}
 
-{% if main_messages and main_messages.post_cal_msg %}
+{% if index_page_messages and index_page_messages.post_cal_msg %}
   <div id="post-cal-msg">
-    <p>{{ main_messages.post_cal_msg|safe }}</p>
+    <p>{{ index_page_messages.post_cal_msg|safe }}</p>
   </div>
 {% endif %}
 

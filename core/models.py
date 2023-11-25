@@ -152,7 +152,7 @@ class EmailSubscriber(models.Model):
         return self.email
 
 
-class MainMessage(SingletonModel):
+class IndexPageMessages(SingletonModel):
     pre_cal_msg = tinymce_models.HTMLField(
         "Pre calendar message", null=True, blank=True
     )
@@ -161,7 +161,7 @@ class MainMessage(SingletonModel):
     )
 
     def __str__(self):
-        return "Main Page Messages"
+        return "Index Page Messages"
 
     class Meta:
-        verbose_name = "Main page messages"
+        verbose_name = "Index Page Messages"

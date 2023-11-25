@@ -2,16 +2,23 @@ import re
 
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from tinymce.widgets import TinyMCE
 from solo.admin import SingletonModelAdmin
+from tinymce.widgets import TinyMCE
 
-from .models import DateMessage, EmailSubscriber, Event, StaticPage, Venue, MainMessage
+from .models import (
+    DateMessage,
+    EmailSubscriber,
+    Event,
+    IndexPageMessages,
+    StaticPage,
+    Venue,
+)
 
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
 
 
-admin.site.register(MainMessage, SingletonModelAdmin)
+admin.site.register(IndexPageMessages, SingletonModelAdmin)
 
 
 class EventAdmin(admin.ModelAdmin):
