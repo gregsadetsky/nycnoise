@@ -115,7 +115,7 @@ class Venue(models.Model):
     # does the event have a 'the' as a prefix?
     # this is useful to keep separate for when we want to have an alphabetized list of venues
     # i.e. not have all of the 'the ...' venues all together
-    name_the = models.BooleanField(default=False)
+    name_the = models.BooleanField(default=False, verbose_name="the")
     address = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)

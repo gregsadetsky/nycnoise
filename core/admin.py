@@ -113,10 +113,22 @@ admin.site.register(StaticPage, StaticPageAdmin)
 
 
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ("name", "address", "age_policy", "neighborhood_and_borough")
+    list_display = (
+        "name_the_string",
+        "name",
+        "address",
+        "age_policy",
+        "neighborhood_and_borough",
+    )
+    list_display_links = ("name",)
     search_fields = ("name",)
     ordering = ("name",)
     save_on_top = True
+
+    def name_the_string(self, obj):
+        return "the" if obj.name_the else ""
+
+    name_the_string.short_description = "The"
 
 
 admin.site.register(Venue, VenueAdmin)

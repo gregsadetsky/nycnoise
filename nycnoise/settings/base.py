@@ -55,8 +55,6 @@ STATICFILES_FINDERS = [
 
 ROOT_URLCONF = "nycnoise.urls"
 
-print(BASE_DIR / "core/templates")
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
