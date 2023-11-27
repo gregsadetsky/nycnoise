@@ -75,7 +75,7 @@
 
     {% if event.venue.accessibility_link or event.venue.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
     <span class='accessibility'>
-    //
+    +
       {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
 
       {% if event.venue.age_policy_emoji %}
@@ -92,13 +92,13 @@
     </span>
     {% endif %}
 
-    //
+    +
     <a href="{% url 'event_ics_download' event.id %}" class="ical">ICAL</a>
-    //
+    +
     <a href="{% get_gcal_link_from_event event %}" class="gcal">GCAL</a>
 
     {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
-      //
+      +
       <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map">MAP</a>
     {% endif %}
   </span>
