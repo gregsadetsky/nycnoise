@@ -50,7 +50,9 @@ def _get_events_page_for_month(request, month_datetime):
     # assert that we're dealing with new york timezone
     assert month_datetime.tzinfo == NYCTZ
 
-    first_day_of_this_month = month_datetime.replace(day=1)
+    first_day_of_this_month = month_datetime.replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
     first_day_of_next_month = first_day_of_this_month + relativedelta.relativedelta(
         months=1, day=1
     )

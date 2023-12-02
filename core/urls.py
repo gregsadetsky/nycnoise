@@ -8,7 +8,11 @@ from .views.internal_db_dump import internal_db_dump
 urlpatterns = [
     # main event pages - index and past months
     path("", index),
-    re_path(r"^(\d{4})-(\d{2})/$", past_month_archive, name="past_month_archive"),
+    re_path(
+        r"^(?P<year>\d{4})-(?P<month>\d{2})/$",
+        past_month_archive,
+        name="past_month_archive",
+    ),
     # other urls
     path("event/<int:event_id>/ics", event_ics_download, name="event_ics_download"),
     path("email-subscribe", email_subscribe, name="email_subscribe"),
