@@ -105,16 +105,6 @@ class EventAdmin(admin.ModelAdmin):
         "preface",
     )
 
-    # this is insane, I've (greg) been using django for 16+ years,
-    # I ***did not know*** this was a thing. this is bonkers.
-    list_editable = (
-        "is_cancelled",
-        "title",
-        "artists",
-        "venue",
-        "price",
-    )
-    # list_filter = ("starttime",)
     list_filter = [StartTimeListFilter]
 
     class Media:
