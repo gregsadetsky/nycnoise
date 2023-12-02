@@ -19,8 +19,10 @@
     </form>
   </div>
 
-  <h1>nyc noise</h1>
-  <div style="margin-bottom:20px;"><small>~ always incomplete ~</small></div>
+  {% block site_title %}
+    <h1>nyc noise</h1>
+    <div style="margin-bottom:20px;"><small>~ always incomplete ~</small></div>
+  {% endblock %}
 
   {% block content %}{% endblock content %}
 

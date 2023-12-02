@@ -1,5 +1,13 @@
 {% extends 'core/base.html' %}
 
+{% block site_title %}
+  {% if is_index %}
+    {{ block.super }}
+  {% else %}
+    <h1>{{ site_title_month_year }}</h1>
+  {% endif %}
+{% endblock site_title %}
+
 {% block content %}
 
   {% if index_page_messages and index_page_messages.pre_cal_msg %}

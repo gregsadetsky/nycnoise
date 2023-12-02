@@ -46,7 +46,7 @@ def _get_calendar_dates(month_datetime):
 
 
 # month_datetime can be any (localized!) date time within the month
-def _get_events_page_for_month(request, month_datetime):
+def _get_events_page_for_month(request, month_datetime, is_index):
     # assert that we're dealing with new york timezone
     assert month_datetime.tzinfo == NYCTZ
 
@@ -87,6 +87,8 @@ def _get_events_page_for_month(request, month_datetime):
         request,
         "core/index.html",
         {
+            "is_index": is_index,
+            "site_title_month_year": month_datetime.strftime("%Y %B").lower(),
             # casting to dict since django doesn't deal with defaultdicts well
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
@@ -102,7 +104,9 @@ def _get_events_page_for_month(request, month_datetime):
 
 def past_month_archive(request, year, month):
     month_datetime = datetime(int(year), int(month), 1, 0, 0, 0, 0, tzinfo=NYCTZ)
-    return _get_events_page_for_month(request, month_datetime=month_datetime)
+    return _get_events_page_for_month(
+        request, month_datetime=month_datetime, is_index=False
+    )
 
 
 def index(request):
@@ -114,4 +118,6 @@ def index(request):
     current_datetime = _get_current_new_york_datetime()
 
     # get the events page based on today
-    return _get_events_page_for_month(request, month_datetime=current_datetime)
+    return _get_events_page_for_month(
+        request, month_datetime=current_datetime, is_index=True
+    )
