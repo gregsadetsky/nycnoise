@@ -1,33 +1,28 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
 
+from dateutil import relativedelta, tz
 from django.db.models.functions import TruncDate
 from django.shortcuts import render
-from pytz import timezone
 
-from ..models import DateMessage, Event, IndexPageMessages, Venue
+from ..models import DateMessage, Event, IndexPageMessages
 from .search import search
 
+# DO NOT USE PYTZ <> DO NOT USE PYTZ <> DO NOT USE PYTZ
+# https://blog.ganssle.io/articles/2018/03/pytz-fastest-footgun.html
+NYCTZ = tz.gettz("America/New_York")
 
-def get_calendar_dates(month=None, today=None):
-    """Stealing the calendar date display but mapping events to each day"""
 
-    all_events = (
-        Event.objects.all().order_by("starttime").annotate(date=TruncDate("starttime"))
+def _get_current_new_york_datetime():
+    return datetime.now().astimezone(NYCTZ)
+
+
+# month_date is any date within the month
+# for which the calendar should be generated
+def _get_calendar_dates(month_datetime):
+    first_day_of_month = month_datetime.replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
     )
-    grouped_events = defaultdict(lambda: 0)
-    for event in all_events:
-        grouped_events[event.date] += 1
-    grouped_events = dict(grouped_events)
-
-    nyctz = timezone("US/Eastern")
-    current_date = datetime.now(nyctz).date()
-    if month is None:
-        month = current_date
-    if today is None:
-        today = current_date
-
-    first_day_of_month = month.replace(day=1)
     first_day_on_calendar = first_day_of_month - timedelta(
         days=(first_day_of_month.weekday() + 1) % 7
     )
@@ -36,49 +31,50 @@ def get_calendar_dates(month=None, today=None):
         first_day_on_calendar + timedelta(days=i) for i in range(0, 42)
     ]
 
+    current_datetime = _get_current_new_york_datetime()
+
     date_events = []
     for date in dates_for_calendar:
-        events_wording = "events"
-        if date in grouped_events:
-            num_events = grouped_events[date]
-            if num_events == 1:
-                events_wording = "event"
-        else:
-            num_events = 0
-            events_wording = "no events"
         date_event_object = {
-            "num_events": num_events,
-            "events_wording": events_wording,
             "date": date,
-            "is_this_month": date.month == month.month,
-            "is_today": date == today,
+            "is_current_page_month": date.month == month_datetime.month,
+            "is_today": date.date() == current_datetime.date(),
         }
         date_events.append(date_event_object)
 
     return date_events
 
 
-def index(request):
-    if request.method == "GET" and request.GET.get("s"):
-        # this is actually a search, let the search view handle it!
-        return search(request)
+# month_datetime can be any (localized!) date time within the month
+def _get_events_page_for_month(request, month_datetime):
+    # assert that we're dealing with new york timezone
+    assert month_datetime.tzinfo == NYCTZ
 
-    all_events = (
-        Event.objects.all().order_by("starttime").annotate(date=TruncDate("starttime"))
+    first_day_of_this_month = month_datetime.replace(day=1)
+    first_day_of_next_month = first_day_of_this_month + relativedelta.relativedelta(
+        months=1, day=1
     )
-    grouped_events = defaultdict(list)
-    for event in all_events:
-        grouped_events[event.date].append(event)
-    all_venues = Venue.objects.all()
 
-    all_messages = DateMessage.objects.all()
-    # there might be more than one message per date -- although
-    # there shouldn't be? but there might! so store a list
-    # ((instead of assuming there will only be a single message,
-    # and then overwriting the first message we find for a date
-    # with the next message we find for the same date...!))
+    all_events_for_this_month = (
+        Event.objects.filter(
+            starttime__gte=first_day_of_this_month,
+            starttime__lt=first_day_of_next_month,
+        )
+        .order_by("starttime")
+        .annotate(date=TruncDate("starttime"))
+    )
+
+    grouped_events = defaultdict(list)
+    for event in all_events_for_this_month:
+        grouped_events[event.date].append(event)
+
+    all_messages_for_this_month = DateMessage.objects.filter(
+        date__gte=first_day_of_this_month, date__lt=first_day_of_next_month
+    )
+
+    # there might be more than one message per date -- store them all as a list
     date_messages = defaultdict(list)
-    for date in all_messages:
+    for date in all_messages_for_this_month:
         date_messages[date.date].append(date.message)
 
     # use .first() to get either the first object or None.
@@ -92,10 +88,28 @@ def index(request):
             # casting to dict since django doesn't deal with defaultdicts well
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
-            "all_venues": all_venues,
-            "calendar_dates": get_calendar_dates(),
+            "calendar_dates": _get_calendar_dates(
+                month_datetime=first_day_of_this_month
+            ),
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
             "index_page_messages": index_page_messages,
         },
     )
+
+
+def past_month_archive(request, year, month):
+    month_datetime = datetime(int(year), int(month), 1, 0, 0, 0, 0, tzinfo=NYCTZ)
+    return _get_events_page_for_month(request, month_datetime=month_datetime)
+
+
+def index(request):
+    if request.method == "GET" and request.GET.get("s"):
+        # this is actually a search, let the search view handle it!
+        return search(request)
+
+    # get current new york first day of month date
+    current_datetime = _get_current_new_york_datetime()
+
+    # get the events page based on today
+    return _get_events_page_for_month(request, month_datetime=current_datetime)

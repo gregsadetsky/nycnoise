@@ -9,15 +9,27 @@
       <th>Fri</th>
       <th>Sat</th>
    </tr>
+
   {% for date in calendar_dates %}
     {% if forloop.counter0|divisibleby:7 %}
       {% if not forloop.first %}</tr>{% endif %}
       {% if not forloop.last %}<tr>{% endif %}
     {% endif %}
-    <td class="date{% if date.is_today %}-today{% elif date.is_this_month %}-this-month{% else %}-other-month{% endif %}"
+
+    <td class="date{% if date.is_today %}-today{% elif date.is_current_page_month %}-this-month{% else %}-other-month{% endif %}"
     >
-        <a href="/#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
+        {% comment %}
+          if current month, link to day which will be displayed in page i.e. link to #(date)
+          if not the current month, link to that day (which will be a separate page) + #(date)
+        {% endcomment %}
+
+        {% if date.is_current_page_month %}
+          <a href="#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
+        {% else %}
+          <a href="/{{ date.date|date:'Y-m' }}#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
+        {% endif %}
     </td>
   {% endfor %}
+
 </table>
 </div>

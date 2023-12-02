@@ -8,7 +8,7 @@
     </div>
   {% endif %}
 
-  {% include "calendar/calendar.html" %}
+  {% include "calendar/calendar.html" with calendar_dates=calendar_dates only %}
 
   {% if index_page_messages and index_page_messages.post_cal_msg %}
     <div id="post-cal-msg">
