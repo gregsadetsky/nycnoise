@@ -20,6 +20,45 @@ admin.site.site_header = "nyc noise"
 
 admin.site.register(IndexPageMessages, SingletonModelAdmin)
 
+from datetime import date
+
+from django.contrib.admin import SimpleListFilter
+
+
+class StartTimeListFilter(SimpleListFilter):
+    title = "Start time"
+    parameter_name = "starttime"
+
+    def lookups(self, _request, _model_admin):
+        return (
+            (None, "This month"),
+            ("next_month", "Next month"),
+            ("all", "All"),
+        )
+
+    def choices(self, changelist):
+        for lookup, title in self.lookup_choices:
+            yield {
+                "selected": self.value() == lookup,
+                "query_string": changelist.get_query_string(
+                    {
+                        self.parameter_name: lookup,
+                    },
+                    [],
+                ),
+                "display": title,
+            }
+
+    def queryset(self, request, queryset):
+        if self.value() is None:
+            # if no value i.e. the default ordering when no list filter link
+            # has been clicked, return all events *for this month*!
+            return queryset.filter(starttime__month=date.today().month)
+        if self.value() == "next_month":
+            return queryset.filter(starttime__month=date.today().month + 1)
+        # return all!
+        return queryset
+
 
 class EventAdmin(admin.ModelAdmin):
     list_display = (
@@ -51,7 +90,7 @@ class EventAdmin(admin.ModelAdmin):
         "is_cancelled",
     )
     list_display_links = ("starttime",)
-    ordering = ("-starttime",)
+    ordering = ("starttime",)
     save_on_top = True
     # there are move save_* options that are being overriden
     # in templatetags/admin_save_buttons_override --
@@ -75,6 +114,8 @@ class EventAdmin(admin.ModelAdmin):
         "venue",
         "price",
     )
+    # list_filter = ("starttime",)
+    list_filter = [StartTimeListFilter]
 
     class Media:
         js = [
