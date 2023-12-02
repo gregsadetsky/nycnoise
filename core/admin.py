@@ -33,6 +33,7 @@ class StartTimeListFilter(SimpleListFilter):
         return (
             (None, "This month"),
             ("next_month", "Next month"),
+            ("last_month", "Last month"),
             ("all", "All"),
         )
 
@@ -54,6 +55,8 @@ class StartTimeListFilter(SimpleListFilter):
             # if no value i.e. the default ordering when no list filter link
             # has been clicked, return all events *for this month*!
             return queryset.filter(starttime__month=date.today().month)
+        if self.value() == "last_month":
+            return queryset.filter(starttime__month=date.today().month - 1)
         if self.value() == "next_month":
             return queryset.filter(starttime__month=date.today().month + 1)
         # return all!
