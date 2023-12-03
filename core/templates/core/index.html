@@ -38,7 +38,7 @@
 
       {% if date in date_messages %}
         {% for message in date_messages|get_item:date %}
-          <h4>{{ message }}</h4>
+          <div class='dateMessage'>{{ message|safe }}</div>
         {% endfor %}
       {% endif %}
 

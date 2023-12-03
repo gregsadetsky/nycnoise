@@ -192,6 +192,11 @@ class DateMessageAdmin(admin.ModelAdmin):
     list_display = ("date", "message")
     ordering = ("-date",)
 
+    class Media:
+        css = {
+            "all": ("core/admin/date-time-widget-fixes.css",),
+        }
+
 
 admin.site.register(DateMessage, DateMessageAdmin)
 

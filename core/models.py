@@ -149,7 +149,7 @@ class StaticPage(models.Model):
 
 class DateMessage(models.Model):
     date = models.DateField("Date", null=True)
-    message = models.CharField(max_length=1000)
+    message = tinymce_models.HTMLField(null=True, blank=True)
 
     def __str__(self):
         return str(self.date)
