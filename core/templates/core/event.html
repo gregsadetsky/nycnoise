@@ -6,7 +6,7 @@
     {% if event.starttime_override %}
       {{ event.starttime_override }}:
     {% else %}
-      {{ event.starttime|date:"gA"|lower }}:
+      {{ event.starttime|date:"fA"|lower }}:
     {% endif %}
   </span>
   <span class="event-content">
