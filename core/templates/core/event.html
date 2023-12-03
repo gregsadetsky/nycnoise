@@ -1,7 +1,7 @@
 {% load get_gcal_link_from_event %}
 
 <div class="event {% if event.is_cancelled %}cancelled{% endif %}">
-  <span class="time">
+  <span>
     •
     {% if event.starttime_override %}
       {{ event.starttime_override }}:
