@@ -1,5 +1,7 @@
-$background-main: #d4d0c7;
+@import "header.scss";
+@import "footer.scss";
 
+$background-main: #d4d0c7;
 
 /*************************************/
 /** Styles for major html elements  **/
@@ -10,19 +12,17 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-main
-{
-  max-width:42em;
-  margin:15px auto;
+main {
+  max-width: 42em;
+  margin: 15px auto;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
 h1 {
-  margin-bottom: 0;
+  margin: 0;
 }
-
 
 a {
   color: #000080;
@@ -55,48 +55,58 @@ a {
 /*************************************/
 
 article {
-
   p {
     display: inline;
   }
 
-
   h4 {
     top: 0;
-    padding: 1em 0;
+    // padding: 1em 0;
     position: sticky;
     background-color: $background-main;
+    text-align: center;
+    font-size: 2em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
     a {
       color: black;
     }
   }
-  
+
+  .maskYrSelf {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
   :last-child {
     border-bottom: none;
   }
 }
 
-
 .event {
   text-indent: -3em;
   padding-left: 3em;
-  padding-top:5px;
-  padding-bottom:5px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   .title-only {
     font-weight: bold;
   }
   .artists {
-    font-weight: bold
+    font-weight: bold;
   }
 }
 
 .time {
 }
 
-.event.cancelled{
+.event.cancelled {
   text-decoration: line-through;
   color: #666;
   a {
@@ -105,9 +115,9 @@ article {
 }
 
 .event.cancelled .eventPreface {
-  display:inline-block;
-  text-indent:0;
-  text-decoration: none!important;
+  display: inline-block;
+  text-indent: 0;
+  text-decoration: none !important;
   /* this is the weird trick to un-text-decorate this child element */
   color: black;
 }
@@ -140,14 +150,11 @@ article {
   font-size: 0.85rem;
 }
 
-
-
 /*************************************/
 /** Calendar styles                 **/
 /*************************************/
 
 #calendar {
-
   display: grid;
   position: relative;
 
@@ -163,13 +170,13 @@ article {
   td {
     padding: 1rem;
     border: 1px solid #ddd;
-    margin:0;
-    position:relative; 
+    margin: 0;
+    position: relative;
     text-align: center;
     font-size: 1.6rem;
   }
 
-  .date a{
+  .date a {
     text-transform: lowercase;
   }
 
@@ -187,9 +194,10 @@ article {
 /*************************************/
 
 main .search {
-  text-align: right;
+  text-align: center;
+  margin-bottom: 20px;
 
-  input[type=search] {
+  input[type="search"] {
     width: 200px;
   }
 }

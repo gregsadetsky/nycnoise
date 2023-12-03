@@ -1,12 +1,10 @@
 {% extends 'core/base.html' %}
 
-{% block site_title %}
-  {% if is_index %}
-    {{ block.super }}
-  {% else %}
-    <h1>{{ site_title_month_year }}</h1>
+{% block month_year_header %}
+  {% if not is_index %}
+    <h1>{{ month_year_header }}</h1>
   {% endif %}
-{% endblock site_title %}
+{% endblock month_year_header %}
 
 {% block content %}
 
@@ -35,6 +33,8 @@
   {% for date, events in all_events.items %}
     <article>
       <h4><a name="{{ date|date:'mdy' }}" href="/#{{ date|date:'mdy' }}">{{ date|date:"M d (D)"|lower }}</a></h4>
+
+      <div class='maskYrSelf'>MASK YR SELF!</div>
 
       {% if date in date_messages %}
         {% for message in date_messages|get_item:date %}

@@ -31,9 +31,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core",
+    # https://github.com/jazzband/django-tinymce/
     "tinymce",
+    # https://github.com/jrief/django-sass-processor
     "sass_processor",
+    # https://github.com/lazybird/django-solo
     "solo",
+    # https://github.com/django-ordered-model/django-ordered-model
+    "ordered_model",
 ]
 
 MIDDLEWARE = [

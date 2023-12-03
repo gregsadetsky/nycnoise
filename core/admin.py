@@ -1,7 +1,10 @@
 import re
+from datetime import date
 
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.utils.safestring import mark_safe
+from ordered_model.admin import OrderedModelAdmin
 from solo.admin import SingletonModelAdmin
 from tinymce.widgets import TinyMCE
 
@@ -10,6 +13,7 @@ from .models import (
     EmailSubscriber,
     Event,
     IndexPageMessages,
+    MenuItem,
     StaticPage,
     Venue,
 )
@@ -17,12 +21,7 @@ from .models import (
 admin.site.site_title = "nyc noise"
 admin.site.site_header = "nyc noise"
 
-
 admin.site.register(IndexPageMessages, SingletonModelAdmin)
-
-from datetime import date
-
-from django.contrib.admin import SimpleListFilter
 
 
 class StartTimeListFilter(SimpleListFilter):
@@ -199,3 +198,10 @@ class EmailSubscriberAdmin(admin.ModelAdmin):
 
 
 admin.site.register(EmailSubscriber, EmailSubscriberAdmin)
+
+
+class MenuItemAdmin(OrderedModelAdmin):
+    list_display = ("name", "show_in_header", "show_in_footer", "move_up_down_links")
+
+
+admin.site.register(MenuItem, MenuItemAdmin)

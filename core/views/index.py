@@ -88,7 +88,7 @@ def _get_events_page_for_month(request, month_datetime, is_index):
         "core/index.html",
         {
             "is_index": is_index,
-            "site_title_month_year": month_datetime.strftime("%Y %B").lower(),
+            "month_year_header": month_datetime.strftime("%Y %B").lower(),
             # casting to dict since django doesn't deal with defaultdicts well
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),

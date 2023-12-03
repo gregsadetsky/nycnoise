@@ -1,32 +1,83 @@
 {% load sass_tags %}
 {% load get_item %}
+{% load opengraph %}
+{% load menu_items %}
 
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% include 'core/opengraph.html' %}
-  <link href="{% sass_src 'scss/core.scss' %}" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% meta_title %}</title>
+    <meta name="description" content="{% meta_description %}">
+    {% include 'core/opengraph.html' %}
+    <link href="{% sass_src 'scss/core.scss' %}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+      function toggleBurgerMenuContents() {
+        const el = document.querySelector('#burgerMenuContents')
+        if (el.style.display === 'none') {
+          el.style.display = 'block'
+        } else {
+          el.style.display = 'none'
+        }
+      }
+    </script>
 </head>
+
 <body>
+    <main>
+        <div class='header'>
+            <div class='row'>
+                <div class='burgerColumn'>
+                    <a href="javascript:;" onclick="toggleBurgerMenuContents()">☰</a>
+                </div>
+                <div class='leftColumn'>
+                    <a href="/"><h1>nyc noise</h1></a>
+                    <small>~ always incomplete ~</small>
+                </div>
+                <div class='rightColumn'>
+                    <div>
+                        {% get_header_menu_items as header_menu_items %}
+                        {% for menu_item in header_menu_items %}
+                          {% if menu_item.show_in_header %}
+                            <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
+                            {% if not forloop.last %}|{% endif %}
+                          {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display:none;" id='burgerMenuContents'>
+          <div class='search'>
+              <form method='GET' action='/'>
+                  <input type='search' name='s' placeholder='show, artist or venue name'>
+                  <input type='submit' value='search'>
+              </form>
+          </div>
 
-<main>
-  <div class='search'>
-    <form method='GET' action='/'>
-      <input type='search' name='s' style=''>
-      <input type='submit' value='search'>
-    </form>
-  </div>
+          {% get_all_menu_items as all_menu_items %}
+          {% for menu_item in all_menu_items %}
+            <a href="{{ menu_item.url }}">{{ menu_item.name }}</a><br/>
+          {% endfor %}
+        </div>
 
-  {% block site_title %}
-    <h1>nyc noise</h1>
-    <div style="margin-bottom:20px;"><small>~ always incomplete ~</small></div>
-  {% endblock %}
+        {% block month_year_header %}{% endblock month_year_header %}
 
-  {% block content %}{% endblock content %}
+        {% block content %}{% endblock content %}
 
-</main>
-
+        {% get_footer_menu_items as all_footer_menu_items %}
+        {% if all_footer_menu_items %}
+          <div id='footer'>
+            <hr>
+            {% for menu_item in all_footer_menu_items %}
+              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
+              {% if not forloop.last %}|{% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+    </main>
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
+from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
@@ -173,3 +174,13 @@ class IndexPageMessages(SingletonModel):
 
     class Meta:
         verbose_name = "Index Page Messages"
+
+
+class MenuItem(OrderedModel):
+    name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    show_in_header = models.BooleanField(default=False)
+    show_in_footer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
