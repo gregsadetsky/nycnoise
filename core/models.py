@@ -68,6 +68,8 @@ class Event(models.Model):
     # will strikethrough most of the event information, except for the preface
     is_cancelled = models.BooleanField(default=False)
 
+    same_time_order_override = models.IntegerField(verbose_name="Order", default=0)
+
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
     # and otherwise returns none

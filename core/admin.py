@@ -65,6 +65,7 @@ class StartTimeListFilter(SimpleListFilter):
 class EventAdmin(admin.ModelAdmin):
     list_display = (
         "starttime",
+        "same_time_order_override",
         "get_preface_as_text",
         "title",
         "artists",
@@ -90,9 +91,9 @@ class EventAdmin(admin.ModelAdmin):
         "age_policy_override",
         "price",
         "is_cancelled",
+        "same_time_order_override",
     )
     list_display_links = ("starttime",)
-    ordering = ("starttime",)
     save_on_top = True
     # there are move save_* options that are being overriden
     # in templatetags/admin_save_buttons_override --
@@ -106,8 +107,8 @@ class EventAdmin(admin.ModelAdmin):
         "description",
         "preface",
     )
-
     list_filter = [StartTimeListFilter]
+    list_editable = ("same_time_order_override",)
 
     class Media:
         js = [
@@ -116,6 +117,9 @@ class EventAdmin(admin.ModelAdmin):
         css = {
             "all": ("core/admin/date-time-widget-fixes.css",),
         }
+
+    def get_ordering(self, request):
+        return ["starttime", "same_time_order_override"]
 
     # customizing the tinymce field is a painful/weird process.
     # changing the 'rows'/'cols' value (passing them as `attras`), as per the documentation,
