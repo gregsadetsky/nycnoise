@@ -79,6 +79,7 @@ class EventAdmin(admin.ModelAdmin):
     # TODO always keep in sync with the fields in the model..!
     fields = (
         "starttime",
+        "starttime_override",
         "hyperlink",
         "title",
         "artists",
@@ -86,7 +87,6 @@ class EventAdmin(admin.ModelAdmin):
         "ticket_hyperlink",
         "description",
         "preface",
-        "starttime_override",
         "venue_override",
         "age_policy_override",
         "price",
