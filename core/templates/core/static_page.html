@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page_obj.title }}</title>
-</head>
-<body>
+{% extends 'core/base.html' %}
 
-<div id='maincontent'>
-  <h1>{{ page_obj.title }}</h1>
+{% block content %}
+  <div id='maincontent'>
+    <h1>{{ page_obj.title }}</h1>
 
-  {{ page_obj.content|safe }}
-</div>
-
-</body>
-</html>
+    {{ page_obj.content|safe }}
+  </div>
+{% endblock %}
