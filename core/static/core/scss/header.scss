@@ -1,46 +1,46 @@
-.row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
+div.header {
+  margin-bottom: 40px;
 
-.leftColumn,
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 10;
-}
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
-.burgerColumn {
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-  font-size: 2rem;
+  .leftColumn,
+  .rightColumn {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 10;
+  }
 
-  a {
+  .burgerColumn {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    font-size: 2rem;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+  .leftColumn a {
     color: black;
     text-decoration: none;
   }
-}
 
-.leftColumn a {
-  color: black;
-  text-decoration: none;
-}
+  .rightColumn {
+    text-align: right;
 
-.rightColumn {
-  text-align: right;
-
-  :first-child {
-    margin-top: 6px;
+    :first-child {
+      margin-top: 6px;
+    }
   }
-}
-
-div.header {
-  margin-bottom: 40px;
 }
 
 #burgerMenuContents {

@@ -1,105 +1,112 @@
 {% load get_gcal_link_from_event %}
 
 <div class="event {% if event.is_cancelled %}cancelled{% endif %}">
-  <span>
-    •
-    {% if event.starttime_override %}
-      {{ event.starttime_override }}:
-    {% else %}
-      {{ event.starttime|date:"fA"|lower }}:
-    {% endif %}
-  </span>
-  <span class="event-content">
-    {% if event.preface %}<span class='eventPreface'>{{ event.preface|safe }}&nbsp;</span>{% endif %}
-
-    {% comment %}
-      if title and artists are present, show title in not bold, and artists in bold
-      also check if hyperlink is present or not to see whether artists is hyperlinked (in addition to being bold)
-
-      if only title or artists are present, show either one of them in bold
-      and also check whether hyperlink is present...
-    {% endcomment %}
-
-    {% spaceless %}
-      {% if event.hyperlink %}
-        <a href="{{ event.hyperlink }}" target="_blank">
-      {% endif %}
-      
-      {% if event.title and event.artists %}
-        <span class='artist-present'>{{ event.title }}:&nbsp;</span>
-      {% elif event.title %}
-        <span class="title-only">{{ event.title }}</span>
-      {% endif %}
-
-      {% if event.artists %}
-        <span class="artists">{{ event.artists }}</span>
-      {% endif %}
-
-      {% if event.hyperlink %}
-        </a>
-      {% endif %}
-    {% endspaceless %}
-
-
-    {% if event.ticket_hyperlink %}
-      <a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>(tix)</a>
-    {% endif %}
-
-    {% if event.price %}
-      ({{ event.price }})
-    {% endif %}
-
-    {% if event.venue_override %}
-      @ {{ event.venue_override }}
-    {% elif event.venue %}
-      @
-
-      {% if event.age_policy and event.venue.neighborhood_and_borough %}
-        <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
-      {% elif event.age_policy %}
-        <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }})
-      {% elif event.venue.neighborhood_and_borough %}
-        <b>{{ event.venue.full_name_with_the }}</b>, {{ event.venue.neighborhood_and_borough }}
+  <div class="event-time-and-content">
+    <span class="event-time">
+      •
+      {% if event.starttime_override %}
+        {{ event.starttime_override }}:
       {% else %}
-        <b>{{ event.venue.full_name_with_the }}</b>
-      {% endif %}
-
-    {% else %}
-      Unknown venue
-    {% endif %}
-
-    {% if event.description %}
-      //
-      <span class='eventDescription'>{{ event.description | safe }}</span>
-    {% endif %}
-
-    {% if event.venue.accessibility_link or event.venue.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
-    <span class='accessibility'>
-    +
-      {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
-
-      {% if event.venue.age_policy_emoji %}
-        {{ event.venue.age_policy_emoji }}
-      {% endif %}
-
-      {% if event.venue.accessibility_emoji %}
-        {{ event.venue.accessibility_emoji }}
-      {% endif %}
-
-      {% if event.venue.accessibility_notes %}
-        {{ event.venue.accessibility_notes }}
+        {{ event.starttime|date:"fA"|lower }}:
       {% endif %}
     </span>
-    {% endif %}
+    <span class="event-content">
+      {% if event.preface %}<span class='eventPreface'>{{ event.preface|safe }}&nbsp;</span>{% endif %}
 
-    +
-    <a href="{% url 'event_ics_download' event.id %}" class="ical">ICAL</a>
-    +
-    <a href="{% get_gcal_link_from_event event %}" class="gcal">GCAL</a>
+      {% comment %}
+        if title and artists are present, show title in not bold, and artists in bold
+        also check if hyperlink is present or not to see whether artists is hyperlinked (in addition to being bold)
 
-    {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
+        if only title or artists are present, show either one of them in bold
+        and also check whether hyperlink is present...
+      {% endcomment %}
+
+      {% spaceless %}
+        {% if event.hyperlink %}
+          <a href="{{ event.hyperlink }}" target="_blank">
+        {% endif %}
+        
+        {% if event.title and event.artists %}
+          <span class='artist-present'>{{ event.title }}:&nbsp;</span>
+        {% elif event.title %}
+          <span class="title-only">{{ event.title }}</span>
+        {% endif %}
+
+        {% if event.artists %}
+          <span class="artists">{{ event.artists }}</span>
+        {% endif %}
+
+        {% if event.hyperlink %}
+          </a>
+        {% endif %}
+      {% endspaceless %}
+
+
+      {% if event.ticket_hyperlink %}
+        (<a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a>)
+      {% endif %}
+
+      {% if event.price %}
+        ({{ event.price }})
+      {% endif %}
+
+      {% if event.venue_override %}
+        @ {{ event.venue_override }}
+      {% elif event.venue %}
+        @
+
+        {% if event.age_policy and event.venue.neighborhood_and_borough %}
+          <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+        {% elif event.age_policy %}
+          <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }})
+        {% elif event.venue.neighborhood_and_borough %}
+          <b>{{ event.venue.full_name_with_the }}</b>, {{ event.venue.neighborhood_and_borough }}
+        {% else %}
+          <b>{{ event.venue.full_name_with_the }}</b>
+        {% endif %}
+
+      {% else %}
+        Unknown venue
+      {% endif %}
+
+      //
+
+      {% if event.description %}
+        <span class='eventDescription'>{{ event.description | safe }}</span> //
+      {% endif %}
+
+      {% if event.venue.accessibility_link or event.venue.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
+      <span class='accessibility'>
+        {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
+
+        {% if event.venue.age_policy_emoji %}
+          {{ event.venue.age_policy_emoji }}
+        {% endif %}
+
+        {% if event.venue.accessibility_emoji %}
+          {{ event.venue.accessibility_emoji }}
+        {% endif %}
+
+        {% if event.venue.accessibility_notes %}
+          {{ event.venue.accessibility_notes }}
+        {% endif %}
+      </span>
+      {% endif %}
+
       +
-      <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map">MAP</a>
+      <a href="{% url 'event_ics_download' event.id %}" class="ical">ICAL</a>
+      +
+      <a href="{% get_gcal_link_from_event event %}" class="gcal">GCAL</a>
+
+      {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
+        +
+        <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map">MAP</a>
+      {% endif %}
+    </span>
+  </div>
+  <div class="event-ticket">
+    {% if event.ticket_hyperlink %}
+      <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
     {% endif %}
-  </span>
+  </div>
 </div>

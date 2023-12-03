@@ -89,6 +89,8 @@ article {
 }
 
 .event {
+  display: flex;
+
   text-indent: -3em;
   padding-left: 3em;
   padding-top: 5px;
@@ -100,6 +102,26 @@ article {
   }
   .artists {
     font-weight: bold;
+  }
+  a.ticket {
+    font-weight: bold;
+  }
+
+  .event-time-and-content {
+    flex: 1;
+  }
+  .event-ticket {
+    flex: 0 0 24px;
+    text-align: right;
+
+    span {
+      background-color: rgba(255, 255, 59, 1);
+      padding: 1px;
+
+      a {
+        color: black;
+      }
+    }
   }
 }
 
