@@ -59,4 +59,4 @@ tzdata==2023.3
 urllib3==2.0.6
 virtualenv==20.24.5
 whitenoise==6.5.0
-wrapt==1.15.0
+wrapt==1.16.0
