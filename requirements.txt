@@ -7,7 +7,7 @@ colorama==0.4.6
 dill==0.3.7
 distlib==0.3.7
 dj-database-url==2.1.0
-Django==4.2.7
+Django==5.0
 django-admin-sortable2==2.1.10
 django-appconf==1.0.6
 django-compressor==4.4
@@ -45,9 +45,9 @@ pytest-django==4.7.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3.post1
-rcssmin==1.1.1
+rcssmin==1.1.2
 requests==2.31.0
-rjsmin==1.2.1
+rjsmin==1.2.2
 six==1.16.0
 soupsieve==2.5
 sqlparse==0.4.4
