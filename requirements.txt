@@ -47,7 +47,7 @@ python-dotenv==1.0.0
 pytz==2023.3.post1
 rcssmin==1.1.1
 requests==2.31.0
-rjsmin==1.2.1
+rjsmin==1.2.2
 six==1.16.0
 soupsieve==2.5
 sqlparse==0.4.4
