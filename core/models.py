@@ -1,6 +1,8 @@
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
+from ordered_model.models import OrderedModel
+from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
 
@@ -66,6 +68,8 @@ class Event(models.Model):
     # will strikethrough most of the event information, except for the preface
     is_cancelled = models.BooleanField(default=False)
 
+    same_time_order_override = models.IntegerField(verbose_name="Order", default=0)
+
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
     # and otherwise returns none
@@ -111,8 +115,13 @@ class Venue(models.Model):
         ordering = [Upper("name")]
 
     name = models.CharField(max_length=255)
+    # does the event have a 'the' as a prefix?
+    # this is useful to keep separate for when we want to have an alphabetized list of venues
+    # i.e. not have all of the 'the ...' venues all together
+    name_the = models.BooleanField(default=False, verbose_name="the")
     address = models.CharField(max_length=255, null=True, blank=True)
     age_policy = models.CharField(max_length=255, null=True, blank=True)
+    age_policy_emoji = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
     accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
@@ -120,7 +129,10 @@ class Venue(models.Model):
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{'the ' if self.name_the else ''}{self.name}"
+
+    def full_name_with_the(self):
+        return f"{'the ' if self.name_the else ''}{self.name}"
 
 
 class StaticPage(models.Model):
@@ -137,7 +149,40 @@ class StaticPage(models.Model):
 
 class DateMessage(models.Model):
     date = models.DateField("Date", null=True)
-    message = models.CharField(max_length=1000)
+    message = tinymce_models.HTMLField(null=True, blank=True)
 
     def __str__(self):
         return str(self.date)
+
+
+class EmailSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+
+class IndexPageMessages(SingletonModel):
+    pre_cal_msg = tinymce_models.HTMLField(
+        "Pre calendar message", null=True, blank=True
+    )
+    post_cal_msg = tinymce_models.HTMLField(
+        "Post calendar message", null=True, blank=True
+    )
+
+    def __str__(self):
+        return "Index Page Messages"
+
+    class Meta:
+        verbose_name = "Index Page Messages"
+
+
+class MenuItem(OrderedModel):
+    name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    show_in_header = models.BooleanField(default=False)
+    show_in_footer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name

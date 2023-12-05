@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page_obj.title }}</title>
-  <style>
-      body {
-        background-color: #d4d0c7;
-        font-family: "Open Sans", sans-serif;
-        font-size: 16px;
-        line-height: 26px;
-      }
-      #maincontent
-      {
-        max-width:42em;margin:15px auto;
-      }
-  </style>
-</head>
-<body>
+{% extends 'core/base.html' %}
 
-<div id='maincontent'>
-  <h1>{{ page_obj.title }}</h1>
+{% block content %}
+  <div id='maincontent'>
+    <h1>{{ page_obj.title }}</h1>
 
-  {{ page_obj.content|safe }}
-</div>
-
-</body>
-</html>
+    {{ page_obj.content|safe }}
+  </div>
+{% endblock %}

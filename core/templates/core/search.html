@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <h3>Search results for: {{ query }}</h3>
+
+  <h4>Events</h4>
+
+  {% for results_event in results_events %}
+    {{ results_event.starttime|date:"M d (D)"|lower }}
+    {% include 'core/event.html' with event=results_event only %}
+  {% empty %}
+    No results found.
+  {% endfor %}
+
+  <h4>Pages</h4>
+
+  {% for results_page in results_pages %}
+    <div style="margin-bottom: 10px">
+      <a href="{{ results_page.get_absolute_url }}">{{ results_page.title }}</a>
+    </div>
+  {% empty %}
+    <li>No results found.</li>
+  {% endfor %}
+
+{% endblock content %}

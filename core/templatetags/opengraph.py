@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag
 def meta_title():
-    return "NYC Noise"
+    return "nyc noise"
 
 
 @register.simple_tag

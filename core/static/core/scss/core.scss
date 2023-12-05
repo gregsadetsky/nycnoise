@@ -1,0 +1,231 @@
+@import "header.scss";
+@import "footer.scss";
+
+$background-main: #d4d0c7;
+
+/*************************************/
+/** Styles for major html elements  **/
+/*************************************/
+
+body {
+  background-color: $background-main;
+  font-family: "Open Sans", sans-serif;
+}
+
+main {
+  max-width: 42em;
+  margin: 15px auto;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+h1 {
+  margin: 0;
+}
+
+a {
+  color: #000080;
+}
+
+/*************************************/
+/** Index                           **/
+/*************************************/
+
+.emailForm {
+  margin: 1em 0;
+  text-align: center;
+}
+
+.goToTopLink {
+  margin-top: 15px;
+  text-align: center;
+}
+
+#pre-cal-msg {
+  margin-bottom: 10px;
+}
+
+#post-cal-msg {
+  margin-top: 10px;
+}
+
+/*************************************/
+/** Event styles                    **/
+/*************************************/
+
+article {
+  .dateMessage {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  p {
+    display: inline;
+  }
+
+  h4 {
+    top: 0;
+    // padding: 1em 0;
+    position: sticky;
+    background-color: $background-main;
+    text-align: center;
+    font-size: 2em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    a {
+      color: black;
+    }
+  }
+
+  .maskYrSelf {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  :last-child {
+    border-bottom: none;
+  }
+}
+
+.event {
+  display: flex;
+
+  text-indent: -3em;
+  padding-left: 3em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  .title-only {
+    font-weight: bold;
+  }
+  .artists {
+    font-weight: bold;
+  }
+  a.ticket {
+    font-weight: bold;
+  }
+
+  .event-time-and-content {
+    flex: 1;
+  }
+  .event-ticket {
+    flex: 0 0 24px;
+    text-align: right;
+
+    span {
+      background-color: rgba(255, 255, 59, 1);
+      padding: 1px;
+
+      a {
+        color: black;
+      }
+    }
+  }
+}
+
+.time {
+}
+
+.event.cancelled {
+  text-decoration: line-through;
+  color: #666;
+  a {
+    color: #444;
+  }
+}
+
+.event.cancelled .eventPreface {
+  display: inline-block;
+  text-indent: 0;
+  text-decoration: none !important;
+  /* this is the weird trick to un-text-decorate this child element */
+  color: black;
+}
+
+.accessibility {
+  font-size: 0.85em;
+
+  a {
+    font-size: 1em;
+    color: #008080;
+  }
+}
+
+.gcal {
+  color: #000000;
+  font-size: 0.85rem;
+}
+
+.eventDescription {
+  font-size: 0.85rem;
+}
+
+.ical {
+  color: #000000;
+  font-size: 0.85rem;
+}
+
+.map {
+  color: #993366;
+  font-size: 0.85rem;
+}
+
+/*************************************/
+/** Calendar styles                 **/
+/*************************************/
+
+#calendar {
+  display: grid;
+  position: relative;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  tr {
+    font-weight: bold;
+  }
+
+  td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid #ddd;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .date a {
+    text-transform: lowercase;
+  }
+
+  .date-today {
+    background: rgb(251, 247, 224);
+  }
+
+  .date-other-month a {
+    color: #999;
+  }
+}
+
+/*************************************/
+/** Search                          **/
+/*************************************/
+
+main .search {
+  text-align: center;
+  margin-bottom: 20px;
+
+  input[type="search"] {
+    width: 200px;
+  }
+}

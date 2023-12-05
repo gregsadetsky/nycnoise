@@ -1,0 +1,52 @@
+div.header {
+  margin-bottom: 40px;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 10;
+  }
+
+  .burgerColumn {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    font-size: 2rem;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+  .leftColumn a {
+    color: black;
+    text-decoration: none;
+  }
+
+  .rightColumn {
+    text-align: right;
+
+    :first-child {
+      margin-top: 6px;
+    }
+  }
+}
+
+#burgerMenuContents {
+  margin-bottom: 50px;
+
+  a {
+    font-weight: bold;
+  }
+}

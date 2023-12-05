@@ -1,4 +1,4 @@
-from core.views import static_page
+from core.views.static_page import static_page
 from django.contrib import admin
 from django.urls import include, path, re_path
 

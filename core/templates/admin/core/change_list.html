@@ -1,12 +1,80 @@
 {% extends "admin/change_list.html" %}
-{% load i18n admin_urls static admin_list %}
 
 {% block extrastyle %}
   {{ block.super }}
   <style>
-    .field-get_preface_as_text p:first-child {
+    .field-get_preface_as_text p:first-child,
+    .field-get_description_as_text p:first-child 
+    {
       padding: 0;
       margin: 0;
     }
   </style>
+{% endblock %}
+
+
+{% block extrahead %}
+  {{ block.super }}
+
+  <script>
+    const $ = django.jQuery;
+
+    // we need to monitor $(window).ready,
+    // as all of the <inputs> get an initial (spurious-ish) 'change'
+    // event that we want to ignore.
+    // once the window has fully loaded, we'll know that the change
+    // events are 'real' i.e. they come from the user.
+    // this comes from https://stackoverflow.com/a/20788889
+    let windowHasLoaded = false;
+    $(window).ready(function() {
+      windowHasLoaded = true;
+    })
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const $form = $("form#changelist-form");
+      // whenever any of the field values in the form change,
+      // start a timeout; if another change happens during that period,
+      // cancel and restart the timeout.
+      // when the timeout expires, submit the form in the background.
+      let timeout = null;
+
+      $form.on("keydown", "input", function(event) {
+        if(!windowHasLoaded) {
+          return;
+        }
+
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
+        timeout = setTimeout(function() {
+          // submit the form in the background using ajax
+          // by simulating a click on the submit button
+
+          // find the submit button
+          const $saveButton = $form.find("input[type=submit]");
+          // get the form as an array
+          let serializedFormArray = $form.serializeArray();
+          // set the action to the save button's name/value
+          serializedFormArray.push({
+            name: $saveButton.attr("name"),
+            value: $saveButton.attr("value")
+          });
+          // convert the array to a query string
+          const serializedForm = $.param(serializedFormArray);
+
+          $.ajax({
+            url: $form.attr("action"),
+            type: $form.attr("method"),
+            data: serializedForm,
+            success: function() {
+            },
+            error: function() {
+              alert("Form auto save did not work!");
+            }
+          });
+        }, 200);
+      });
+    });
+  </script>
 {% endblock %}
