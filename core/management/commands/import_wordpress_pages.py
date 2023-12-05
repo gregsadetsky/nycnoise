@@ -84,6 +84,14 @@ class Command(BaseCommand):
                 # not great. but works.
                 content = content.replace("</h2><br/>", "</h2>")
 
+                table_contents = [i for i in item("h1")[1:]]
+
+                for h1 in table_contents:
+                    href = "#" + h1.replace(" ", "_")
+                    h1 = "<span>" + h1 + "</span>"
+                    h1 = "<a href='" + href + "'>" + h1 + "</a>"
+
+
                 StaticPage.objects.create(
                     url_path=url_path, title=title, content=content
                 )
