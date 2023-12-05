@@ -1,7 +1,9 @@
 from argparse import RawTextHelpFormatter
 
 import lxml.etree as etree
+import re
 from core.models import StaticPage
+from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand, CommandError
 
 
@@ -84,13 +86,26 @@ class Command(BaseCommand):
                 # not great. but works.
                 content = content.replace("</h2><br/>", "</h2>")
 
-                table_contents = [i for i in item("h1")[1:]]
+                # table of contents, bringing in bs4 because lxml (ligmaXML) is annoying
+                bs = BeautifulSoup(content, 'html.parser')
+                table = "<table class='toc'><th>Table of Contents</th>"
 
-                for h1 in table_contents:
-                    href = "#" + h1.replace(" ", "_")
-                    h1 = "<span>" + h1 + "</span>"
-                    h1 = "<a href='" + href + "'>" + h1 + "</a>"
+                for h1 in bs.find_all("h1"):
+                    href = h1.text.replace(" ", "_")
+                    # Need to apply this to the content
+                    h1["id"] = href
+                    # Building the table
+                    row = "<span>" + h1.text + "</span>"
+                    row = "<tr><td><a href='#" + href + "'>" + row + "</a></td></tr>"
+                    table += row
 
+                # Apply the changes
+                content = str(bs)
+                # Close the table
+                table += "</table>"
+                # Replace the wordpress widget block with our table of contents
+                pattern = re.compile(r'(\[lwptoc.*?\])')
+                content = pattern.sub(table, content)
 
                 StaticPage.objects.create(
                     url_path=url_path, title=title, content=content
