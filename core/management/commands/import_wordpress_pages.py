@@ -1,9 +1,9 @@
+import re
 from argparse import RawTextHelpFormatter
 
 import lxml.etree as etree
-import re
-from core.models import StaticPage
 from bs4 import BeautifulSoup
+from core.models import StaticPage
 from django.core.management.base import BaseCommand, CommandError
 
 
@@ -87,16 +87,20 @@ class Command(BaseCommand):
                 content = content.replace("</h2><br/>", "</h2>")
 
                 # table of contents, bringing in bs4 because lxml (ligmaXML) is annoying
-                bs = BeautifulSoup(content, 'html.parser')
+                bs = BeautifulSoup(content, "html.parser")
                 table = "<table class='toc'><th>Table of Contents</th>"
 
-                for h1 in bs.find_all("h1"):
-                    href = h1.text.replace(" ", "_")
+                # iterate over all h1, h2 and h3 headers
+                for header in bs.find_all(["h1", "h2", "h3"]):
+                    # standardize header.text by making it safe (remove any weird chars)
+                    # to create an inner-page tag
+                    href = re.sub(r"[\W]+", "_", header.text.lower()).strip("_")
                     # Need to apply this to the content
-                    h1["id"] = href
+                    header["id"] = href
                     # Building the table
-                    row = "<span>" + h1.text + "</span>"
-                    row = "<tr><td><a href='#" + href + "'>" + row + "</a></td></tr>"
+                    row = "<span>" + header.text + "</span>"
+                    # add a class to the <a> of link-h1 for h1, etc.
+                    row = f"<tr><td><a class='link-{header.name}' href='#{href}'>{row}</a></td></tr>"
                     table += row
 
                 # Apply the changes
@@ -104,7 +108,7 @@ class Command(BaseCommand):
                 # Close the table
                 table += "</table>"
                 # Replace the wordpress widget block with our table of contents
-                pattern = re.compile(r'(\[lwptoc.*?\])')
+                pattern = re.compile(r"(\[lwptoc.*?\])")
                 content = pattern.sub(table, content)
 
                 StaticPage.objects.create(

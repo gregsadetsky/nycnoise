@@ -1,0 +1,18 @@
+table.toc {
+  background: white;
+  border: 2px solid black;
+  padding: 10px;
+
+  a.link-h1 {
+    font-weight: bold;
+  }
+
+  a.link-h2 {
+    padding-left: 10px;
+  }
+
+  a.link-h3 {
+    padding-left: 15px;
+    font-size: 0.9rem;
+  }
+}
