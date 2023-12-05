@@ -5,8 +5,9 @@ from dateutil import relativedelta, tz
 from django.db.models.functions import TruncDate
 from django.shortcuts import render
 
-from ..models import DateMessage, Event, IndexPageMessages
+from ..models import DateMessage, Event, IndexPageMessages, StaticPage
 from .search import search
+from .static_page import static_page
 
 # DO NOT USE PYTZ <> DO NOT USE PYTZ <> DO NOT USE PYTZ
 # https://blog.ganssle.io/articles/2018/03/pytz-fastest-footgun.html
@@ -103,6 +104,17 @@ def _get_events_page_for_month(request, month_datetime, is_index):
 
 
 def past_month_archive(request, year, month):
+    # for past month archive urls i.e. /2023-10/, we FIRST need to check
+    # if there was a static page with that content, and return that view instead!
+    # otherwise all past months' arvhives wouldn't be available
+    archive_url_path = f"{year}-{month}"
+    found_archive_page = StaticPage.objects.filter(url_path=archive_url_path).first()
+    if found_archive_page:
+        # return the static_page view, and pass the full url_path
+        # so that the view can render the correct static page
+        return static_page(request, url_path=archive_url_path)
+
+    # at this point, assume it's an archive page that we'll be populating ourselves from the db
     month_datetime = datetime(int(year), int(month), 1, 0, 0, 0, 0, tzinfo=NYCTZ)
     return _get_events_page_for_month(
         request, month_datetime=month_datetime, is_index=False
