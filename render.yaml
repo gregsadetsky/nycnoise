@@ -23,6 +23,6 @@ services:
           name: nycnoise
           property: connectionString
       - key: ALLOWED_HOSTS
-        sync: false
+        sync: nycnoise.onrender.com,nyc-noise.com
       - key: DJANGO_SETTINGS_MODULE
         sync: false
