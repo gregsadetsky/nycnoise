@@ -157,6 +157,7 @@ class StaticPageAdmin(admin.ModelAdmin):
     search_fields = ("url_path", "title", "content")
     ordering = ("url_path",)
     list_per_page = 500
+    list_filter = ("is_public",)
 
     # use custom query set that returns all static pages, including
     # not public ones -- which are hidden by the default queryset
