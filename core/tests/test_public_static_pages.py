@@ -1,0 +1,41 @@
+import uuid
+
+from core.models import StaticPage
+from django.test import TestCase
+
+
+class PublicStaticPageTestCase(TestCase):
+    def test_public_static_page(self):
+        # create a static page
+        page_path = str(uuid.uuid4())
+        page_title = str(uuid.uuid4())
+        page_content = str(uuid.uuid4())
+        page = StaticPage.objects.create(
+            url_path=page_path, title=page_title, content=page_content
+        )
+        # check that it's is_public by default
+        self.assertTrue(page.is_public)
+        # check that its url works
+        response = self.client.get(f"/{page_path}/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "core/static_page.html")
+        self.assertContains(response, page_title)
+        self.assertContains(response, page_content)
+        # change the is_public property
+        page.is_public = False
+        page.save()
+        # check that we can't fetch it from the db using .objects.
+        assert StaticPage.objects.count() == 0
+        # check that we can fetch it from the db using .all_objects.
+        assert StaticPage.all_objects.count() == 1
+        # check that it's not on the site i.e. we get a 404
+        response = self.client.get(f"/{page_path}/")
+        self.assertEqual(response.status_code, 404)
+        # make it is_public again
+        page.is_public = True
+        page.save()
+        # check that it appears on the site again
+        response = self.client.get(f"/{page_path}/")
+        self.assertEqual(response.status_code, 200)
+        # check that it's fetch once again using .objects.
+        assert StaticPage.objects.count() == 1
