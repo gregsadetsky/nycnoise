@@ -122,11 +122,16 @@ article {
     text-align: right;
 
     span {
-      background-color: rgba(255, 255, 59, 1);
-      padding: 1px;
+      background-color: rgba(255, 255, 59, 0.8);
+      font-size: 0.9rem;
+      padding: 0;
+      padding-left: 1px;
+      padding-right: 1px;
+      border: 1px solid black;
 
       a {
         color: black;
+        text-decoration: none;
       }
     }
   }

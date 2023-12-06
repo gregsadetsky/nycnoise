@@ -41,11 +41,6 @@
         {% endif %}
       {% endspaceless %}
 
-
-      {% if event.ticket_hyperlink %}
-        (<a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a>)
-      {% endif %}
-
       {% if event.price %}
         ({{ event.price }})
       {% endif %}
