@@ -135,7 +135,20 @@ class Venue(models.Model):
         return f"{'the ' if self.name_the else ''}{self.name}"
 
 
+# custom manager that returns only public StaticPages by default
+# so that most code (except for the admin) will do the right thing
+# and show public pages only
+class StaticPageManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_public=True)
+
+
 class StaticPage(models.Model):
+    objects = StaticPageManager()
+    all_objects = models.Manager()
+
+    is_public = models.BooleanField(default=True)
+
     url_path = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     content = tinymce_models.HTMLField(null=True, blank=True)

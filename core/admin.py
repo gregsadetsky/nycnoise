@@ -152,8 +152,14 @@ admin.site.register(Event, EventAdmin)
 
 
 class StaticPageAdmin(admin.ModelAdmin):
-    list_display = ("url_path", "title", "get_content_as_text")
+    list_display = ("url_path", "is_public", "title", "get_content_as_text")
     search_fields = ("url_path", "title", "content")
+
+    # use custom query set that returns all static pages, including
+    # not public ones -- which are hidden by the default queryset
+    # returned by `get_queryset`
+    def get_queryset(self, request):
+        return StaticPage.all_objects.all()
 
     def get_content_as_text(self, obj):
         # extract the first 100 characters, making
