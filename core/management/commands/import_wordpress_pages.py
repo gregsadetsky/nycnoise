@@ -30,6 +30,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("file_to_wordpress_export_xml_file")
         parser.add_argument("--delete_all_pages", default=False, action="store_true")
+        parser.add_argument(
+            "--delete_all_pages_absolutely_for_sure", default=False, action="store_true"
+        )
 
     def handle(self, *args, **options):
         if options["delete_all_pages"]:
@@ -38,6 +41,8 @@ class Command(BaseCommand):
             )
             if user_response != "yes":
                 raise CommandError("Aborting")
+            StaticPage.objects.all().delete()
+        if options["delete_all_pages_absolutely_for_sure"]:
             StaticPage.objects.all().delete()
 
         file_to_wordpress_export_xml_file = options["file_to_wordpress_export_xml_file"]
@@ -63,7 +68,7 @@ class Command(BaseCommand):
             imported_pages = 0
             # find all <item> sub-children by xpath
             for item in soup.xpath("//item"):
-                if item.find("wp:post_type", prefix_map).text != "page":
+                if item.find("wp:post_type", prefix_map).text not in ["page", "post"]:
                     continue
 
                 url_path = item.find("link").text.replace("https://nyc-noise.com/", "")
@@ -132,6 +137,28 @@ class Command(BaseCommand):
                 # same for different youtube format
                 content = re.sub(
                     r"<p>https://youtu.be/(.{11})</p>", youtube_replacement_str, content
+                )
+
+                # hack <img>s to point to the s3 bucket
+                content = re.sub(
+                    # this is the "11.3-flyer-lineup-1024x1024.png" format where the "-1024x1024" part
+                    # is dynamically added/handled by wp to do on the fly image resizing. we only match the real filename
+                    r'<img([^>]+)src="https://nyc-noise.com/wp-content/uploads/([^"]+)-\d+x\d+\.(\w+)(\?crop=1|)"([^>]*)>',
+                    r'<img\1src="https://nyc-noise-wp-files.s3.us-east-2.amazonaws.com/wp-content/uploads/\2.\3"\5>',
+                    content,
+                )
+                # simpler remaining case of <img>s that link directly to real files
+                content = re.sub(
+                    r'<img([^>]+)src="https://nyc-noise.com/wp-content/uploads/([^"\?]+)(\?crop=1|)"([^>]*)>',
+                    r'<img\1src="https://nyc-noise-wp-files.s3.us-east-2.amazonaws.com/wp-content/uploads/\2"\4>',
+                    content,
+                )
+
+                # make weird inert <a href="https://nyc-noise.com/?attachment_id=40606"> link inert by linking to #
+                content = re.sub(
+                    r'<a href="https://nyc-noise.com/\?attachment_id=\d+">',
+                    r'<a href="#">',
+                    content,
                 )
 
                 StaticPage.objects.create(
