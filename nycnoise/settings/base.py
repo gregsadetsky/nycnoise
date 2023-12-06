@@ -149,6 +149,7 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 CORE_FOLDER = BASE_DIR.parent
+WHITENOISE_ROOT = BASE_DIR / "staticroot"
 SASS_PROCESSOR_ROOT = CORE_FOLDER / "core/static/"
 STATICFILES_DIRS = [CORE_FOLDER / "core/static/core"]
 
