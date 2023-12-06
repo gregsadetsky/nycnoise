@@ -37,5 +37,5 @@ class PublicStaticPageTestCase(TestCase):
         # check that it appears on the site again
         response = self.client.get(f"/{page_path}/")
         self.assertEqual(response.status_code, 200)
-        # check that it's fetch once again using .objects.
+        # check that it's fetched once again using .objects.
         assert StaticPage.objects.count() == 1
