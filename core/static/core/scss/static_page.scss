@@ -9,4 +9,10 @@ div#maincontent.static_page {
       margin: 12.8px auto;
     }
   }
+
+  div.gallery {
+    img {
+      width: 100%;
+    }
+  }
 }
