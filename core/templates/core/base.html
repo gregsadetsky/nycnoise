@@ -52,12 +52,14 @@
             </div>
         </div>
         <div style="display:none;" id='burgerMenuContents'>
-          <div class='search'>
-              <form method='GET' action='/'>
-                  <input type='search' name='s' placeholder='show, artist or venue name'>
-                  <input type='submit' value='search'>
-              </form>
-          </div>
+          <!--
+            <div class='search'>
+                <form method='GET' action='/'>
+                    <input type='search' name='s' placeholder='artist or venue name'>
+                    <input type='submit' value='search'>
+                </form>
+            </div>
+          -->
 
           {% get_all_menu_items as all_menu_items %}
           {% for menu_item in all_menu_items %}
