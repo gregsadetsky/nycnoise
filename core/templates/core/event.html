@@ -46,7 +46,7 @@
       {% endif %}
 
       {% if event.venue_override %}
-        @ {{ event.venue_override }}
+        @ <b>{{ event.venue_override }}</b>
       {% elif event.venue %}
         @
 
@@ -95,7 +95,7 @@
 
       {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
         +
-        <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map">MAP</a>
+        <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
     </span>
   </div>
