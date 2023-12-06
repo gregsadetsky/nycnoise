@@ -63,6 +63,7 @@ class StartTimeListFilter(SimpleListFilter):
 
 
 class EventAdmin(admin.ModelAdmin):
+    list_per_page = 500
     list_display = (
         "starttime",
         "same_time_order_override",
