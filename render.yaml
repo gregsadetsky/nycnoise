@@ -23,9 +23,10 @@ services:
           name: nycnoise
           property: connectionString
       - key: ALLOWED_HOSTS
-        # render.com is broken for saving environment variables on launch day???? FIXME
-        # render.com is broken for saving environment variables on launch day???? FIXME
-        # render.com is broken for saving environment variables on launch day???? FIXME
-        value: nycnoise.onrender.com,nyc-noise.com
+        sync: false
       - key: DJANGO_SETTINGS_MODULE
+        sync: false
+      - key: PROD_INTERNAL_API_SERVER
+        sync: false
+      - key: RC_DEVELOPER_INTERNAL_TOKEN
         sync: false
