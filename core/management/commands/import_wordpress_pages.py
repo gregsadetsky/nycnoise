@@ -161,6 +161,9 @@ class Command(BaseCommand):
                     content,
                 )
 
+                # manually remove wpforms
+                content = content.replace('[wpforms id="33052" title="false"]', "")
+
                 StaticPage.objects.create(
                     url_path=url_path, title=title, content=content
                 )
