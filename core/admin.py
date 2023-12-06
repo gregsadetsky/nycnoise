@@ -155,6 +155,9 @@ admin.site.register(Event, EventAdmin)
 class StaticPageAdmin(admin.ModelAdmin):
     list_display = ("url_path", "is_public", "title", "get_content_as_text")
     search_fields = ("url_path", "title", "content")
+    ordering = ("url_path",)
+    list_per_page = 500
+    list_filter = ("is_public",)
 
     # use custom query set that returns all static pages, including
     # not public ones -- which are hidden by the default queryset

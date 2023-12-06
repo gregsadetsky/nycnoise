@@ -19,7 +19,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
     <script type="text/javascript">
       function toggleBurgerMenuContents() {
         const el = document.querySelector('#burgerMenuContents')
@@ -30,8 +29,19 @@
         }
       }
     </script>
+
     <script data-goatcounter="https://nyc-noise.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5QMQ2M8P9R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5QMQ2M8P9R');
+    </script>
 </head>
 
 <body>
@@ -59,12 +69,14 @@
             </div>
         </div>
         <div style="display:none;" id='burgerMenuContents'>
-          <div class='search'>
-              <form method='GET' action='/'>
-                  <input type='search' name='s' placeholder='show, artist or venue name'>
-                  <input type='submit' value='search'>
-              </form>
-          </div>
+          <!--
+            <div class='search'>
+                <form method='GET' action='/'>
+                    <input type='search' name='s' placeholder='artist or venue name'>
+                    <input type='submit' value='search'>
+                </form>
+            </div>
+          -->
 
           {% get_all_menu_items as all_menu_items %}
           {% for menu_item in all_menu_items %}

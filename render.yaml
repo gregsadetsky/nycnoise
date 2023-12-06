@@ -26,3 +26,7 @@ services:
         sync: false
       - key: DJANGO_SETTINGS_MODULE
         sync: false
+      - key: PROD_INTERNAL_API_SERVER
+        sync: false
+      - key: RC_DEVELOPER_INTERNAL_TOKEN
+        sync: false
