@@ -4,15 +4,7 @@
 
 ## what is this
 
-a Python/Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural calendar web site to move it away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use for everyone.
-
-## very high level plan
-
-- implement core features - i.e. events & venues -- pretty much done
-- re-implement the homepage i.e. list of events for the current month -- looking good
-- import existing WP pages & keep them editable in the admin (in "rich text" i.e. html) -- work in progress
-- when the site has enough feature parity and covers most/all existing URLs, launch it as an alpha version -- soon!
-- eventually replace the current site entirely -- soon!
+a Python / Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural calendar web site to move it away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use for everyone. as of Dec 6 2023 we are live!
 
 ## tech-y things
 
