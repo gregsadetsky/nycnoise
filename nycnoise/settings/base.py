@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
+    "django.contrib.sites",
     "core",
     # https://github.com/jazzband/django-tinymce/
     "tinymce",
@@ -175,3 +177,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 RC_DEVELOPER_INTERNAL_TOKEN = os.environ["RC_DEVELOPER_INTERNAL_TOKEN"]
 PROD_INTERNAL_API_SERVER = os.environ["PROD_INTERNAL_API_SERVER"]
+
+SITE_ID = 1
