@@ -111,6 +111,29 @@ class Command(BaseCommand):
                 pattern = re.compile(r"(\[lwptoc.*?\])")
                 content = pattern.sub(table, content)
 
+                # match bandcamp embeds, and replace them with embeds
+                # [bandcamp width=100% height=120 track=545233516 size=large bgcol=ffffff linkcol=0687f5 tracklist=false artwork=small]
+                # should become
+                # <iframe width="100%" height="120" style="position: relative; display: block; width: 100%; height: 120px;" src="//bandcamp.com/EmbeddedPlayer/v=2/track=545233516/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/" allowtransparency="true" frameborder="0"></iframe>
+                # it can also be album=.... and it should then have /v=2/album=...
+                content = re.sub(
+                    r"\[bandcamp width=([^\s]+) height=([^\s]+) (track|album)=([^\s]+) size=([^\s]+) bgcol=([^\s]+) linkcol=([^\s]+) tracklist=([^\s]+) artwork=(\w+)\]",
+                    r'<iframe width="\1" height="\2" style="position: relative; display: block; width: \1; height: \2;" src="//bandcamp.com/EmbeddedPlayer/v=2/\3=\4/size=\5/bgcol=\6/linkcol=\7/tracklist=\8/artwork=\9/" allowtransparency="true" frameborder="0"></iframe>',
+                    content,
+                )
+
+                # match youtube embeds which are JUST youtube hyperlinks on new lines....!!!
+                youtube_replacement_str = r'<iframe width="560" height="315" src="https://www.youtube.com/embed/\1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
+                content = re.sub(
+                    r"<p>https://www.youtube.com/watch\?v=(.{11})</p>",
+                    youtube_replacement_str,
+                    content,
+                )
+                # same for different youtube format
+                content = re.sub(
+                    r"<p>https://youtu.be/(.{11})</p>", youtube_replacement_str, content
+                )
+
                 StaticPage.objects.create(
                     url_path=url_path, title=title, content=content
                 )
