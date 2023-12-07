@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.migrations.recorder import MigrationRecorder
 from django.http import HttpResponse, JsonResponse
 
-from ..models import Event, Venue
+from ..models import Event, StaticPage, Venue
 
 
 def internal_db_dump(request):
@@ -43,5 +43,6 @@ def internal_db_dump(request):
             "all_migration_names": list(all_migration_names),
             "events": list(Event.objects.all().values()),
             "venues": list(Venue.objects.all().values()),
+            "static_pages": list(StaticPage.objects.all().values()),
         }
     )

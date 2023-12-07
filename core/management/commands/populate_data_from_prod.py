@@ -1,7 +1,7 @@
 from getpass import getpass
 
 import requests
-from core.models import Event, Venue
+from core.models import Event, StaticPage, Venue
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db.migrations.recorder import MigrationRecorder
@@ -66,6 +66,7 @@ class Command(BaseCommand):
 
         Venue.objects.all().delete()
         Event.objects.all().delete()
+        StaticPage.objects.all().delete()
 
         Venue.objects.bulk_create(
             Venue(**venue_data) for venue_data in server_data["venues"]
@@ -73,4 +74,9 @@ class Command(BaseCommand):
         Event.objects.bulk_create(
             Event(**event_data) for event_data in server_data["events"]
         )
+        StaticPage.objects.bulk_create(
+            StaticPage(**static_page_data)
+            for static_page_data in server_data["static_pages"]
+        )
+
         print("done!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
