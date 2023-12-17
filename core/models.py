@@ -33,12 +33,19 @@ class Event(models.Model):
     # which we know works.
     description = models.TextField(null=True, blank=True)
     hyperlink = models.CharField(max_length=255, null=True, blank=True)  #
+
     # some events override the venue's age policy
     age_policy_override = models.CharField(
         max_length=255,
         null=True,
         blank=True,
     )
+    age_policy_emoji_override = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+
     # same as `description` - this will be rich text
     preface = models.TextField(
         null=True,
@@ -79,6 +86,15 @@ class Event(models.Model):
             return self.age_policy_override
         if self.venue:
             return self.venue.age_policy
+        # should not happen
+        return ""
+
+    @property
+    def age_policy_emoji(self):
+        if self.age_policy_emoji_override:
+            return self.age_policy_emoji_override
+        if self.venue:
+            return self.venue.age_policy_emoji
         # should not happen
         return ""
 

@@ -70,12 +70,12 @@
         <span class='eventDescription'>{{ event.description | safe }}</span> //
       {% endif %}
 
-      {% if event.venue.accessibility_link or event.venue.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
+      {% if event.venue.accessibility_link or event.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
       <span class='accessibility'>
         {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
 
-        {% if event.venue.age_policy_emoji %}
-          {{ event.venue.age_policy_emoji }}
+        {% if event.age_policy_emoji %}
+          {{ event.age_policy_emoji }}
         {% endif %}
 
         {% if event.venue.accessibility_emoji %}

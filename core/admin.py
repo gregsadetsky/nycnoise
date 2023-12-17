@@ -90,6 +90,7 @@ class EventAdmin(admin.ModelAdmin):
         "preface",
         "venue_override",
         "age_policy_override",
+        "age_policy_emoji_override",
         "price",
         "is_cancelled",
         "same_time_order_override",
