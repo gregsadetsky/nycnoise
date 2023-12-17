@@ -138,10 +138,16 @@ class Venue(models.Model):
     age_policy = models.CharField(max_length=255, null=True, blank=True)
     age_policy_emoji = models.CharField(max_length=255, null=True, blank=True)
     neighborhood_and_borough = models.CharField(max_length=255, null=True, blank=True)
+    # convert this to urlfield for a bit more validation?
+    # would have to check all existing values to be valid first..!
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
     accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
     accessibility_notes = models.CharField(max_length=255, null=True, blank=True)
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
+
+    website = models.URLField(null=True, blank=True)
+    phone = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
 
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
