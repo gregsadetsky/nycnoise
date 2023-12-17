@@ -20,7 +20,7 @@ class Event(models.Model):
         blank=True,
     )
 
-    starttime = models.DateTimeField("Start time", null=True)
+    starttime = models.DateTimeField("Start time", null=True, db_index=True)
     starttime_override = models.CharField(
         max_length=255,
         null=True,

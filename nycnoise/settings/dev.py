@@ -23,3 +23,5 @@ MIDDLEWARE += [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+DISABLE_PANELS = []

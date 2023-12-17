@@ -59,6 +59,12 @@ def _get_events_page_for_month(request, month_datetime, is_index):
     )
 
     all_events_for_this_month = (
+        # it is very very very important to do a select_related here
+        # otherwise this will 100% lead to n+1 sql queries i.e.
+        # each time a venue's info is fetched, it will create a new database query.
+        # this is truly django's achilles heel -- not making it obvious that a join
+        # is 100% necessary but is 100% not done by default. :-)
+        # anyway! select_related!! :-)
         Event.objects.select_related("venue")
         .filter(
             starttime__gte=first_day_of_this_month,
