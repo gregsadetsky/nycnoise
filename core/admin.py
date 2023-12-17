@@ -183,7 +183,7 @@ class VenueAdmin(admin.ModelAdmin):
         "name",
         "address",
         "age_policy",
-        "age_policy_emoji",
+        "accessibility_emoji",
         "neighborhood_and_borough",
     )
     list_display_links = ("name",)
