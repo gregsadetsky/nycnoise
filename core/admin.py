@@ -129,7 +129,7 @@ class EventAdmin(admin.ModelAdmin):
     # not taken into account by tinymce, which also receives a width/height value...)
     # TLDR: mce_attrs.height/width is where it's at!!
     def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name in ["description", "preface"]:
+        if db_field.name in ["description", "preface", "venue_override"]:
             return db_field.formfield(
                 widget=TinyMCE(
                     mce_attrs={

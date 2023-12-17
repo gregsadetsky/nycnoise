@@ -14,8 +14,7 @@ class Event(models.Model):
     artists = models.CharField(max_length=255, null=True, blank=True)
 
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
-    venue_override = models.CharField(
-        max_length=255,
+    venue_override = tinymce_models.HTMLField(
         null=True,
         blank=True,
     )

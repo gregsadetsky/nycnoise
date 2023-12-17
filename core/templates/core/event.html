@@ -46,7 +46,7 @@
       {% endif %}
 
       {% if event.venue_override %}
-        @ <b>{{ event.venue_override }}</b>
+        @ {{ event.venue_override|safe }}
       {% elif event.venue %}
         @
 
