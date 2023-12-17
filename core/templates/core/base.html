@@ -19,16 +19,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <script type="text/javascript">
-      function toggleBurgerMenuContents() {
-        const el = document.querySelector('#burgerMenuContents')
-        if (el.style.display === 'none') {
-          el.style.display = 'block'
-        } else {
-          el.style.display = 'none'
-        }
-      }
-    </script>
 
     <script data-goatcounter="https://nyc-noise.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
@@ -39,66 +29,134 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-5QMQ2M8P9R');
+    </script>
+
+    <script type="text/javascript">
+      function toggleBurgerMenuContents() {
+        const el = document.querySelector('#burgerMenuContents')
+        if (el.style.display === 'none') {
+          el.style.display = 'block'
+        } else {
+          el.style.display = 'none'
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const iOSCanInstall = 'standalone' in window.navigator;
+        const iOSIsInstalled = window.navigator.standalone === true;
+
+        if(iOSCanInstall && iOSIsInstalled) {
+          gtag('event', 'ios_standalone_pwa_page_view');
+        }
+
+        /* we are going for 'minimal-ui' here (as the value in site.webmanifest's display property),
+        but it doesnt matter on ios, where it's not supported.
+        iOSIsInstalled will only be true for those users
+        who installed the pwa dec 6-17 2023 during which time, the site.webmanifest
+        value for display was standalone i.e. a fullscreen app.
+        the issues with standalone apps is that they don't reload the data on a clear
+        schedule (it would be up to us to manage that) and since the browser share button
+        is always absent (as is all of the ui), we'd rather not do that for now.
+        TLDR: iOSIsInstalled will be false for most users */
+
+        // don't deal with android right now -- later!
+        // https://stackoverflow.com/a/40932368
+        // const isInWebAppChrome = (window.matchMedia('(display-mode: standalone)').matches);
+
+        // get value of 'doNotShowIosPwaPrompt' cookie
+        function getCookie(name) {
+          let value = `; ${document.cookie}`;
+          let parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        if (iOSCanInstall && !iOSIsInstalled && !getCookie('doNotShowIosPwaPrompt')) {
+          const el = document.querySelector('#iosPWAPrompt');
+          el.style.display = 'block';
+
+          const x = el.querySelector('#x')  
+          x.addEventListener('click', () => {
+            el.style.display = 'none';
+            // add to cookies
+            document.cookie = 'doNotShowIosPwaPrompt=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
+          })
+        }
+      });
     </script>
 </head>
 
 <body>
-    <main>
-        <div class='header'>
-            <div class='row'>
-                <div class='burgerColumn'>
-                    <a href="javascript:;" onclick="toggleBurgerMenuContents()">☰</a>
-                </div>
-                <div class='leftColumn'>
-                    <a href="/"><h1>nyc noise</h1></a>
-                    <small>~ always incomplete ~</small>
-                </div>
-                <div class='rightColumn'>
-                    <div>
-                        {% get_header_menu_items as header_menu_items %}
-                        {% for menu_item in header_menu_items %}
-                          {% if menu_item.show_in_header %}
-                            <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
-                            {% if not forloop.last %}|{% endif %}
-                          {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="display:none;" id='burgerMenuContents'>
-          <!--
-            <div class='search'>
-                <form method='GET' action='/'>
-                    <input type='search' name='s' placeholder='artist or venue name'>
-                    <input type='submit' value='search'>
-                </form>
-            </div>
-          -->
+    <div id='mainContainer'>
+      <main>
+          <div class='header'>
+              <div class='row'>
+                  <div class='burgerColumn'>
+                      <a href="javascript:;" onclick="toggleBurgerMenuContents()">☰</a>
+                  </div>
+                  <div class='leftColumn'>
+                      <a href="/"><h1>nyc noise</h1></a>
+                      <small>~ always incomplete ~</small>
+                  </div>
+                  <div class='rightColumn'>
+                      <div>
+                          {% get_header_menu_items as header_menu_items %}
+                          {% for menu_item in header_menu_items %}
+                            {% if menu_item.show_in_header %}
+                              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
+                              {% if not forloop.last %}|{% endif %}
+                            {% endif %}
+                          {% endfor %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div style="display:none;" id='burgerMenuContents'>
+            <!--
+              <div class='search'>
+                  <form method='GET' action='/'>
+                      <input type='search' name='s' placeholder='artist or venue name'>
+                      <input type='submit' value='search'>
+                  </form>
+              </div>
+            -->
 
-          {% get_all_menu_items as all_menu_items %}
-          {% for menu_item in all_menu_items %}
-            <a href="{{ menu_item.url }}">{{ menu_item.name }}</a><br/>
-          {% endfor %}
-        </div>
-
-        {% block month_year_header %}{% endblock month_year_header %}
-
-        {% block content %}{% endblock content %}
-
-        {% get_footer_menu_items as all_footer_menu_items %}
-        {% if all_footer_menu_items %}
-          <div id='footer'>
-            <hr>
-            {% for menu_item in all_footer_menu_items %}
-              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
-              {% if not forloop.last %}|{% endif %}
+            {% get_all_menu_items as all_menu_items %}
+            {% for menu_item in all_menu_items %}
+              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a><br/>
             {% endfor %}
           </div>
-        {% endif %}
-    </main>
+
+          {% block month_year_header %}{% endblock month_year_header %}
+
+          {% block content %}{% endblock content %}
+
+          {% get_footer_menu_items as all_footer_menu_items %}
+          {% if all_footer_menu_items %}
+            <div id='footer'>
+              <hr>
+              {% for menu_item in all_footer_menu_items %}
+                <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
+                {% if not forloop.last %}|{% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+      </main>
+    </div>
+
+    <div style="display:none;" id="iosPWAPrompt">
+      <div id='x'>[X]</div>
+
+      "<b>INSTALL" NYC NOISE</b>:<br/>
+
+      tap
+
+      <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Share</title><path fill="#ffffff" d="M48.883,22.992L61.146,10.677L61.146,78.282C61.146,80.005 62.285,81.149 64,81.149C65.715,81.149 66.854,80.005 66.854,78.282L66.854,10.677L79.117,22.992C79.693,23.57 80.256,23.853 81.114,23.853C81.971,23.853 82.534,23.57 83.11,22.992C84.25,21.848 84.25,20.125 83.11,18.981L65.997,1.794C65.715,1.511 65.421,1.215 65.139,1.215C64.563,0.932 63.718,0.932 62.861,1.215C62.579,1.498 62.285,1.498 62.003,1.794L44.89,18.981C43.75,20.125 43.75,21.848 44.89,22.992C46.029,24.149 47.744,24.149 48.883,22.992ZM103.936,35.32L81.114,35.32L81.114,41.053L103.936,41.053L103.936,121.27L24.064,121.27L24.064,41.053L46.886,41.053L46.886,35.32L24.064,35.32C20.928,35.32 18.355,37.904 18.355,41.053L18.355,121.27C18.355,124.419 20.928,127.003 24.064,127.003L103.936,127.003C107.072,127.003 109.645,124.419 109.645,121.27L109.645,41.053C109.645,37.891 107.072,35.32 103.936,35.32Z"></path></svg>
+
+      + "add to home screen"<br/>
+
+      <span style="font-size:0.85rem">(v fast now, worth it)</span>
+    </div>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 @import "footer.scss";
 @import "toc.scss";
 @import "static_page.scss";
+@import "ios_pwa_prompt.scss";
 
 $background-main: #d4d0c7;
 
@@ -12,6 +13,12 @@ $background-main: #d4d0c7;
 body {
   background-color: $background-main;
   font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#mainContainer {
+  margin: 8px;
 }
 
 main {

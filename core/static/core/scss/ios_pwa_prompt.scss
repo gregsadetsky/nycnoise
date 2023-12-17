@@ -1,0 +1,25 @@
+#iosPWAPrompt {
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: black;
+  color: white;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 1.2rem;
+
+  div#x {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
