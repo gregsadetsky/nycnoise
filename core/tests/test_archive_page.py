@@ -78,10 +78,9 @@ class ArchivePageTestCase(TestCase):
             months=1,
         )
 
-        # sanity check -- we should be at least 20 days ahead
-        # of last month's 1st day
+        # next month could happen any time - could be tomorrow!
+        # so only do sanity check on greater than
         assert start_of_next_month > now_datetime
-        assert (start_of_next_month - now_datetime).days > 20
 
         archive_page_url = reverse(
             "past_month_archive",
@@ -127,9 +126,9 @@ class ArchivePageTestCase(TestCase):
             months=1
         )
 
-        # roughly check that start_of_next_month is ok
+        # roughly check that start_of_next_month is basically ok
+        # next month could be any day -- even tomorrow -- so only do this one sanity check
         assert start_of_next_month > now_datetime
-        assert (start_of_next_month - now_datetime).days > 20
 
         event_title = f"event {uuid.uuid4()}"
         Event.objects.create(
