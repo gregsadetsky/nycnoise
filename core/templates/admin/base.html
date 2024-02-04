@@ -3,10 +3,12 @@
 {% block header %}
   {{ block.super }}
 
-  <nav>
-    <div class="breadcrumbs" style="background-color:black">
-      <a href="{% url 'admin:core_event_changelist' %}">EVENTS</a> •
-      <a href="{% url 'admin:core_venue_changelist' %}">VENUES</a>
-    </div>
-  </nav>
+  {% if has_permission %}
+    <nav>
+      <div class="breadcrumbs" style="background-color:black">
+        <a href="{% url 'admin:core_event_changelist' %}">EVENTS</a> •
+        <a href="{% url 'admin:core_venue_changelist' %}">VENUES</a>
+      </div>
+    </nav>
+  {% endif %}
 {% endblock %}
