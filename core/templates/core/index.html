@@ -37,8 +37,8 @@
 
         <div class='maskYrSelf'>MASK YR SELF!</div>
 
-        {% if date.date in date_messages %}
-          {% for message in date_messages|get_item:date.date %}
+        {% if date.date.date in date_messages %}
+          {% for message in date_messages|get_item:date.date.date %}
             <div class='dateMessage'>{{ message|safe }}</div>
           {% endfor %}
         {% endif %}
