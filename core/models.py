@@ -142,7 +142,7 @@ class Venue(models.Model):
     # would have to check all existing values to be valid first..!
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
     accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
-    accessibility_notes = models.CharField(max_length=255, null=True, blank=True)
+    accessibility_notes = models.TextField(null=True, blank=True)
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
 
     website = models.URLField(null=True, blank=True)
