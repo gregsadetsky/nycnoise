@@ -148,6 +148,12 @@ class Venue(models.Model):
     website = models.URLField(null=True, blank=True)
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+    cap = models.CharField(max_length=255, null=True, blank=True)
+    hou$e = models.CharField(max_length=255, null=True, blank=True)
+    booking_link = models.URLField(null=True, blank=True)
+    backline_link = models.URLField(null=True, blank=True)
+
+
 
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
