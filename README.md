@@ -19,7 +19,7 @@ over the course of a few months in late 2023, a group of people from the [Recurs
 
 [Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/)!
 
-contributors (to code and/or documentation) are listed below and managed with the help of "[All Contributors](https://allcontributors.org/)"
+contributors (to the code and/or documentation) are listed below and managed with the help of "[All Contributors](https://allcontributors.org/)"
 
 ## contributors
 
