@@ -1,9 +1,13 @@
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVector
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
 from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
 from tinymce import models as tinymce_models
+
+from core.utils_static_page import refresh_searchable_static_page_bits
 
 
 class Event(models.Model):
@@ -194,6 +198,27 @@ class StaticPage(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        refresh_searchable_static_page_bits(self)
+
+
+# StaticPage's content fields are too long to be indexed by postgres,
+# which leads to super slow search (which we had to remove after the site launch).
+# SearchableStaticPageBit will store overlapping split up 'bits' of content
+# which can be indexed and will relate back to the original static page they came from
+class SearchableStaticPageBit(models.Model):
+    static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
+    content_text_extract = models.TextField()
+
+    class Meta:
+        indexes = [
+            GinIndex(
+                SearchVector("content_text_extract", config="english"),
+                name="search_vector_idx",
+            )
+        ]
 
 
 class DateMessage(models.Model):

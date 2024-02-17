@@ -1,7 +1,7 @@
 from django.contrib.postgres.search import SearchVector
 from django.shortcuts import render
 
-from ..models import Event, StaticPage
+from ..models import Event, SearchableStaticPageBit, StaticPage
 
 
 def search(request):
@@ -9,14 +9,19 @@ def search(request):
 
     # full text, case insensitive search on static page content
     if not query:
-        return render(request, "core/search.html", {"query": query})
+        return render(request, "core/search.html")
 
-    results_pages = (
-        StaticPage.objects.annotate(search=SearchVector("title", "content"))
+    # get all static page objects
+    found_static_page_ids = (
+        SearchableStaticPageBit.objects.annotate(
+            search=SearchVector("content_text_extract")
+        )
         .filter(search=query)
-        .order_by("title")
+        .values("static_page__id")
         .distinct()
-        .all()
+    )
+    results_pages = (
+        StaticPage.objects.filter(id__in=found_static_page_ids).order_by("title").all()
     )
 
     results_events = (

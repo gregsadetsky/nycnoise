@@ -5,12 +5,14 @@
 
   <h4>Events</h4>
 
-  {% for results_event in results_events %}
-    {{ results_event.starttime|date:"M d (D)"|lower }}
-    {% include 'core/event.html' with event=results_event only %}
-  {% empty %}
-    No results found.
-  {% endfor %}
+  <article>
+    {% for results_event in results_events %}
+      {{ results_event.starttime|date:"M d (D)"|lower }}
+      {% include 'core/event.html' with event=results_event only %}
+    {% empty %}
+      No results found.
+    {% endfor %}
+  </article>
 
   <h4>Pages</h4>
 

@@ -14,6 +14,7 @@ from .models import (
     Event,
     IndexPageMessages,
     MenuItem,
+    SearchableStaticPageBit,
     StaticPage,
     Venue,
 )
@@ -175,6 +176,15 @@ class StaticPageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(StaticPage, StaticPageAdmin)
+
+
+class SearchableStaticPageBitAdmin(admin.ModelAdmin):
+    list_display = ("static_page", "content_text_extract")
+    search_fields = ("content_text_extract",)
+    ordering = ("static_page",)
+
+
+admin.site.register(SearchableStaticPageBit, SearchableStaticPageBitAdmin)
 
 
 class VenueAdmin(admin.ModelAdmin):
