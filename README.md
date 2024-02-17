@@ -4,7 +4,9 @@
 
 ## what is this
 
-a Python / Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultural calendar web site to move it away from WordPress, make it easier to update the calendar, and hopefully offer more features and make the sites friendlier/easier to use for everyone. as of Dec 6 2023 we are live!
+the Python / Django source code of [nyc noise](https://nyc-noise.com/), a New York-based cultural calendar web site.
+
+over the course of a few months in late 2023, a group of people from the [Recurse Center](https://www.recurse.com/) tackled the site's migration from its original WordPress form, making the site friendlier to use and easier to update. the new site was launched on December 6th, 2023 and is now hosted on [Render](https://render.com/).
 
 ## tech-y things
 
@@ -13,11 +15,11 @@ a Python / Django rewrite of the [nyc-noise.com](https://nyc-noise.com/) cultura
 - [UPDATING-DEV](docs/UPDATING-DEV.md) describes how to update your local dev environment when someone else has made changes to the codebase / to the `dev` branch
 - [TESTING](docs/TESTING.md) for notes on testing
 
-## who/when/where
+## who
 
-[Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/)
+[Jessica Hallock](https://jessica-hallock.com/) is the driving force behind [https://nyc-noise.com/](https://nyc-noise.com/)!
 
-The migration to Django is being tackled by a group of people from the [Recurse Center](https://www.recurse.com/)
+contributors (to code and/or documentation) are listed below and managed with the help of "[All Contributors](https://allcontributors.org/)"
 
 ## contributors
 
