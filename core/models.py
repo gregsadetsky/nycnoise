@@ -59,6 +59,8 @@ class Event(models.Model):
     )
 
     PRICE_RANGE = [
+        ("🌀 free", "🌀 free"),
+        ("🌀 notaflof", "🌀 notaflof"),
         ("$", "$"),
         ("$$", "$$"),
         ("$$$", "$$$"),
@@ -141,13 +143,26 @@ class Venue(models.Model):
     # convert this to urlfield for a bit more validation?
     # would have to check all existing values to be valid first..!
     google_maps_link = models.CharField(max_length=255, null=True, blank=True)
-    accessibility_emoji = models.CharField(max_length=255, null=True, blank=True)
-    accessibility_notes = models.CharField(max_length=255, null=True, blank=True)
+    accessibility_emoji = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name="♿️"
+    )
+    accessibility_notes = tinymce_models.HTMLField(null=True, blank=True)
     accessibility_link = models.CharField(max_length=255, null=True, blank=True)
 
     website = models.URLField(null=True, blank=True)
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+
+    capacity = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name="cap"
+    )
+    house_fees = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name="fees"
+    )
+    booking_link = models.URLField(null=True, blank=True)
+    backline_link = models.URLField(null=True, blank=True)
+
+    wage_information = tinymce_models.HTMLField(null=True, blank=True)
 
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"

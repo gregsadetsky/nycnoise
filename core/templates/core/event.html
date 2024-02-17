@@ -83,7 +83,7 @@
         {% endif %}
 
         {% if event.venue.accessibility_notes %}
-          {{ event.venue.accessibility_notes }}
+          {{ event.venue.accessibility_notes|safe }}
         {% endif %}
       </span>
       {% endif %}

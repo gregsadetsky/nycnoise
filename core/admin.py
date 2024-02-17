@@ -182,6 +182,8 @@ class VenueAdmin(admin.ModelAdmin):
         "name_the_string",
         "name",
         "address",
+        "capacity",
+        "house_fees",
         "age_policy",
         "accessibility_emoji",
         "neighborhood_and_borough",
@@ -195,6 +197,11 @@ class VenueAdmin(admin.ModelAdmin):
         return "the" if obj.name_the else ""
 
     name_the_string.short_description = "The"
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name in ["wage_information", "accessibility_notes"]:
+            return db_field.formfield(widget=TinyMCE(mce_attrs={"height": "200"}))
+        return super().formfield_for_dbfield(db_field, **kwargs)
 
 
 admin.site.register(Venue, VenueAdmin)
