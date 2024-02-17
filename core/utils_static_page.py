@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from django.contrib.postgres.search import SearchVector
 
 
 def refresh_searchable_static_page_bits(static_page):
@@ -16,6 +17,13 @@ def refresh_searchable_static_page_bits(static_page):
     # split into 2000 char chunks with 200 chars overlap
     for i in range(0, len(content_text), 1800):
         content_text_extract = content_text[i : i + 2000]
-        SearchableStaticPageBit.objects.create(
+
+        # create the searchable static page bit
+        new_searchable_page_bit = SearchableStaticPageBit(
             static_page=static_page, content_text_extract=content_text_extract
         )
+        new_searchable_page_bit.save()
+
+        # update the search vector
+        new_searchable_page_bit.search_vector = SearchVector("content_text_extract")
+        new_searchable_page_bit.save()

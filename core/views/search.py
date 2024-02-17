@@ -1,4 +1,5 @@
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db.models import F
 from django.shortcuts import render
 
 from ..models import Event, SearchableStaticPageBit, StaticPage
@@ -11,12 +12,12 @@ def search(request):
     if not query:
         return render(request, "core/search.html")
 
-    # get all static page objects
+    # https://stackoverflow.com/a/70812950
+    search_query = SearchQuery(query, search_type="websearch", config="english")
+    search_rank = SearchRank(F("search_vector"), search_query)
     found_static_page_ids = (
-        SearchableStaticPageBit.objects.annotate(
-            search=SearchVector("content_text_extract")
-        )
-        .filter(search=query)
+        SearchableStaticPageBit.objects.annotate(rank=search_rank)
+        .filter(search_vector=search_query)  # Perform full text search on index.
         .values("static_page__id")
         .distinct()
     )

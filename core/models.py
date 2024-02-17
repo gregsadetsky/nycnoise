@@ -1,5 +1,5 @@
 from django.contrib.postgres.indexes import GinIndex
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 from django.db.models.functions import Upper
 from django.urls import reverse
@@ -211,14 +211,12 @@ class StaticPage(models.Model):
 class SearchableStaticPageBit(models.Model):
     static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
     content_text_extract = models.TextField()
+    # see https://stackoverflow.com/a/70812950
+    search_vector = SearchVectorField(editable=False, null=True)
 
     class Meta:
-        indexes = [
-            GinIndex(
-                SearchVector("content_text_extract", config="english"),
-                name="search_vector_idx",
-            )
-        ]
+        # The search index pointing to our actual search field.
+        indexes = [GinIndex(fields=["search_vector"])]
 
 
 class DateMessage(models.Model):
