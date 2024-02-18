@@ -24,7 +24,9 @@ def _get_calendar_dates(month_datetime):
     )
 
     dates_for_calendar = [
-        first_day_on_calendar + timedelta(days=i) for i in range(0, 42)
+        first_day_on_calendar + timedelta(days=i)
+        # 42 days == 6 weeks
+        for i in range(0, 42)
     ]
 
     current_datetime = get_current_new_york_datetime()
