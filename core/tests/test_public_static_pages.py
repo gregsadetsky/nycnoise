@@ -1,10 +1,12 @@
 import uuid
 
 from core.models import StaticPage
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 
-class PublicStaticPageTestCase(TestCase):
+class PublicStaticPageTestCase(TransactionTestCase):
+    serialized_rollback = True
+
     def test_public_static_page(self):
         # create a static page
         page_path = str(uuid.uuid4())
