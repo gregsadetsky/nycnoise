@@ -45,7 +45,7 @@
 
         {% if date.date.date in all_events %}
           {% for event in all_events|get_item:date.date.date %}
-            {% include 'core/event.html' with event=event only %}
+            {{ event.get_baked_html|safe }}
           {% endfor %}
         {% endif %}
         

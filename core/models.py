@@ -7,6 +7,7 @@ from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
+from core.utils_event_caching import bake_event_html
 from core.utils_static_page import refresh_searchable_static_page_bits
 
 
@@ -81,6 +82,27 @@ class Event(models.Model):
     is_cancelled = models.BooleanField(default=False)
 
     same_time_order_override = models.IntegerField(verbose_name="Order", default=0)
+
+    baked_html_template = models.TextField(null=True, blank=True)
+
+    @property
+    def get_baked_html(self):
+        if not self.baked_html_template:
+            self.rebake_html()
+        return self.baked_html_template
+
+    def rebake_html(self):
+        self.baked_html_template = bake_event_html(self)
+        self.save()
+
+    def save(self, *args, **kwargs):
+        # save contents - just to be sure that object data is not 'floating'
+        # and is actually accessible by template rendering
+        super().save(*args, **kwargs)
+
+        # rebake html, store/save it.
+        self.baked_html_template = bake_event_html(self)
+        super().save(*args, **kwargs)
 
     # make age policy attribute that attempts to fetch its own
     # age policy by default, then tries to get venue's age policy if a venue is set,
@@ -167,6 +189,13 @@ class Venue(models.Model):
     backline_link = models.URLField(null=True, blank=True)
 
     wage_information = tinymce_models.HTMLField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # actually save data to db
+        super().save(*args, **kwargs)
+        # for all related events, refresh their baked html
+        for event in self.event_set.all():
+            event.rebake_html()
 
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
