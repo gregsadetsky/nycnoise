@@ -38,6 +38,7 @@ pippip==0.0.10
 platformdirs==4.2.0
 pluggy==1.4.0
 psycopg2-binary==2.9.9
+pyinstrument==4.6.2
 pylint==3.0.3
 pylint-django==2.5.5
 pylint-plugin-utils==0.8.2

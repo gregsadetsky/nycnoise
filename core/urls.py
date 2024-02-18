@@ -20,7 +20,7 @@ urlpatterns = [
     path("internal-api/db", internal_db_dump, name="internal_db_dump"),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG and settings.SHOW_DEBUG_TOOLBAR:
     import debug_toolbar
 
     urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
