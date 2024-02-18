@@ -3,7 +3,7 @@ import uuid
 
 from core.models import Event, StaticPage
 from core.utils_datemath import get_current_new_york_datetime
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 RANDOM_WORDS = [
     "dramatic",
@@ -59,9 +59,7 @@ RANDOM_WORDS = [
 ]
 
 
-class SearchTestCase(TransactionTestCase):
-    serialized_rollback = True
-
+class SearchTestCase(TestCase):
     def test_static_page_search(self):
         # create a static page, stuff an uuid in it,
         # then search for it

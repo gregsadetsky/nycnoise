@@ -1,9 +1,7 @@
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 
-class IndexPageTestCase(TransactionTestCase):
-    serialized_rollback = True
-
+class IndexPageTestCase(TestCase):
     def test_index_page(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
