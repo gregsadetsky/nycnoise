@@ -8,7 +8,6 @@ from ..models import Event, SearchableStaticPageBit, StaticPage
 def search(request):
     query = request.GET.get("s", "").strip()
 
-    # full text, case insensitive search on static page content
     if not query:
         return render(request, "core/search.html")
 
@@ -22,7 +21,11 @@ def search(request):
         .distinct()
     )
     results_pages = (
-        StaticPage.objects.filter(id__in=found_static_page_ids).order_by("title").all()
+        # static page's (overridden) manager should return public pages only,
+        # but be double sure here and specify we're only searching public pages
+        StaticPage.objects.filter(id__in=found_static_page_ids, is_public=True)
+        .order_by("title")
+        .all()
     )
 
     results_events = (

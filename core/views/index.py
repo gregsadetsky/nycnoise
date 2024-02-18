@@ -1,29 +1,24 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
 
-from dateutil import relativedelta, tz
 from django.db.models.functions import TruncDate
 from django.shortcuts import render
 
 from ..models import DateMessage, Event, IndexPageMessages, StaticPage
+from ..utils_datemath import (
+    NYCTZ,
+    get_current_new_york_datetime,
+    get_previous_current_next_month_start,
+)
 from .search import search
 from .static_page import static_page
-
-# DO NOT USE PYTZ <> DO NOT USE PYTZ <> DO NOT USE PYTZ
-# https://blog.ganssle.io/articles/2018/03/pytz-fastest-footgun.html
-NYCTZ = tz.gettz("America/New_York")
-
-
-def _get_current_new_york_datetime():
-    return datetime.now().astimezone(NYCTZ)
 
 
 # month_date is any date within the month
 # for which the calendar should be generated
 def _get_calendar_dates(month_datetime):
-    first_day_of_month = month_datetime.replace(
-        day=1, hour=0, minute=0, second=0, microsecond=0
-    )
+    _, first_day_of_month, _ = get_previous_current_next_month_start(month_datetime)
+
     first_day_on_calendar = first_day_of_month - timedelta(
         days=(first_day_of_month.weekday() + 1) % 7
     )
@@ -32,7 +27,7 @@ def _get_calendar_dates(month_datetime):
         first_day_on_calendar + timedelta(days=i) for i in range(0, 42)
     ]
 
-    current_datetime = _get_current_new_york_datetime()
+    current_datetime = get_current_new_york_datetime()
 
     date_events = []
     for date in dates_for_calendar:
@@ -48,21 +43,20 @@ def _get_calendar_dates(month_datetime):
 
 # month_datetime can be any (localized!) date time within the month
 def _get_events_page_for_month(request, month_datetime, is_index):
-    # assert that we're dealing with new york timezone
+    # assert that we're dealing with a new york timezone
     assert month_datetime.tzinfo == NYCTZ
 
-    first_day_of_this_month = month_datetime.replace(
-        day=1, hour=0, minute=0, second=0, microsecond=0
-    )
-    first_day_of_next_month = first_day_of_this_month + relativedelta.relativedelta(
-        months=1, day=1
-    )
+    (
+        _,
+        first_day_of_this_month,
+        first_day_of_next_month,
+    ) = get_previous_current_next_month_start(month_datetime)
 
     all_events_for_this_month = (
         # it is very very very important to do a select_related here
         # otherwise this will 100% lead to n+1 sql queries i.e.
         # each time a venue's info is fetched, it will create a new database query.
-        # this is truly django's achilles heel -- not making it obvious that a join
+        # this is truly django's achilles' heel -- not making it obvious that a join
         # is 100% necessary but is 100% not done by default. :-)
         # anyway! select_related!! :-)
         Event.objects.select_related("venue")
@@ -113,7 +107,6 @@ def _get_events_page_for_month(request, month_datetime, is_index):
 def past_month_archive(request, year, month):
     # for past month archive urls i.e. /2023-10/, we FIRST need to check
     # if there was a static page with that content, and return that view instead!
-    # otherwise all past months' arvhives wouldn't be available
     archive_url_path = f"{year}-{month}"
     found_archive_page = StaticPage.objects.filter(url_path=archive_url_path).first()
     if found_archive_page:
@@ -134,7 +127,7 @@ def index(request):
         return search(request)
 
     # get current new york first day of month date
-    current_datetime = _get_current_new_york_datetime()
+    current_datetime = get_current_new_york_datetime()
 
     # get the events page based on today
     return _get_events_page_for_month(

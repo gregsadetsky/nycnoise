@@ -1,6 +1,7 @@
 import re
 from datetime import date
 
+from dateutil import relativedelta
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.utils.safestring import mark_safe
@@ -17,6 +18,10 @@ from .models import (
     SearchableStaticPageBit,
     StaticPage,
     Venue,
+)
+from .utils_datemath import (
+    get_current_new_york_datetime,
+    get_previous_current_next_month_start,
 )
 
 admin.site.site_title = "nyc noise"
@@ -51,14 +56,27 @@ class StartTimeListFilter(SimpleListFilter):
             }
 
     def queryset(self, request, queryset):
+        (
+            previous_month_start,
+            current_month_start,
+            next_month_start,
+        ) = get_previous_current_next_month_start(get_current_new_york_datetime())
+        next_next_month_start = next_month_start + relativedelta.relativedelta(months=1)
+
         if self.value() is None:
             # if no value i.e. the default ordering when no list filter link
             # has been clicked, return all events *for this month*!
-            return queryset.filter(starttime__month=date.today().month)
+            return queryset.filter(
+                starttime__gte=current_month_start, starttime__lt=next_month_start
+            )
         if self.value() == "last_month":
-            return queryset.filter(starttime__month=date.today().month - 1)
+            return queryset.filter(starttime__gte=previous_month_start).filter(
+                starttime__lt=current_month_start
+            )
         if self.value() == "next_month":
-            return queryset.filter(starttime__month=date.today().month + 1)
+            return queryset.filter(starttime__gte=next_month_start).filter(
+                starttime__lt=next_next_month_start
+            )
         # return all!
         return queryset
 

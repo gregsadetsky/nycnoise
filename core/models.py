@@ -201,7 +201,10 @@ class StaticPage(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        refresh_searchable_static_page_bits(self)
+        refresh_searchable_static_page_bits(
+            self,
+            delete_only=not self.is_public,
+        )
 
 
 # StaticPage's content fields are too long to be indexed by postgres,
