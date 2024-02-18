@@ -79,7 +79,7 @@ class SearchTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, page_content)
 
-        # look for 3 words
+        # look for a few words
         partial_content = " ".join(page_content.split(" ")[-8:])
 
         # search for content

@@ -4,7 +4,7 @@ databases:
     region: ohio
 services:
   - type: web
-    plan: starter
+    plan: standard
     numInstances: 1
     name: nycnoise
     env: python

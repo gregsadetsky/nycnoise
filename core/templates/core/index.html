@@ -33,7 +33,7 @@
   {% for date in calendar_dates %}
     {% if date.is_current_page_month %}
       <article>
-        <h4><a name="{{ date.date|date:'mdy' }}" href="/#{{ date.date|date:'mdy' }}">{{ date.date|date:"M d (D)"|lower }}</a></h4>
+        <h4><a name="{{ date.date|date:'mdy' }}" href="/{{ date.date|date:'Y-m' }}/#{{ date.date|date:'mdy' }}">{{ date.date|date:"M d (D)"|lower }}</a></h4>
 
         <div class='maskYrSelf'>MASK YR SELF!</div>
 
