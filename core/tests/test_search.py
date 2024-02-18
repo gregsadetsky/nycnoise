@@ -1,8 +1,62 @@
+import random
 import uuid
 
 from core.models import Event, StaticPage
 from core.utils_datemath import get_current_new_york_datetime
 from django.test import TestCase
+
+RANDOM_WORDS = [
+    "dramatic",
+    "thoughtless",
+    "black",
+    "bloody",
+    "rough",
+    "taste",
+    "jog",
+    "fail",
+    "protest",
+    "nest",
+    "elderly",
+    "way",
+    "clean",
+    "superb",
+    "fantastic",
+    "awake",
+    "unaccountable",
+    "deserted",
+    "middle",
+    "fine",
+    "roomy",
+    "slope",
+    "toothsome",
+    "concentrate",
+    "polish",
+    "friction",
+    "act",
+    "observation",
+    "jar",
+    "terrify",
+    "guttural",
+    "tremendous",
+    "panoramic",
+    "credit",
+    "blush",
+    "blue-eyed",
+    "longing",
+    "brash",
+    "open",
+    "vessel",
+    "bell",
+    "sniff",
+    "obedient",
+    "move",
+    "soda",
+    "utopian",
+    "ugly",
+    "geese",
+    "statuesque",
+    "penitent",
+]
 
 
 class SearchTestCase(TestCase):
@@ -12,7 +66,11 @@ class SearchTestCase(TestCase):
 
         page_path = str(uuid.uuid4())
         page_title = str(uuid.uuid4())
-        page_content = str(uuid.uuid4())
+
+        # for postgres search indexing, it's better to generate and look for
+        # english looking words rather than a uuid which will sometimes
+        # not match on partial matches, making this test brittle.
+        page_content = " ".join(random.sample(RANDOM_WORDS, 20))
         static_page = StaticPage.objects.create(
             url_path=page_path, title=page_title, content=page_content, is_public=True
         )
@@ -21,7 +79,9 @@ class SearchTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, page_content)
 
-        partial_content = page_content[-12:]
+        # look for 3 words
+        partial_content = " ".join(page_content.split(" ")[-8:])
+
         # search for content
         response = self.client.get("/", {"s": partial_content})
         self.assertEqual(response.status_code, 200)

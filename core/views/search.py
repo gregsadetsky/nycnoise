@@ -12,7 +12,7 @@ def search(request):
         return render(request, "core/search.html")
 
     # https://stackoverflow.com/a/70812950
-    search_query = SearchQuery(query, search_type="websearch", config="english")
+    search_query = SearchQuery(query)
     search_rank = SearchRank(F("search_vector"), search_query)
     found_static_page_ids = (
         SearchableStaticPageBit.objects.annotate(rank=search_rank)
