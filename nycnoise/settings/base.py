@@ -180,3 +180,20 @@ RC_DEVELOPER_INTERNAL_TOKEN = os.environ["RC_DEVELOPER_INTERNAL_TOKEN"]
 PROD_INTERNAL_API_SERVER = os.environ["PROD_INTERNAL_API_SERVER"]
 
 SITE_ID = 1
+
+# enable django debug toolbar only when env var is present, for that ip only
+debug_toolbar_internal_ip = os.getenv("DEBUG_TOOLBAR_INTERNAL_IP", "")
+if debug_toolbar_internal_ip:
+    # only add debug toolbar in dev.py to be extra sure
+    INSTALLED_APPS += [
+        # https://github.com/jazzband/django-debug-toolbar
+        "debug_toolbar",
+    ]
+
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
+    INTERNAL_IPS = [
+        debug_toolbar_internal_ip,
+    ]

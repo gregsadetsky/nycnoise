@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # ask for rc developer token/password at command line
         developer_token = getpass("Enter your developer token > ")
-        # connect to nycnoise.onrender.com/internal-api/db
+        # connect to nyc-noise.com/internal-api/db
         # pass token as bearer auth header token
         r = requests.get(
             f"{settings.PROD_INTERNAL_API_SERVER}internal-api/db",

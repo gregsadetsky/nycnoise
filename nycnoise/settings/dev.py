@@ -10,18 +10,4 @@ DEBUG = True
 # https://stackoverflow.com/questions/4300442/show-undefined-variable-errors-in-django-templates#comment131874878_4300506
 TEMPLATES[0]["OPTIONS"]["string_if_invalid"] = "MISSING! {{ %s }}"
 
-# only add debug toolbar in dev.py to be extra sure
-INSTALLED_APPS += [
-    # https://github.com/jazzband/django-debug-toolbar
-    "debug_toolbar",
-]
-
-MIDDLEWARE += [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-]
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-
 DISABLE_PANELS = []
