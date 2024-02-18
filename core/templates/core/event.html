@@ -1,5 +1,3 @@
-{% load get_gcal_link_from_event %}
-
 <div class="event {% if event.is_cancelled %}cancelled{% endif %}">
   <div class="event-time-and-content">
     <span class="event-time">
@@ -91,7 +89,15 @@
       +
       <a href="{% url 'event_ics_download' event.id %}" class="ical">ICAL</a>
       +
-      <a href="{% get_gcal_link_from_event event %}" class="gcal">GCAL</a>
+      {% comment %}
+        we've found that on production, using a template tag that generated
+        and inserted the google calendar link directly into the template below,
+        was taking about 200ms in total. as a fix, instead of rendering
+        all of the event google calendar links, simply link to /event/ID/gcal
+        and redirect anyone who clicks on that link to the (generated-once)
+        google calendar link.
+      {% endcomment %}
+      <a href="{% url 'event_gcal_redirect' event.id %}" class="gcal">GCAL</a>
 
       {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
         +
