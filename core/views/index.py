@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 
 from django.db.models.functions import TruncDate
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 from ..models import DateMessage, Event, IndexPageMessages, StaticPage
@@ -116,8 +117,28 @@ def past_month_archive(request, year, month):
         # so that the view can render the correct static page
         return static_page(request, url_path=archive_url_path)
 
+    valid_date = True
+    month_datetime = None
+
     # at this point, assume it's an archive page that we'll be populating ourselves from the db
-    month_datetime = datetime(int(year), int(month), 1, 0, 0, 0, 0, tzinfo=NYCTZ)
+    try:
+        month_datetime = datetime(int(year), int(month), 1, 0, 0, 0, 0, tzinfo=NYCTZ)
+    except ValueError:
+        # we were passed a bad month or year e.g. 15 as the value for the month
+        valid_date = False
+
+    if valid_date and month_datetime:
+        # nycnoise's birth is ~august 2018, any date before that is invalid
+        if month_datetime < datetime(2018, 8, 1, 0, 0, 0, 0, tzinfo=NYCTZ):
+            valid_date = False
+        # anything after 2200? is probably wrong too
+        if month_datetime > datetime(2200, 1, 1, 0, 0, 0, 0, tzinfo=NYCTZ):
+            valid_date = False
+
+    if not valid_date:
+        # if the date is invalid, return a 404
+        return HttpResponseNotFound()
+
     return _get_events_page_for_month(
         request, month_datetime=month_datetime, is_index=False
     )
