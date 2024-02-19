@@ -40,6 +40,7 @@ class StartTimeListFilter(SimpleListFilter):
             ("next_month", "Next month"),
             ("last_month", "Last month"),
             ("all", "All"),
+            ("future", "Future"),
         )
 
     def choices(self, changelist):
@@ -77,6 +78,8 @@ class StartTimeListFilter(SimpleListFilter):
             return queryset.filter(starttime__gte=next_month_start).filter(
                 starttime__lt=next_next_month_start
             )
+        if self.value() == "future":
+            return queryset.filter(starttime__gte=get_current_new_york_datetime())
         # return all!
         return queryset
 
