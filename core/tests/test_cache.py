@@ -24,7 +24,7 @@ class CacheTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, title)
 
-        # change the event
+        # change the event title
         new_title = str(uuid.uuid4())
         event.title = new_title
         event.save()
