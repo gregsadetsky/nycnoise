@@ -36,11 +36,11 @@ class StartTimeListFilter(SimpleListFilter):
 
     def lookups(self, _request, _model_admin):
         return (
-            (None, "This month"),
-            ("next_month", "Next month"),
+            (None, "Future"),
             ("last_month", "Last month"),
+            ("this_month", "This month"),
+            ("next_month", "Next month"),
             ("all", "All"),
-            ("future", "Future"),
         )
 
     def choices(self, changelist):
@@ -65,11 +65,8 @@ class StartTimeListFilter(SimpleListFilter):
         next_next_month_start = next_month_start + relativedelta.relativedelta(months=1)
 
         if self.value() is None:
-            # if no value i.e. the default ordering when no list filter link
-            # has been clicked, return all events *for this month*!
-            return queryset.filter(
-                starttime__gte=current_month_start, starttime__lt=next_month_start
-            )
+            # default is to show future only
+            return queryset.filter(starttime__gte=get_current_new_york_datetime())
         if self.value() == "last_month":
             return queryset.filter(starttime__gte=previous_month_start).filter(
                 starttime__lt=current_month_start
@@ -78,8 +75,10 @@ class StartTimeListFilter(SimpleListFilter):
             return queryset.filter(starttime__gte=next_month_start).filter(
                 starttime__lt=next_next_month_start
             )
-        if self.value() == "future":
-            return queryset.filter(starttime__gte=get_current_new_york_datetime())
+        if self.value() == "this_month":
+            return queryset.filter(
+                starttime__gte=current_month_start, starttime__lt=next_month_start
+            )
         # return all!
         return queryset
 
