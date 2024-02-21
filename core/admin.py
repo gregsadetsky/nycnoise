@@ -86,6 +86,7 @@ class StartTimeListFilter(SimpleListFilter):
 class EventAdmin(admin.ModelAdmin):
     list_per_page = 500
     list_display = (
+        "is_approved",
         "starttime",
         "same_time_order_override",
         "get_preface_as_text",
@@ -100,6 +101,7 @@ class EventAdmin(admin.ModelAdmin):
     # define a custom order for the fields
     # TODO always keep in sync with the fields in the model..!
     fields = (
+        "is_approved",
         "starttime",
         "starttime_override",
         "hyperlink",
@@ -130,7 +132,7 @@ class EventAdmin(admin.ModelAdmin):
         "description",
         "preface",
     )
-    list_filter = [StartTimeListFilter]
+    list_filter = [StartTimeListFilter, 'is_approved', 'user_submitted']
     list_editable = ("same_time_order_override",)
 
     class Media:

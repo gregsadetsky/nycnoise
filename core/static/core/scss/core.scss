@@ -251,3 +251,33 @@ main .search {
     width: 200px;
   }
 }
+
+
+/*************************************/
+/** Event submission                **/
+/*************************************/
+
+form.eventSubmission {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
+
+    label {
+        display: inline-block;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    input {
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+        width: auto;
+        margin-top: 10px;
+    }
+}

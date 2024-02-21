@@ -66,6 +66,7 @@ def _get_events_page_for_month(request, month_datetime, is_index):
         .filter(
             starttime__gte=first_day_of_this_month,
             starttime__lt=first_day_of_next_month,
+            is_approved=True
         )
         .order_by("starttime", "same_time_order_override")
         .annotate(date=TruncDate("starttime"))

@@ -18,6 +18,11 @@ class Event(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     artists = models.CharField(max_length=255, null=True, blank=True)
 
+    # user-submitted events will not be included in the event calendar until
+    # they are approved by an admin.
+    user_submitted = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)  # set to false in the submission view
+
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
     venue_override = tinymce_models.HTMLField(
         null=True,
