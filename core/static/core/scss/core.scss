@@ -10,6 +10,19 @@ $background-main: #d4d0c7;
 /** Styles for major html elements  **/
 /*************************************/
 
+html {
+  /*
+  scroll-padding-top is here to fix the subtle problem that happened
+  when clicking on a day anchor on a different month than the one being currently viewed.
+  i.e. if you are on the homepage and click a 'grey' date in the calendar for a different month
+  (or just go directly to that url), for example, https://nyc-noise.com/2024-01/#012024 ,
+  you would be brought to a scrolling position that's a bit too "far" i.e. you'd have to scroll
+  up to see the day heading and any other 'previous' events.
+  this is happening because of the day's sticky header. scroll-padding-top fixes this issue.
+  */
+  scroll-padding-top: 1rem;
+}
+
 body {
   background-color: $background-main;
   font-family: "Open Sans", sans-serif;
