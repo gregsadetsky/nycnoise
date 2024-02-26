@@ -1,6 +1,6 @@
 from django import forms
-from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 from core.models import Event
@@ -59,6 +59,13 @@ class UserSubmittedEventForm(forms.ModelForm):
 class EventCreateView(CreateView):
     model = Event
     form_class = UserSubmittedEventForm
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.INFO,
+            'Thanks buddy! Your event is submitted for approval.')
+        return super().form_valid(form)
 
     def get_success_url(self):
         return '/'

@@ -286,3 +286,34 @@ form.eventSubmission {
         border: 0;
     }
 }
+
+/*************************************/
+/** Flash Messaging                 **/
+/*************************************/
+// from https://gist.github.com/msiebert/206cbb1b1d19257c2e73
+.message {
+	border-radius: 10px;
+	border-width: 5px;
+        border-style: solid;
+	box-shadow: 3px 3px 4px 0px rgba(50, 50, 50, 0.75);
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	text-align: center;
+        font-size: 1.25em;
+        font-width: bold;
+	width: 80%;
+}
+
+/*
+ * Give the various message types the correct colors
+ */
+.message.success {
+	background-color: green;
+}
+
+.message.error {
+	background-color: red;
+}

@@ -127,6 +127,14 @@
 
           {% block month_year_header %}{% endblock month_year_header %}
 
+          {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
           {% block content %}{% endblock content %}
 
           {% get_footer_menu_items as all_footer_menu_items %}
