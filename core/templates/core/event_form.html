@@ -2,10 +2,12 @@
 
 
 {% block content %}
-<h1> Submit Event </h1>
-<form class="eventSubmission" action="{% url 'submit_event' %}" method="post">
+<div class="event-submission">
+  <h1> Submit Event </h1>
+  <form action="{% url 'submit_event' %}" method="post">
     {% csrf_token %}
     {{ form.as_div }}
     <input type="submit" value="Submit">
-</form>
+  </form>
+</div>
 {% endblock content %}
