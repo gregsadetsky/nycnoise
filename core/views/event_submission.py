@@ -49,10 +49,10 @@ class UserSubmittedEventForm(forms.ModelForm):
 
     def clean(self):
         data = super().clean()
-        if data['title'] is None and data['artists'] is None:
+        if data.get('title') is None and data.get('artists') is None:
             raise ValidationError('event must include title or artists')
-        override = data['venue_override']
-        if data['venue'] is None and (override == '' or override.isspace()):
+        override = data.get('venue_override')
+        if data.get('venue') is None and (override == '' or override.isspace()):
             raise ValidationError('event must contain some venue information')
 
 

@@ -1,15 +1,47 @@
 import uuid
 from datetime import datetime
+from http import HTTPStatus
 
 from django.test import TestCase
+from django.urls import reverse
 
 from core.models import Event, Venue
 from core.views.event_submission import UserSubmittedEventForm
 
 
 class UserSubmittedEventTestCase(TestCase):
+    endpoint = reverse('submit_event')
+
     def setUp(self):
         self.venue = Venue.objects.create(name=f"venue {uuid.uuid4()}")
+
+    def test_get(self):
+        response = self.client.get(self.endpoint)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertContains(response, "<h1>Submit Event</h1>", html=True)
+
+    def test_post_success(self):
+        form = UserSubmittedEventForm(dict(starttime=datetime.now(),
+                                           title='brutal prog matinée',
+                                           artists='grand ulena',
+                                           venue=self.venue.pk))
+
+        response = self.client.post(
+            self.endpoint,
+            data=form.data,
+            follow=True)  # follow redirect so we can use assertContains on content
+
+        self.assertContains(response, 'event is submitted for approval')
+
+    def test_post_error(self):
+        form = UserSubmittedEventForm(dict(starttime=datetime.now(),
+                                           venue=self.venue.pk))
+
+        response = self.client.post(self.endpoint, data=form.data)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertContains(response, 'event must include title or artists')
 
     def test_user_cant_submit_empty_event(TestCase):
         """user must include at least a time and either a title or artist info"""
