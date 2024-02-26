@@ -5,7 +5,7 @@
 <h1> Submit Event </h1>
 <form class="eventSubmission" action="{% url 'submit_event' %}" method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_div }}
     <input type="submit" value="Submit">
 </form>
 {% endblock content %}

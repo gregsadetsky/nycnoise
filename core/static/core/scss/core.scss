@@ -252,32 +252,37 @@ main .search {
   }
 }
 
-
 /*************************************/
-/** Event submission                **/
+/** Event Submission                **/
 /*************************************/
-
 form.eventSubmission {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10px;
-    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
 
-    label {
-        display: inline-block;
+    input[type="search"] {
+        width: 200px;
+    }
+
+    div {
+        display: flex;
+        justify-content: flex-end;
+        padding: .5em;
+    }
+    div > label {
+        padding: .5em 1em .5em 0;
         text-align: right;
-        margin-right: 10px;
+        flex: 1;
     }
-
-    input {
-        display: inline-block;
-        box-sizing: border-box;
-        padding: 5px;
-        margin-bottom: 10px;
+    div > input, select, textarea {
+        flex: 2;
     }
-
-    input[type="submit"] {
-        width: auto;
-        margin-top: 10px;
+    div > input,
+    div > button {
+        padding: .5em;
+    }
+    div > button {
+        background: gray;
+        color: white;
+        border: 0;
     }
 }
