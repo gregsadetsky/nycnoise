@@ -64,7 +64,7 @@ class EventCreateView(CreateView):
         messages.add_message(
             self.request,
             messages.INFO,
-            'Thanks buddy! Your event is submitted for approval.')
+            'thanks buddy! your event is submitted for approval.')
         return super().form_valid(form)
 
     def get_success_url(self):
