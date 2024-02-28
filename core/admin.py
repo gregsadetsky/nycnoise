@@ -118,7 +118,7 @@ class EventAdmin(admin.ModelAdmin):
     )
     list_display_links = ("starttime",)
     save_on_top = True
-    # there are move save_* options that are being overriden
+    # there are more save_* options that are being overriden
     # in templatetags/admin_save_buttons_override --
     # namely, the fact that both 'save as new' and 'save and add another' buttons
     # appear simultanously is not something that can be set using 'regular'
@@ -190,6 +190,7 @@ class StaticPageAdmin(admin.ModelAdmin):
     def get_content_as_text(self, obj):
         # extract the first 100 characters, making
         # sure to skip tags
+        # TODO nit - don't show ellipsis when text len is less than 100 chars; use + instead * in regex
         return re.sub(r"<[^>]*>", "", obj.content)[:100] + "..."
 
     get_content_as_text.short_description = "Content"
