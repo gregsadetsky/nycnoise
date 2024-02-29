@@ -56,20 +56,20 @@ class UserSubmittedEventTestCase(TestCase):
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
                                            title='brutal prog matinée',
                                            venue=self.venue))
-        assert form.is_valid()
+        assert form.is_valid(), form.errors
         form.save()
 
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
                                            artists='grand ulena',
                                            venue=self.venue))
-        assert form.is_valid()
+        assert form.is_valid(), form.errors
         form.save()
 
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
                                            title='brutal prog matinée',
                                            artists='grand ulena',
                                            venue=self.venue))
-        assert form.is_valid()
+        assert form.is_valid(), form.errors
         form.save()
 
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
@@ -83,14 +83,14 @@ class UserSubmittedEventTestCase(TestCase):
                                            title='brutal prog matinée',
                                            artists='grand ulena',
                                            venue=self.venue))
-        assert form.is_valid()
+        assert form.is_valid(), form.errors
         form.save()
 
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
                                            title='brutal prog matinée',
                                            artists='grand ulena',
                                            venue_override='not sure yet'))
-        assert form.is_valid()
+        assert form.is_valid(), form.errors
         form.save()
 
         form = UserSubmittedEventForm(dict(starttime=datetime.now(),
