@@ -35,7 +35,6 @@ class UserSubmittedEventForm(forms.ModelForm):
         }
         widgets = {
             'starttime': DateTimePickerInput(),
-            'freeform_venue_name': DateTimePickerInput()
         }
 
     def save(self, commit=True):
