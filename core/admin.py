@@ -132,7 +132,7 @@ class EventAdmin(admin.ModelAdmin):
         "description",
         "preface",
     )
-    list_filter = [StartTimeListFilter, 'is_approved', 'user_submitted']
+    list_filter = [StartTimeListFilter, "is_approved", "user_submitted",]
     list_editable = ("same_time_order_override",)
 
     class Media:
@@ -214,6 +214,7 @@ admin.site.register(SearchableStaticPageBit, SearchableStaticPageBitAdmin)
 
 class VenueAdmin(admin.ModelAdmin):
     list_display = (
+        "closed",
         "name_the_string",
         "name",
         "address",
@@ -224,6 +225,7 @@ class VenueAdmin(admin.ModelAdmin):
         "neighborhood_and_borough",
     )
     list_display_links = ("name",)
+    list_filter = ("closed",)
     search_fields = ("name",)
     ordering = ("name",)
     save_on_top = True

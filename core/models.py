@@ -199,6 +199,7 @@ class Venue(models.Model):
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
 
+    closed = models.BooleanField(null=True, default=False)
     capacity = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="cap"
     )

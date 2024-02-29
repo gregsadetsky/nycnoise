@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 
-from core.models import Event
+from core.models import Event, Venue
 
 
 class DateTimePickerInput(forms.DateTimeInput):
@@ -13,6 +13,10 @@ class DateTimePickerInput(forms.DateTimeInput):
 class UserSubmittedEventForm(forms.ModelForm):
     venue_override = forms.CharField(
         label="Venue Name (if not in list above)",
+        required=False
+    )
+    venue = forms.models.ModelChoiceField(
+        queryset=Venue.objects.filter(closed=False),
         required=False
     )
 

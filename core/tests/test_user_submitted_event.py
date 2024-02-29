@@ -148,3 +148,13 @@ class UserSubmittedEventTestCase(TestCase):
         event = form.save()
         assert event.user_submitted is True
         assert event.is_approved is False
+
+    def test_closed_venues_not_shown_in_list(self):
+        open_venue = Venue(name=uuid.uuid4().hex)
+        closed_venue = Venue(name=uuid.uuid4().hex, closed=True)
+        open_venue.save()
+        closed_venue.save()
+
+        response = self.client.get(self.endpoint)
+        self.assertContains(response, open_venue.name)
+        self.assertNotContains(response, closed_venue.name)
