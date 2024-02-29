@@ -11,7 +11,15 @@ from core.utils_event_caching import bake_event_html
 from core.utils_static_page import refresh_searchable_static_page_bits
 
 
+class EventManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_approved=True)
+
+
 class Event(models.Model):
+    objects = EventManager()
+    all_objects = models.Manager()
+
     # title and artists are separate fields
     # when both are present, title will be not bold and artists will be bold
     # when either are present, whichever is present will be shown in bold

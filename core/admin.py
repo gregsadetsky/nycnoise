@@ -143,6 +143,9 @@ class EventAdmin(admin.ModelAdmin):
             "all": ("core/admin/date-time-widget-fixes.css",),
         }
 
+    def get_queryset(self, request):
+        return Event.all_objects.all()
+
     def get_ordering(self, request):
         return ["starttime", "same_time_order_override"]
 
