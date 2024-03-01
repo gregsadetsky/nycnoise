@@ -138,6 +138,7 @@ class EventAdmin(admin.ModelAdmin):
         "user_submitted",
     ]
     list_editable = ("same_time_order_override",)
+    actions = ["mark_as_approved"]
 
     class Media:
         js = [
@@ -178,6 +179,10 @@ class EventAdmin(admin.ModelAdmin):
         return mark_safe(obj.description) if obj.description else ""
 
     get_description_as_text.short_description = "Description"
+
+    @admin.action(description="Mark as approved")
+    def mark_as_approved(self, request, queryset):
+        queryset.update(is_approved=True)
 
 
 admin.site.register(Event, EventAdmin)
