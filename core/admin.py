@@ -132,7 +132,11 @@ class EventAdmin(admin.ModelAdmin):
         "description",
         "preface",
     )
-    list_filter = [StartTimeListFilter, "is_approved", "user_submitted",]
+    list_filter = [
+        StartTimeListFilter,
+        "is_approved",
+        "user_submitted",
+    ]
     list_editable = ("same_time_order_override",)
 
     class Media:
@@ -229,6 +233,7 @@ class VenueAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     ordering = ("name",)
     save_on_top = True
+    actions = ["mark_as_closed", "mark_as_open"]
 
     def name_the_string(self, obj):
         return "the" if obj.name_the else ""
@@ -239,6 +244,14 @@ class VenueAdmin(admin.ModelAdmin):
         if db_field.name in ["wage_information", "accessibility_notes"]:
             return db_field.formfield(widget=TinyMCE(mce_attrs={"height": "200"}))
         return super().formfield_for_dbfield(db_field, **kwargs)
+
+    @admin.action(description="Mark as closed")
+    def mark_as_closed(self, request, queryset):
+        queryset.update(closed=True)
+
+    @admin.action(description="Mark as open")
+    def mark_as_open(self, request, queryset):
+        queryset.update(closed=False)
 
 
 admin.site.register(Venue, VenueAdmin)
