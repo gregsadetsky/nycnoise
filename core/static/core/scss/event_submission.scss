@@ -1,0 +1,15 @@
+div.event-submission {
+  label[for="id_starttime"],
+  label[for="id_title"],
+  label[for="id_artists"],
+  label[for="id_venue"] {
+    font-weight: bold;
+  }
+
+  ul.errorlist {
+    color: red;
+    font-weight: bold;
+    // make li not have bullets
+    list-style-type: none;
+  }
+}

@@ -3,6 +3,7 @@
 @import "toc.scss";
 @import "static_page.scss";
 @import "ios_pwa_prompt.scss";
+@import "event_submission.scss";
 
 $background-main: #d4d0c7;
 
@@ -256,40 +257,42 @@ main .search {
 /** Event Submission                **/
 /*************************************/
 .event-submission {
-    h1 {
-        text-align: center;
-    }
-    form {
-        text-align: center;
-        margin-bottom: 20px;
+  h1 {
+    text-align: center;
+  }
+  form {
+    text-align: center;
+    margin-bottom: 20px;
 
-        input[type="search"] {
-            width: 200px;
-        }
-
-        div {
-            display: flex;
-            justify-content: flex-end;
-            padding: .5em;
-        }
-        div > label {
-            padding: .5em 1em .5em 0;
-            text-align: right;
-            flex: 1;
-        }
-        div > input, select, textarea {
-            flex: 2;
-        }
-        div > input,
-        div > button {
-            padding: .5em;
-        }
-        div > button {
-            background: gray;
-            color: white;
-            border: 0;
-        }
+    input[type="search"] {
+      width: 200px;
     }
+
+    div {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.5em;
+    }
+    div > label {
+      padding: 0.5em 1em 0.5em 0;
+      text-align: right;
+      flex: 1;
+    }
+    div > input,
+    select,
+    textarea {
+      flex: 2;
+    }
+    div > input,
+    div > button {
+      padding: 0.5em;
+    }
+    div > button {
+      background: gray;
+      color: white;
+      border: 0;
+    }
+  }
 }
 
 /*************************************/
@@ -297,28 +300,28 @@ main .search {
 /*************************************/
 // from https://gist.github.com/msiebert/206cbb1b1d19257c2e73
 .message {
-	border-radius: 10px;
-	border-width: 5px;
-        border-style: solid;
-	box-shadow: 3px 3px 4px 0px rgba(50, 50, 50, 0.75);
-	margin-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	padding-bottom: 5px;
-	padding-top: 5px;
-	text-align: center;
-        font-size: 1.25em;
-        font-width: bold;
-	width: 80%;
+  border-radius: 10px;
+  border-width: 5px;
+  border-style: solid;
+  box-shadow: 3px 3px 4px 0px rgba(50, 50, 50, 0.75);
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 1.25em;
+  font-width: bold;
+  width: 80%;
 }
 
 /*
  * Give the various message types the correct colors
  */
 .message.success {
-	background-color: green;
+  background-color: green;
 }
 
 .message.error {
-	background-color: red;
+  background-color: red;
 }
