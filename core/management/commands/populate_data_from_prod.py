@@ -65,8 +65,8 @@ class Command(BaseCommand):
         # delete all local venues and all local events, import them from server json dump
 
         Venue.objects.all().delete()
-        Event.objects.all().delete()
-        StaticPage.objects.all().delete()
+        Event.all_objects.all().delete()
+        StaticPage.all_objects.all().delete()
 
         Venue.objects.bulk_create(
             Venue(**venue_data) for venue_data in server_data["venues"]

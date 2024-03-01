@@ -41,8 +41,8 @@ def internal_db_dump(request):
     return JsonResponse(
         {
             "all_migration_names": list(all_migration_names),
-            "events": list(Event.objects.all().values()),
+            "events": list(Event.all_objects.all().values()),
             "venues": list(Venue.objects.all().values()),
-            "static_pages": list(StaticPage.objects.all().values()),
+            "static_pages": list(StaticPage.all_objects.all().values()),
         }
     )
