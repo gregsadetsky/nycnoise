@@ -184,6 +184,17 @@ class EventAdmin(admin.ModelAdmin):
     def mark_as_approved(self, request, queryset):
         queryset.update(is_approved=True)
 
+    # disable the "delete" button on the venue field
+    # without implementing a whole `has_delete_permission` which always
+    # returns False on all venue -- that would make it impossible
+    # to delete a venue object
+    # https://stackoverflow.com/a/62459642
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        field = form.base_fields["venue"]
+        field.widget.can_delete_related = False
+        return form
+
 
 admin.site.register(Event, EventAdmin)
 
@@ -211,15 +222,6 @@ class StaticPageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(StaticPage, StaticPageAdmin)
-
-
-class SearchableStaticPageBitAdmin(admin.ModelAdmin):
-    list_display = ("static_page", "content_text_extract")
-    search_fields = ("content_text_extract",)
-    ordering = ("static_page",)
-
-
-admin.site.register(SearchableStaticPageBit, SearchableStaticPageBitAdmin)
 
 
 class VenueAdmin(admin.ModelAdmin):
