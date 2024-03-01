@@ -65,7 +65,7 @@ def _get_events_page_for_month(request, month_datetime, is_index):
         Event.objects.select_related("venue")
         .filter(
             starttime__gte=first_day_of_this_month,
-            starttime__lt=first_day_of_next_month,
+            starttime__lt=first_day_of_next_month
         )
         .order_by("starttime", "same_time_order_override")
         .annotate(date=TruncDate("starttime"))

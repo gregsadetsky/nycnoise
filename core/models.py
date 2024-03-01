@@ -11,12 +11,25 @@ from core.utils_event_caching import bake_event_html
 from core.utils_static_page import refresh_searchable_static_page_bits
 
 
+class EventManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_approved=True)
+
+
 class Event(models.Model):
+    objects = EventManager()
+    all_objects = models.Manager()
+
     # title and artists are separate fields
     # when both are present, title will be not bold and artists will be bold
     # when either are present, whichever is present will be shown in bold
     title = models.CharField(max_length=255, null=True, blank=True)
     artists = models.CharField(max_length=255, null=True, blank=True)
+
+    # user-submitted events will not be included in the event calendar until
+    # they are approved by an admin.
+    user_submitted = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)  # set to false in the submission view
 
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
     venue_override = tinymce_models.HTMLField(
@@ -186,6 +199,7 @@ class Venue(models.Model):
     phone = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
 
+    closed = models.BooleanField(null=True, default=False)
     capacity = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="cap"
     )

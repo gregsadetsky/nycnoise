@@ -86,6 +86,7 @@ class StartTimeListFilter(SimpleListFilter):
 class EventAdmin(admin.ModelAdmin):
     list_per_page = 500
     list_display = (
+        "is_approved",
         "starttime",
         "same_time_order_override",
         "get_preface_as_text",
@@ -100,6 +101,7 @@ class EventAdmin(admin.ModelAdmin):
     # define a custom order for the fields
     # TODO always keep in sync with the fields in the model..!
     fields = (
+        "is_approved",
         "starttime",
         "starttime_override",
         "hyperlink",
@@ -130,8 +132,13 @@ class EventAdmin(admin.ModelAdmin):
         "description",
         "preface",
     )
-    list_filter = [StartTimeListFilter]
+    list_filter = [
+        StartTimeListFilter,
+        "is_approved",
+        "user_submitted",
+    ]
     list_editable = ("same_time_order_override",)
+    actions = ["mark_as_approved"]
 
     class Media:
         js = [
@@ -140,6 +147,9 @@ class EventAdmin(admin.ModelAdmin):
         css = {
             "all": ("core/admin/date-time-widget-fixes.css",),
         }
+
+    def get_queryset(self, request):
+        return Event.all_objects.all()
 
     def get_ordering(self, request):
         return ["starttime", "same_time_order_override"]
@@ -169,6 +179,10 @@ class EventAdmin(admin.ModelAdmin):
         return mark_safe(obj.description) if obj.description else ""
 
     get_description_as_text.short_description = "Description"
+
+    @admin.action(description="Mark as approved")
+    def mark_as_approved(self, request, queryset):
+        queryset.update(is_approved=True)
 
 
 admin.site.register(Event, EventAdmin)
@@ -210,6 +224,7 @@ admin.site.register(SearchableStaticPageBit, SearchableStaticPageBitAdmin)
 
 class VenueAdmin(admin.ModelAdmin):
     list_display = (
+        "closed",
         "name_the_string",
         "name",
         "address",
@@ -220,9 +235,11 @@ class VenueAdmin(admin.ModelAdmin):
         "neighborhood_and_borough",
     )
     list_display_links = ("name",)
+    list_filter = ("closed",)
     search_fields = ("name",)
     ordering = ("name",)
     save_on_top = True
+    actions = ["mark_as_closed", "mark_as_open"]
 
     def name_the_string(self, obj):
         return "the" if obj.name_the else ""
@@ -233,6 +250,14 @@ class VenueAdmin(admin.ModelAdmin):
         if db_field.name in ["wage_information", "accessibility_notes"]:
             return db_field.formfield(widget=TinyMCE(mce_attrs={"height": "200"}))
         return super().formfield_for_dbfield(db_field, **kwargs)
+
+    @admin.action(description="Mark as closed")
+    def mark_as_closed(self, request, queryset):
+        queryset.update(closed=True)
+
+    @admin.action(description="Mark as open")
+    def mark_as_open(self, request, queryset):
+        queryset.update(closed=False)
 
 
 admin.site.register(Venue, VenueAdmin)
