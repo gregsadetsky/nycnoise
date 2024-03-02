@@ -3,7 +3,6 @@ from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils.html import escape, mark_safe
-from django.utils.safestring import mark_safe
 from django.views.generic.edit import CreateView
 
 
@@ -12,9 +11,19 @@ class DateTimePickerInput(forms.DateTimeInput):
 
 
 class UserSubmittedEventForm(forms.ModelForm):
-    venue_override = forms.CharField(label="(if missing) venue", required=False)
+    template_name = "core/event_form_fields.html"
+
+    venue_override = forms.CharField(
+        label="(if missing) venue",
+        required=False,
+        help_text=mark_safe(
+            "<i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i>"
+        ),
+    )
     venue = forms.models.ModelChoiceField(
-        label="venue", queryset=Venue.objects.filter(is_open=True), required=False
+        label="venue",
+        queryset=Venue.objects.filter(is_open=True),
+        required=False,
     )
 
     class Meta:
@@ -27,9 +36,9 @@ class UserSubmittedEventForm(forms.ModelForm):
             "artists",
             "venue",
             "venue_override",
-            "description",
             "price",
             "ticket_hyperlink",
+            "description",
         ]
         labels = {
             "hyperlink": "main link",
@@ -40,8 +49,8 @@ class UserSubmittedEventForm(forms.ModelForm):
             "title": mark_safe('<i>(optional)</i> title / "x presents" or series:'),
             "ticket_hyperlink": "(if different than main link) ticket link",
             "artists": "artists",
-            "description": "description",
             "price": "price",
+            "description": "extra info (prolly won't include unless it's related to fundraiser or something, but GO WILD)",
         }
         widgets = {
             "starttime": DateTimePickerInput(),

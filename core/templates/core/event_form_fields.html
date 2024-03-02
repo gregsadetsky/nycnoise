@@ -1,0 +1,32 @@
+{{ errors }}
+{% if errors and not fields %}
+  <div>{% for field in hidden_fields %}{{ field }}{% endfor %}</div>
+{% endif %}
+
+{% for field, errors in fields %}
+  <div{% if field.css_classes %} class="{{ field.css_classes }}"{% endif %}>
+    {% if field.use_fieldset %}
+      <fieldset>
+      {% if field.label %}{{ field.legend_tag }}{% endif %}
+    {% else %}
+      {% if field.label %}{{ field.label_tag }}{% endif %}
+    {% endif %}
+    
+    {{ errors }}
+    
+    {{ field }}
+    
+    {% if field.use_fieldset %}</fieldset>{% endif %}
+
+    {% if loop.last %}
+      {% for field in hidden_fields %}{{ field }}{% endfor %}
+    {% endif %}
+  </div>
+  {% if field.help_text %}<div class="helptext">{{ field.help_text|safe }}</div>{% endif %}
+{% endfor %}
+
+{% if not fields and not errors %}
+  {% for field in hidden_fields %}{{ field }}{% endfor %}
+{% endif %}
+
+<div style="padding:10px;display:block;"><b>note</b>: if there's really <b>no link</b> to yr event, plz <b>email a flyer</b> to <a href="mailto:contact@nyc-noise.com">contact@nyc-noise.com</a> w/ subject line "[DATE] FLYER" (e.g. "2/14/24 FLYER") & i'll link to that instead; ty!</div>

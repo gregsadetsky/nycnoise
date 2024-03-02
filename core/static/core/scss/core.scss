@@ -284,7 +284,7 @@ main .search {
     div {
       display: flex;
       justify-content: flex-end;
-      padding: 0.5em;
+      padding: 0.4em;
     }
     div > label {
       padding: 0.5em 1em 0.5em 0;
@@ -304,6 +304,9 @@ main .search {
       background: gray;
       color: white;
       border: 0;
+    }
+    div.helptext {
+      display: block;
     }
   }
 }
