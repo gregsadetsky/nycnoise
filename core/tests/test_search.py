@@ -129,7 +129,7 @@ class SearchTestCase(TestCase):
         response = self.client.get("/", {"s": partial_title})
 
         self.assertEqual(response.status_code, 200)
-        # find the description in the results
+        # find the title and the description in the results
         self.assertContains(response, event_title)
         self.assertContains(response, event_description)
 
