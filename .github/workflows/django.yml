@@ -45,10 +45,10 @@ jobs:
           python manage.py test
         env:
           DATABASE_URL: "postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}"
-          DJANGO_SECRET_KEY: "${{ vars.DJANGO_SECRET_KEY }}"
-          ALLOWED_HOSTS: "${{ vars.ALLOWED_HOSTS }}"
-          DJANGO_SETTINGS_MODULE: "${{ vars.DJANGO_SETTINGS_MODULE }}"
-          RC_DEVELOPER_INTERNAL_TOKEN: "${{ vars.RC_DEVELOPER_INTERNAL_TOKEN }}"
-          PROD_INTERNAL_API_SERVER: "${{ vars.PROD_INTERNAL_API_SERVER }}"
-          DEBUG_TOOLBAR_ENABLE: "${{ vars.DEBUG_TOOLBAR_ENABLE }}"
-          PYINSTRUMENT_ENABLE: "${{ vars.PYINSTRUMENT_ENABLE }}"
+          DJANGO_SECRET_KEY: "F5ADD2EE-40F5-4F4E-911C-4714E7CA873F"
+          ALLOWED_HOSTS: "localhost"
+          DJANGO_SETTINGS_MODULE: "nycnoise.settings.test"
+          RC_DEVELOPER_INTERNAL_TOKEN: "0xdeadbeef"
+          PROD_INTERNAL_API_SERVER: "https://nyc-noise.com"
+          DEBUG_TOOLBAR_ENABLE: "false"
+          PYINSTRUMENT_ENABLE: "false"
