@@ -1,5 +1,6 @@
 # nycnoise
 
+[![Django CI](https://github.com/gregsadetsky/nycnoise/actions/workflows/django.yml/badge.svg)](https://github.com/gregsadetsky/nycnoise/actions/workflows/django.yml)
 [![All Contributors](https://img.shields.io/github/all-contributors/gregsadetsky/nycnoise?color=ee8449&style=flat-square)](#contributors)
 
 ## what is this
