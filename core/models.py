@@ -299,9 +299,10 @@ class StaticPage(models.Model):
 
 # StaticPage's content fields are too long to be indexed by postgres,
 # which leads to super slow search (which we had to remove after the site launch).
-# SearchableStaticPageBit will store overlapping split up 'bits' of content
+# SearchableStaticPageBit stores overlapping split up 'bits' of content
 # which can be indexed and will relate back to the original static page they came from
 class SearchableStaticPageBit(models.Model):
+    # models.CASCADE takes care of deleting the searchable bits when a static page is deleted
     static_page = models.ForeignKey(StaticPage, on_delete=models.CASCADE)
     content_text_extract = models.TextField()
     # see https://stackoverflow.com/a/70812950

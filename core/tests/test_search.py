@@ -97,6 +97,22 @@ class SearchTestCase(TestCase):
         # assert that we cannot find static page's title in the results
         self.assertNotContains(response, page_title)
 
+        # make it public again
+        static_page.is_public = True
+        static_page.save()
+        # find it again
+        response = self.client.get("/", {"s": partial_content})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, page_title)
+
+        # delete it!
+        static_page.delete()
+        # try to find it again
+        response = self.client.get("/", {"s": partial_content})
+        self.assertEqual(response.status_code, 200)
+        # assert that we cannot find static page's title in the results
+        self.assertNotContains(response, page_title)
+
     def test_database_event_search(self):
         # create event
         event_title = " ".join(random.sample(RANDOM_WORDS, 10))
