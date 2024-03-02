@@ -5,9 +5,9 @@
 
 ## what is this
 
-the Python / Django source code of [nyc noise](https://nyc-noise.com/), a New York-based cultural calendar web site.
+the Python / Django source code of [nyc noise](https://nyc-noise.com/), a New York City digital cultural calendar.
 
-over the course of a few months in late 2023, a group of people from the [Recurse Center](https://www.recurse.com/) tackled the site's migration from its original WordPress form, making the site friendlier to use and easier to update. the new site was launched on December 6th, 2023 and is now hosted on [Render](https://render.com/).
+over the course of a few months in late 2023, a group of people from [the Recurse Center](https://www.recurse.com/) recreated the site from scratch, moving away from its original WordPress form. the new version is friendlier to use, easier to update, and faster. it was launched on December 6th, 2023 and is now hosted on [Render](https://render.com/).
 
 ## tech-y things
 
