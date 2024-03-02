@@ -175,7 +175,7 @@ class UserSubmittedEventTestCase(TestCase):
 
     def test_closed_venues_not_shown_in_list(self):
         open_venue = Venue(name=uuid.uuid4().hex)
-        closed_venue = Venue(name=uuid.uuid4().hex, closed=True)
+        closed_venue = Venue(name=uuid.uuid4().hex, is_open=False)
         open_venue.save()
         closed_venue.save()
 

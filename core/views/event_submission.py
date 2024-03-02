@@ -15,7 +15,7 @@ class UserSubmittedEventForm(forms.ModelForm):
         label=mark_safe("Venue Name<br>(if not in list above)"), required=False
     )
     venue = forms.models.ModelChoiceField(
-        queryset=Venue.objects.filter(closed=False), required=False
+        queryset=Venue.objects.filter(is_open=True), required=False
     )
 
     class Meta:

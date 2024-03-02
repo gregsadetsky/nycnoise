@@ -222,7 +222,7 @@ admin.site.register(StaticPage, StaticPageAdmin)
 
 class VenueAdmin(admin.ModelAdmin):
     list_display = (
-        "closed",
+        "is_open",
         "name_the_string",
         "name",
         "address",
@@ -233,7 +233,7 @@ class VenueAdmin(admin.ModelAdmin):
         "neighborhood_and_borough",
     )
     list_display_links = ("name",)
-    list_filter = ("closed",)
+    list_filter = ("is_open",)
     search_fields = ("name",)
     ordering = ("name",)
     save_on_top = True
@@ -251,11 +251,11 @@ class VenueAdmin(admin.ModelAdmin):
 
     @admin.action(description="Mark as closed")
     def mark_as_closed(self, request, queryset):
-        queryset.update(closed=True)
+        queryset.update(is_open=False)
 
     @admin.action(description="Mark as open")
     def mark_as_open(self, request, queryset):
-        queryset.update(closed=False)
+        queryset.update(is_open=True)
 
 
 admin.site.register(Venue, VenueAdmin)
