@@ -25,11 +25,11 @@ jobs:
         run: |
           python manage.py test
         env:
-          DATABASE_URL: ${{ vars.DATABASE_URL }}
-          DJANGO_SECRET_KEY: ${{ vars.DJANGO_SECRET_KEY }}
-          ALLOWED_HOSTS: ${{ vars.ALLOWED_HOSTS }}
-          DJANGO_SETTINGS_MODULE: ${{ vars.DJANGO_SETTINGS_MODULE }}
-          RC_DEVELOPER_INTERNAL_TOKEN: ${{ vars.RC_DEVELOPER_INTERNAL_TOKEN }}
-          PROD_INTERNAL_API_SERVER: ${{ vars.PROD_INTERNAL_API_SERVER }}
-          DEBUG_TOOLBAR_ENABLE: ${{ vars.DEBUG_TOOLBAR_ENABLE }}
-          PYINSTRUMENT_ENABLE: ${{ vars.PYINSTRUMENT_ENABLE }}
+          DATABASE_URL: "${{ vars.DATABASE_URL }}"
+          DJANGO_SECRET_KEY: "${{ vars.DJANGO_SECRET_KEY }}"
+          ALLOWED_HOSTS: "${{ vars.ALLOWED_HOSTS }}"
+          DJANGO_SETTINGS_MODULE: "${{ vars.DJANGO_SETTINGS_MODULE }}"
+          RC_DEVELOPER_INTERNAL_TOKEN: "${{ vars.RC_DEVELOPER_INTERNAL_TOKEN }}"
+          PROD_INTERNAL_API_SERVER: "${{ vars.PROD_INTERNAL_API_SERVER }}"
+          DEBUG_TOOLBAR_ENABLE: "${{ vars.DEBUG_TOOLBAR_ENABLE }}"
+          PYINSTRUMENT_ENABLE: "${{ vars.PYINSTRUMENT_ENABLE }}"
