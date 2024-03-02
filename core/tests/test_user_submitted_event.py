@@ -18,7 +18,7 @@ class UserSubmittedEventTestCase(TestCase):
         response = self.client.get(self.endpoint)
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertContains(response, "<h1>Submit Event</h1>", html=True)
+        self.assertContains(response, "<h1>submit event</h1>", html=True)
 
     def test_post_success(self):
         form = UserSubmittedEventForm(
