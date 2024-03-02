@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="event-submission">
-  <h1> Submit Event </h1>
+  <h1>submit event</h1>
   <form action="{% url 'submit_event' %}" method="post">
     {% csrf_token %}
     {{ form.as_div }}

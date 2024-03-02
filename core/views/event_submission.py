@@ -2,7 +2,7 @@ from core.models import Event, Venue
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-from django.utils.html import escape
+from django.utils.html import escape, mark_safe
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import CreateView
 
@@ -12,11 +12,9 @@ class DateTimePickerInput(forms.DateTimeInput):
 
 
 class UserSubmittedEventForm(forms.ModelForm):
-    venue_override = forms.CharField(
-        label=mark_safe("Venue Name<br>(if not in list above)"), required=False
-    )
+    venue_override = forms.CharField(label="(if missing) venue", required=False)
     venue = forms.models.ModelChoiceField(
-        queryset=Venue.objects.filter(is_open=True), required=False
+        label="venue", queryset=Venue.objects.filter(is_open=True), required=False
     )
 
     class Meta:
@@ -25,15 +23,26 @@ class UserSubmittedEventForm(forms.ModelForm):
             "user_submission_email",
             "starttime",
             "hyperlink",
-            "ticket_hyperlink",
             "title",
             "artists",
             "venue",
             "venue_override",
             "description",
             "price",
+            "ticket_hyperlink",
         ]
-        labels = {"hyperlink": "Main Link", "ticket_hyperlink": "Ticket Link"}
+        labels = {
+            "hyperlink": "main link",
+            "ticket_hyperlink": "ticket link",
+            "user_submission_email": "yr email",
+            "starttime": "date + time",
+            "hyperlink": "link",
+            "title": mark_safe('<i>(optional)</i> title / "x presents" or series:'),
+            "ticket_hyperlink": "(if different than main link) ticket link",
+            "artists": "artists",
+            "description": "description",
+            "price": "price",
+        }
         widgets = {
             "starttime": DateTimePickerInput(),
         }
