@@ -150,6 +150,13 @@ class EventAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ["starttime", "same_time_order_override"]
 
+    # remove default bulk delete action - it's scary!
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if "delete_selected" in actions:
+            del actions["delete_selected"]
+        return actions
+
     # customizing the tinymce field is a painful/weird process.
     # changing the 'rows'/'cols' value (passing them as `attras`), as per the documentation,
     # does nothing... (it changes the <textarea>'s rows and cols attribute values, but that's
@@ -238,6 +245,13 @@ class VenueAdmin(admin.ModelAdmin):
     ordering = ("name",)
     save_on_top = True
     actions = ["mark_as_closed", "mark_as_open"]
+
+    # remove default bulk delete action - it's scary!
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if "delete_selected" in actions:
+            del actions["delete_selected"]
+        return actions
 
     def name_the_string(self, obj):
         return "the" if obj.name_the else ""
