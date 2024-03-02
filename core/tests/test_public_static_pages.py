@@ -39,3 +39,29 @@ class PublicStaticPageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # check that it's fetched once again using .objects.
         assert StaticPage.objects.count() == 1
+
+    def test_static_page_in_sitemap(self):
+        # make static page
+        # check that it shows up in sitemap
+        # make it private
+        # check that it doesn't show up in sitemap
+
+        page_path = str(uuid.uuid4())
+        page_title = str(uuid.uuid4())
+        page_content = str(uuid.uuid4())
+        page = StaticPage.objects.create(
+            url_path=page_path, title=page_title, content=page_content
+        )
+        response = self.client.get("/sitemap.xml")
+        self.assertContains(response, page_path)
+        page.is_public = False
+        page.save()
+        response = self.client.get("/sitemap.xml")
+        self.assertNotContains(response, page_path)
+        page.is_public = True
+        page.save()
+        response = self.client.get("/sitemap.xml")
+        self.assertContains(response, page_path)
+        page.delete()
+        response = self.client.get("/sitemap.xml")
+        self.assertNotContains(response, page_path)

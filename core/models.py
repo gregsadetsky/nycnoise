@@ -198,6 +198,7 @@ class Event(models.Model):
 # AND using a get_queryset on the admin class to be able to edit all objects......!
 # because that combo doesn't work, we use a proxy model class (AllEventProxy)
 # and configure the admin class to use that instead of the original Event class.
+# see https://stackoverflow.com/a/54471299
 class AllEventProxy(Event):
     class Meta:
         verbose_name = Event._meta.verbose_name
