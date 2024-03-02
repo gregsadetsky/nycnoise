@@ -24,14 +24,19 @@ class Event(models.Model):
     # of a class with a custom manager, but that will break in very subtle ways --
     # for example, the `list_editable` property in the EventAdmin class which lets
     # us edit the `order` field directly in the list view will NOT take into account
-    # the get_queryset... but WILL take into the account the first encountered manager
-    # in the model class i.e. here, i.e. Event. more info:
+    # the get_queryset... actually, I don't know what it takes into account...
+    # it just DOESN'T WORK AT ALL....!!! is there an update_queryset...?? I didn't find
+    # anything in the docs...... anyway, the admin class does take into the account the
+    # first encountered manager in the model class i.e. here, i.e. Event. more info:
     # https://docs.djangoproject.com/en/4.2/topics/db/managers/#default-managers
-    # I also learned/found out that get_object_or_404 also uses the first-found-manager
+    # (note, again, that somehow all_objects was interfering with list_editable regardless...)
+    # ~
+    # I ALSO found out that get_object_or_404 also uses the first-found-manager
     # which, if you use all_objects as the first manager (wanting to fix the admin
     # list_editable problem), you'll then have to manually change all of the
     # get_object_or_404 calls to be passed the .objects manager... and never forget to do
     # that anywhere else... extremely annoying.
+    # ~
     # SO, in the end I decided to use the narrowed-manager .objects as the first (in order)
     # manager in both Event and Static AND to use a truly baroque AllEventProxy class
     # (see below) that is then used in the admin for all events... this makes it possible
