@@ -10,6 +10,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: "main - nycnoise"
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost # default host value for the database
+      POSTGRES_DB: djtesting
+      POSTGRES_PORT: 5432
+    services:
+      postgres_main:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +45,7 @@ jobs:
         run: |
           python manage.py test
         env:
-          DATABASE_URL: "${{ vars.DATABASE_URL }}"
+          DATABASE_URL: "postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}"
           DJANGO_SECRET_KEY: "${{ vars.DJANGO_SECRET_KEY }}"
           ALLOWED_HOSTS: "${{ vars.ALLOWED_HOSTS }}"
           DJANGO_SETTINGS_MODULE: "${{ vars.DJANGO_SETTINGS_MODULE }}"
