@@ -122,11 +122,14 @@ class SearchTestCase(TestCase):
             description=event_description,
             starttime=get_current_new_york_datetime(),
         )
+
+        partial_title = " ".join(event_title.split(" ")[-5:])
+
         # search for event
-        response = self.client.get("/", {"s": event_title})
+        response = self.client.get("/", {"s": partial_title})
 
         self.assertEqual(response.status_code, 200)
-        # find the title and the description in the results
+        # find the description in the results
         self.assertContains(response, event_title)
         self.assertContains(response, event_description)
 
@@ -134,17 +137,31 @@ class SearchTestCase(TestCase):
         # create an event that's user submitted i.e. not approved
         event_title = " ".join(random.sample(RANDOM_WORDS, 10))
         event_description = str(uuid.uuid4())
-        Event.objects.create(
+        event = Event.objects.create(
             title=event_title,
             description=event_description,
             starttime=get_current_new_york_datetime(),
             is_approved=False,
+            user_submitted=True,
         )
+
+        partial_title = " ".join(event_title.split(" ")[-8:])
+
         # search for event
-        response = self.client.get("/", {"s": event_title})
+        response = self.client.get("/", {"s": partial_title})
 
         self.assertEqual(response.status_code, 200)
-        # we should NOT find the description in the test results
-        # (note that we WOULD find the title, because it's shown as
-        # "search results for: <title>") but that doesn't count...! :-)
+        self.assertNotContains(response, event_title)
         self.assertNotContains(response, event_description)
+
+        # approve the event
+        event.is_approved = True
+        event.save()
+
+        # search for event
+        response = self.client.get("/", {"s": partial_title})
+
+        self.assertEqual(response.status_code, 200)
+        # find the title and the description in the results
+        self.assertContains(response, event_title)
+        self.assertContains(response, event_description)
