@@ -10,12 +10,11 @@ from solo.admin import SingletonModelAdmin
 from tinymce.widgets import TinyMCE
 
 from .models import (
+    AllEventProxy,
     DateMessage,
     EmailSubscriber,
-    Event,
     IndexPageMessages,
     MenuItem,
-    SearchableStaticPageBit,
     StaticPage,
     Venue,
 )
@@ -148,9 +147,6 @@ class EventAdmin(admin.ModelAdmin):
             "all": ("core/admin/date-time-widget-fixes.css",),
         }
 
-    def get_queryset(self, request):
-        return Event.all_objects.all()
-
     def get_ordering(self, request):
         return ["starttime", "same_time_order_override"]
 
@@ -196,7 +192,7 @@ class EventAdmin(admin.ModelAdmin):
         return form
 
 
-admin.site.register(Event, EventAdmin)
+admin.site.register(AllEventProxy, EventAdmin)
 
 
 class StaticPageAdmin(admin.ModelAdmin):

@@ -17,6 +17,25 @@ class EventManager(models.Manager):
 
 
 class Event(models.Model):
+    # the ORDER of these i.e. objects first, then all_objects, matters........!!!!!
+    # I initially thought that overriding a manager meant
+    # that the admin classes would need to have a custom get_queryset,
+    # but it's trickier than that... yes, you CAN define a get_queryset for the admin
+    # of a class with a custom manager, but that will break in very subtle ways --
+    # for example, the `list_editable` property in the EventAdmin class which lets
+    # us edit the `order` field directly in the list view will NOT take into account
+    # the get_queryset... but WILL take into the account the first encountered manager
+    # in the model class i.e. here, i.e. Event. more info:
+    # https://docs.djangoproject.com/en/4.2/topics/db/managers/#default-managers
+    # I also learned/found out that get_object_or_404 also uses the first-found-manager
+    # which, if you use all_objects as the first manager (wanting to fix the admin
+    # list_editable problem), you'll then have to manually change all of the
+    # get_object_or_404 calls to be passed the .objects manager... and never forget to do
+    # that anywhere else... extremely annoying.
+    # SO, in the end I decided to use the narrowed-manager .objects as the first (in order)
+    # manager in both Event and Static AND to use a truly baroque AllEventProxy class
+    # (see below) that is then used in the admin for all events... this makes it possible
+    # to not have a get_queryset in the admin AND list_editable works...
     objects = EventManager()
     all_objects = models.Manager()
 
@@ -29,7 +48,9 @@ class Event(models.Model):
     # user-submitted events will not be included in the event calendar until
     # they are approved by an admin.
     user_submitted = models.BooleanField(default=False)
-    is_approved = models.BooleanField(default=True)  # set to false in the submission view
+    is_approved = models.BooleanField(
+        default=True
+    )  # set to false in the submission view
 
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
     venue_override = tinymce_models.HTMLField(
@@ -171,6 +192,22 @@ class Event(models.Model):
         return self.title_and_artists
 
 
+# this ONLY exists for admin purposes and dealing with the problem
+# of the list_editable field `order` not working (i.e. changes to it not being saved)
+# when using a custom manager on the Event class (i.e. all_objects & objects)
+# AND using a get_queryset on the admin class to be able to edit all objects......!
+# because that combo doesn't work, we use a proxy model class (AllEventProxy)
+# and configure the admin class to use that instead of the original Event class.
+class AllEventProxy(Event):
+    class Meta:
+        verbose_name = Event._meta.verbose_name
+        verbose_name_plural = Event._meta.verbose_name_plural
+        proxy = True
+
+    # this will be the 'default manager' used in the Admin, and elsewhere
+    objects = models.Manager()
+
+
 class Venue(models.Model):
     class Meta:
         # declare default ordering to be case insensitive name ascending
@@ -234,6 +271,8 @@ class StaticPageManager(models.Manager):
 
 
 class StaticPage(models.Model):
+    # the ORDER of all_objects and THEN objects matters.
+    # see larger discussion in the Event model class to see why/how.
     objects = StaticPageManager()
     all_objects = models.Manager()
 
