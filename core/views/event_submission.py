@@ -2,6 +2,7 @@ from core.models import Event, Venue
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import CreateView
 
@@ -21,6 +22,7 @@ class UserSubmittedEventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = [
+            "user_submission_email",
             "starttime",
             "hyperlink",
             "ticket_hyperlink",
@@ -39,6 +41,10 @@ class UserSubmittedEventForm(forms.ModelForm):
     def save(self, commit=True):
         """user-submitted events will always be unapproved"""
         obj = super().save(commit=False)
+
+        # de-claw the description
+        obj.description = escape(obj.description)
+
         obj.is_approved = False
         obj.user_submitted = True
         if commit:

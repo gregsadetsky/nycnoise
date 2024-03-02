@@ -56,6 +56,10 @@ class Event(models.Model):
     is_approved = models.BooleanField(
         default=True
     )  # set to false in the submission view
+    user_submission_email = models.EmailField(
+        null=True,
+        blank=True,
+    )
 
     venue = models.ForeignKey("Venue", on_delete=models.SET_NULL, null=True, blank=True)
     venue_override = tinymce_models.HTMLField(

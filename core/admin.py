@@ -116,14 +116,17 @@ class EventAdmin(admin.ModelAdmin):
         "price",
         "is_cancelled",
         "same_time_order_override",
+        "user_submitted",
+        "user_submission_email",
     )
+    readonly_fields = ("user_submitted",)
     list_display_links = ("starttime",)
-    save_on_top = True
     # there are more save_* options that are being overriden
     # in templatetags/admin_save_buttons_override --
     # namely, the fact that both 'save as new' and 'save and add another' buttons
     # appear simultanously is not something that can be set using 'regular'
     # django admin options
+    save_on_top = True
     search_fields = (
         "title",
         "artists",
