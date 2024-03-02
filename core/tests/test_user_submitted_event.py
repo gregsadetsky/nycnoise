@@ -182,3 +182,26 @@ class UserSubmittedEventTestCase(TestCase):
         response = self.client.get(self.endpoint)
         self.assertContains(response, open_venue.name)
         self.assertNotContains(response, closed_venue.name)
+
+    def test_does_not_xss(self):
+        # submit html in description, see that it's escaped once event is approved
+        event_title = uuid.uuid4().hex
+        form = UserSubmittedEventForm(
+            dict(
+                starttime=timezone.now(),
+                title=event_title,
+                artists="grand ulena",
+                venue=self.venue,
+                description="<script>alert('xss')</script>",
+            )
+        )
+        event = form.save()
+        # approve event
+        event.is_approved = True
+        event.save()
+
+        response = self.client.get("/")
+        # find title
+        self.assertContains(response, event_title)
+        # don't find xss
+        self.assertNotContains(response, "<script>alert('xss')</script>")
