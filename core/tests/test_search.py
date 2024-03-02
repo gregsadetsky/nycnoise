@@ -129,3 +129,22 @@ class SearchTestCase(TestCase):
         # find the title and the description in the results
         self.assertContains(response, event_title)
         self.assertContains(response, event_description)
+
+    def test_submitted_event_search(self):
+        # create an event that's user submitted i.e. not approved
+        event_title = " ".join(random.sample(RANDOM_WORDS, 10))
+        event_description = str(uuid.uuid4())
+        Event.objects.create(
+            title=event_title,
+            description=event_description,
+            starttime=get_current_new_york_datetime(),
+            is_approved=False,
+        )
+        # search for event
+        response = self.client.get("/", {"s": event_title})
+
+        self.assertEqual(response.status_code, 200)
+        # we should NOT find the description in the test results
+        # (note that we WOULD find the title, because it's shown as
+        # "search results for: <title>") but that doesn't count...! :-)
+        self.assertNotContains(response, event_description)
