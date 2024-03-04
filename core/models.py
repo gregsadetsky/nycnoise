@@ -110,9 +110,9 @@ class Event(models.Model):
         ("🌀 free", "🌀 free"),
         ("🌀 notaflof", "🌀 notaflof"),
         ("$", "$"),
-        ("$$", "$$"),
-        ("$$$", "$$$"),
-        ("$$$$", "$$$$"),
+        ("$$", "$$ ($30+)"),
+        ("$$$", "$$$ ($50+)"),
+        ("$$$$", "$$$$ ($75+ lol y)"),
     ]
     price = models.CharField(
         max_length=255,
