@@ -2,6 +2,21 @@
 
 
 {% block content %}
+
+{{form.media}}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const interval = setInterval(() => {
+      const foundInput = document.querySelector('input.select2-search__field');
+      if (foundInput) {
+        foundInput.placeholder = "search for a venue...";
+        clearInterval(interval);
+      }
+    }, 100);
+  });
+</script>
+
 <div class="event-submission">
   <h1>submit event</h1>
   <form action="{% url 'submit_event' %}" method="post">
