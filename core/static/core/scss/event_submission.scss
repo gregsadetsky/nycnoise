@@ -1,9 +1,18 @@
 div.event-submission {
   label[for="id_starttime"],
-  label[for="id_title"],
   label[for="id_artists"],
+  label[for="id_hyperlink"],
   label[for="id_venue"] {
     font-weight: bold;
+  }
+
+  textarea#id_description {
+    height: 80px;
+  }
+
+  div.helptext {
+    padding: 0;
+    margin: 0;
   }
 
   ul.errorlist {

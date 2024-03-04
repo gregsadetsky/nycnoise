@@ -14,10 +14,10 @@ class UserSubmittedEventForm(forms.ModelForm):
     template_name = "core/event_form_fields.html"
 
     venue_override = forms.CharField(
-        label="(if missing) venue",
+        label=mark_safe("<small>(if missing) venue</small>"),
         required=False,
         help_text=mark_safe(
-            "<i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i>"
+            "<small><i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i></small>"
         ),
     )
     venue = forms.models.ModelChoiceField(
@@ -25,6 +25,8 @@ class UserSubmittedEventForm(forms.ModelForm):
         queryset=Venue.objects.filter(is_open=True),
         required=False,
     )
+    # description = forms.CharField()
+    # description = forms.Textarea(rows=4)
 
     class Meta:
         model = Event
@@ -46,11 +48,11 @@ class UserSubmittedEventForm(forms.ModelForm):
             "user_submission_email": "yr email",
             "starttime": "date + time",
             "hyperlink": "link",
-            "title": mark_safe('<i>(optional)</i> title / "x presents" or series:'),
-            "ticket_hyperlink": "(if different than main link) ticket link",
+            "title": mark_safe("<i>(optional)</i> title"),
+            "ticket_hyperlink": "ticket link",
             "artists": "artists",
             "price": "price",
-            "description": "extra info (prolly won't include unless it's related to fundraiser or something, but GO WILD)",
+            "description": "extra info (prolly won't include ¯\_(ツ)_/¯)",
         }
         widgets = {
             "starttime": DateTimePickerInput(),
