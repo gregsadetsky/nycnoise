@@ -1,7 +1,6 @@
 from core.models import Event, Venue
 from django import forms
-from django.contrib import admin, messages
-from django.contrib.admin.widgets import AutocompleteSelect
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils.html import escape, mark_safe
 from django.views.generic.edit import CreateView
@@ -24,9 +23,10 @@ class UserSubmittedEventForm(forms.ModelForm):
     venue = forms.models.ModelChoiceField(
         label="venue",
         queryset=Venue.objects.filter(is_open=True),
-        widget=AutocompleteSelect(Event.venue.field, admin.site),
         required=False,
     )
+    # description = forms.CharField()
+    # description = forms.Textarea(rows=4)
 
     class Meta:
         model = Event
