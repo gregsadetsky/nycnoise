@@ -35,10 +35,16 @@
     <script type="text/javascript">
       function toggleBurgerMenuContents() {
         const el = document.querySelector('#burgerMenuContents')
+        const burgerMenuIcon = document.querySelector('.burgerColumn a')
+
         if (el.style.display === 'none') {
           el.style.display = 'block'
+          burgerMenuIcon.style.rotate = '90deg'
+          burgerMenuIcon.style.marginTop = '3px'
         } else {
           el.style.display = 'none'
+          burgerMenuIcon.style.rotate = '0deg'
+          burgerMenuIcon.style.marginTop = '0px'
         }
       }
 
