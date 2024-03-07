@@ -17,7 +17,7 @@
   {% if show_last_curr_next_month_links %}
     <div class='noCalMonthLinks'>
       <a href="{{ first_day_of_last_month|date:'Y-m' }}">← {{ first_day_of_last_month|date:'F'|lower }}</a>
-      <a href="{{ first_day_of_this_month|date:'Y-m' }}">all of {{ first_day_of_this_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_this_month|date:'Y-m' }}">🗓️ {{ first_day_of_this_month|date:'F'|lower }}</a>
       <a href="{{ first_day_of_next_month|date:'Y-m' }}">{{ first_day_of_next_month|date:'F'|lower }} →</a>
     </div>
   {% endif %}
@@ -47,7 +47,7 @@
   {% if show_last_curr_next_month_links %}
     <div class='noCalMonthLinks' style="margin-top:30px;margin-bottom:30px;">
       <a href="{{ first_day_of_last_month|date:'Y-m' }}">← {{ first_day_of_last_month|date:'F'|lower }}</a>
-      <a href="{{ first_day_of_this_month|date:'Y-m' }}">all of {{ first_day_of_this_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_this_month|date:'Y-m' }}">🗓️ {{ first_day_of_this_month|date:'F'|lower }}</a>
       <a href="{{ first_day_of_next_month|date:'Y-m' }}">{{ first_day_of_next_month|date:'F'|lower }} →</a>
     </div>
   {% endif %}
