@@ -8,6 +8,7 @@ from django.shortcuts import render
 from ..models import DateMessage, Event, IndexPageMessages, StaticPage
 from ..utils_datemath import (
     NYCTZ,
+    beginning_of_day,
     get_current_new_york_datetime,
     get_previous_current_next_month_start,
 )
@@ -17,18 +18,27 @@ from .static_page import static_page
 
 # month_date is any date within the month
 # for which the calendar should be generated
-def _get_calendar_dates(month_datetime):
-    _, first_day_of_month, _ = get_previous_current_next_month_start(month_datetime)
+def _get_calendar_dates(month_datetime, start_today_and_show_3_weeks=False):
+    if start_today_and_show_3_weeks:
+        first_day_on_calendar = beginning_of_day(get_current_new_york_datetime())
 
-    first_day_on_calendar = first_day_of_month - timedelta(
-        days=(first_day_of_month.weekday() + 1) % 7
-    )
+        dates_for_calendar = [
+            first_day_on_calendar + timedelta(days=i)
+            # 21 days == 3 weeks
+            for i in range(0, 3 * 7)
+        ]
+    else:
+        _, first_day_of_month, _ = get_previous_current_next_month_start(month_datetime)
 
-    dates_for_calendar = [
-        first_day_on_calendar + timedelta(days=i)
-        # 42 days == 6 weeks
-        for i in range(0, 42)
-    ]
+        first_day_on_calendar = first_day_of_month - timedelta(
+            days=(first_day_of_month.weekday() + 1) % 7
+        )
+
+        dates_for_calendar = [
+            first_day_on_calendar + timedelta(days=i)
+            # 42 days == 6 weeks
+            for i in range(0, 42)
+        ]
 
     current_datetime = get_current_new_york_datetime()
 
@@ -45,15 +55,29 @@ def _get_calendar_dates(month_datetime):
 
 
 # month_datetime can be any (localized!) date time within the month
-def _get_events_page_for_month(request, month_datetime, is_index):
+def _get_events_page_for_month(
+    request,
+    month_datetime,
+    is_index,
+    template_path="core/index.html",
+    start_today_and_show_3_weeks=False,
+):
     # assert that we're dealing with a new york timezone
     assert month_datetime.tzinfo == NYCTZ
 
+    # these are re-used a few times below
     (
-        _,
+        first_day_of_last_month,
         first_day_of_this_month,
         first_day_of_next_month,
     ) = get_previous_current_next_month_start(month_datetime)
+
+    if start_today_and_show_3_weeks:
+        events_start_time = beginning_of_day(get_current_new_york_datetime())
+        events_end_time = events_start_time + timedelta(weeks=3)
+    else:
+        events_start_time = first_day_of_this_month
+        events_end_time = first_day_of_next_month
 
     all_events_for_this_month = (
         # it is very very very important to do a select_related here
@@ -64,8 +88,8 @@ def _get_events_page_for_month(request, month_datetime, is_index):
         # anyway! select_related!! :-)
         Event.objects.select_related("venue")
         .filter(
-            starttime__gte=first_day_of_this_month,
-            starttime__lt=first_day_of_next_month
+            starttime__gte=events_start_time,
+            starttime__lt=events_end_time,
         )
         .order_by("starttime", "same_time_order_override")
         .annotate(date=TruncDate("starttime"))
@@ -76,7 +100,7 @@ def _get_events_page_for_month(request, month_datetime, is_index):
         grouped_events[event.date].append(event)
 
     all_messages_for_this_month = DateMessage.objects.filter(
-        date__gte=first_day_of_this_month, date__lt=first_day_of_next_month
+        date__gte=events_start_time, date__lt=events_end_time
     )
 
     # there might be more than one message per date -- store them all as a list
@@ -90,7 +114,7 @@ def _get_events_page_for_month(request, month_datetime, is_index):
 
     return render(
         request,
-        "core/index.html",
+        template_path,
         {
             "is_index": is_index,
             "month_year_header": month_datetime.strftime("%Y %B").lower(),
@@ -98,11 +122,16 @@ def _get_events_page_for_month(request, month_datetime, is_index):
             # https://stackoverflow.com/a/64666307
             "all_events": dict(grouped_events),
             "calendar_dates": _get_calendar_dates(
-                month_datetime=first_day_of_this_month
+                month_datetime=events_start_time,
+                start_today_and_show_3_weeks=start_today_and_show_3_weeks,
             ),
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
             "index_page_messages": index_page_messages,
+            "show_last_curr_next_month_links": start_today_and_show_3_weeks,
+            "first_day_of_last_month": first_day_of_last_month,
+            "first_day_of_this_month": first_day_of_this_month,
+            "first_day_of_next_month": first_day_of_next_month,
         },
     )
 
@@ -155,4 +184,22 @@ def index(request):
     # get the events page based on today
     return _get_events_page_for_month(
         request, month_datetime=current_datetime, is_index=True
+    )
+
+
+def index_no_cal(request):
+    if request.method == "GET" and request.GET.get("s"):
+        # this is actually a search, let the search view handle it!
+        return search(request)
+
+    # get current new york first day of month date
+    current_datetime = get_current_new_york_datetime()
+
+    # get the events page based on today
+    return _get_events_page_for_month(
+        request,
+        month_datetime=current_datetime,
+        is_index=True,
+        template_path="core/index_no_cal.html",
+        start_today_and_show_3_weeks=True,
     )

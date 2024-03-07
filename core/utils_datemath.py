@@ -23,3 +23,7 @@ def get_previous_current_next_month_start(dt):
         current_month_start,
         current_month_start + relativedelta.relativedelta(months=1),
     )
+
+
+def beginning_of_day(dt):
+    return dt.replace(hour=0, minute=0, second=0, microsecond=0)

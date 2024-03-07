@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block month_year_header %}
+  {% if not is_index %}
+    <h1>{{ month_year_header }}</h1>
+  {% endif %}
+{% endblock month_year_header %}
+
+{% block content %}
+
+  {% if index_page_messages and index_page_messages.pre_cal_msg %}
+    <div id="pre-cal-msg">
+      <p>{{ index_page_messages.pre_cal_msg|safe }}</p>
+    </div>
+  {% endif %}
+
+  {% if show_last_curr_next_month_links %}
+    <div class='noCalMonthLinks'>
+      <a href="{{ first_day_of_last_month|date:'Y-m' }}">← {{ first_day_of_last_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_this_month|date:'Y-m' }}">all of {{ first_day_of_this_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_next_month|date:'Y-m' }}">{{ first_day_of_next_month|date:'F'|lower }} →</a>
+    </div>
+  {% endif %}
+
+  {% for date in calendar_dates %}
+    <article>
+      <h4><a name="{{ date.date|date:'mdy' }}" href="/{{ date.date|date:'Y-m' }}/#{{ date.date|date:'mdy' }}">{{ date.date|date:"M d (D)"|lower }}</a></h4>
+
+      <div class='maskYrSelf'>MASK YR SELF!</div>
+
+      {% if date.date.date in date_messages %}
+        {% for message in date_messages|get_item:date.date.date %}
+          <div class='dateMessage'>{{ message|safe }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if date.date.date in all_events %}
+        {% for event in all_events|get_item:date.date.date %}
+          {{ event.get_baked_html|safe }}
+        {% endfor %}
+      {% endif %}
+
+    </article>
+    <div class="goToTopLink">[<a href="#"><b>go to top</b></a>]</div>
+  {% endfor %}
+
+  {% if show_last_curr_next_month_links %}
+    <div class='noCalMonthLinks' style="margin-top:30px;margin-bottom:30px;">
+      <a href="{{ first_day_of_last_month|date:'Y-m' }}">← {{ first_day_of_last_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_this_month|date:'Y-m' }}">all of {{ first_day_of_this_month|date:'F'|lower }}</a>
+      <a href="{{ first_day_of_next_month|date:'Y-m' }}">{{ first_day_of_next_month|date:'F'|lower }} →</a>
+    </div>
+  {% endif %}
+
+{% endblock content %}

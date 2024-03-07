@@ -5,12 +5,13 @@ from .views.email_subscribe import email_subscribe
 from .views.event_gcal import event_gcal_redirect
 from .views.event_ics_download import event_ics_download
 from .views.event_submission import EventCreateView
-from .views.index import index, past_month_archive
+from .views.index import index, index_no_cal, past_month_archive
 from .views.internal_db_dump import internal_db_dump
 
 urlpatterns = [
     # main event pages - index and past months
     path("", index),
+    path("no_cal", index_no_cal),
     re_path(
         r"^(?P<year>\d{4})-(?P<month>\d{2})/$",
         past_month_archive,
