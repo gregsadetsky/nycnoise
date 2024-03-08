@@ -7,7 +7,7 @@ colorama==0.4.6
 dill==0.3.8
 distlib==0.3.8
 dj-database-url==2.1.0
-Django==4.2.10
+Django==4.2.11
 django-admin-sortable2==2.1.10
 django-appconf==1.0.6
 django-compressor==4.4
@@ -44,7 +44,7 @@ pylint-django==2.5.5
 pylint-plugin-utils==0.8.2
 pytest==8.0.2
 pytest-django==4.8.0
-python-dateutil==2.9.0
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
 rcssmin==1.1.1
