@@ -2,6 +2,8 @@
 # exit on error
 set -o errexit
 
+env
+
 pip install --upgrade pippip install --force-reinstall -U setuptools
 pip install -r requirements.txt
 
