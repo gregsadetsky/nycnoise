@@ -2,7 +2,8 @@
 # exit on error
 set -o errexit
 
-pip install --upgrade pippip install --force-reinstall -U setuptools
+# used to be necessary on render -- not anymore?
+# pip install --upgrade pippip install --force-reinstall -U setuptools
 pip install -r requirements.txt
 
 # run tests -- build should fail if they fail!
