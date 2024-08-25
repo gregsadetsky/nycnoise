@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from django.utils.html import escape, mark_safe
 from django.views.generic.edit import CreateView
 
+from dal import autocomplete
+
 
 class DateTimePickerInput(forms.DateTimeInput):
     input_type = "datetime-local"
@@ -24,6 +26,7 @@ class UserSubmittedEventForm(forms.ModelForm):
         label="venue",
         queryset=Venue.objects.filter(is_open=True),
         required=False,
+        widget=autocomplete.ModelSelect2(url='venue-autocomplete/')
     )
     # description = forms.CharField()
     # description = forms.Textarea(rows=4)
