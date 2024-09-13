@@ -1,0 +1,152 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="event {% if event.is_cancelled %}cancelled{% endif %}">
+    <div class="event-time-and-content">
+      <span class="event-time">
+        •
+        {% if event.starttime_override %}
+          {{ event.starttime_override }}:
+        {% else %}
+          {{ event.starttime|date:"fA"|lower }}:
+        {% endif %}
+      </span>
+      <span class="event-content">
+        {% if event.preface %}<span class='eventPreface'>{{ event.preface|safe }}&nbsp;</span>{% endif %}
+  
+        {% comment %}
+          if title and artists are present, show title in not bold, and artists in bold
+          also check if hyperlink is present or not to see whether artists is hyperlinked (in addition to being bold)
+  
+          if only title or artists are present, show either one of them in bold
+          and also check whether hyperlink is present...
+        {% endcomment %}
+  
+        {% spaceless %}
+          {% if event.hyperlink %}
+            <a href="{{ event.hyperlink }}" target="_blank">
+          {% endif %}
+          
+          {% if event.title and event.artists %}
+            <span class='artist-present'>{{ event.title }}:&nbsp;</span>
+          {% elif event.title %}
+            <span class="title-only">{{ event.title }}</span>
+          {% endif %}
+  
+          {% if event.artists %}
+            <span class="artists">{{ event.artists }}</span>
+          {% endif %}
+  
+          {% if event.hyperlink %}
+            </a>
+          {% endif %}
+        {% endspaceless %}
+  
+        {% if event.price %}
+          <span class="price">({{ event.price }})</span>
+        {% endif %}
+  
+        {% if event.venue_override %}
+          @ {{ event.venue_override|safe }}
+        {% elif event.venue %}
+          @
+  
+          {% if event.age_policy and event.venue.neighborhood_and_borough %}
+            <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          {% elif event.age_policy %}
+            <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }})
+          {% elif event.venue.neighborhood_and_borough %}
+            <b>{{ event.venue.full_name_with_the }}</b>, {{ event.venue.neighborhood_and_borough }}
+          {% else %}
+            <b>{{ event.venue.full_name_with_the }}</b>
+          {% endif %}
+  
+        {% else %}
+          Unknown venue
+        {% endif %}
+  
+        //
+  
+        {% if event.description %}
+          <span class='eventDescription'>{{ event.description | safe }}</span> //
+        {% endif %}
+  
+        {% if event.venue.accessibility_link or event.age_policy_emoji or event.venue.accessibility_emoji or event.venue.accessibility_notes %}
+        <span class='accessibility'>
+          {% if event.venue.accessibility_link %}<a href="{{ event.venue.accessibility_link }}" target="_blank">ACCESS</a>{% else %}ACCESS{% endif %}:
+  
+          {% if event.age_policy_emoji %}
+            {{ event.age_policy_emoji }}
+          {% endif %}
+  
+          {% if event.venue.accessibility_emoji %}
+            {{ event.venue.accessibility_emoji }}
+          {% endif %}
+  
+          {% if event.venue.accessibility_notes %}
+            {{ event.venue.accessibility_notes|safe }}
+          {% endif %}
+        </span>
+        {% endif %}
+  
+        +
+        <a href="{% url 'event_ics_download' event.id %}" class="ical">ICAL</a>
+        +
+        {% comment %}
+          we've found that on production, using a template tag that generated
+          and inserted the google calendar link directly into the template below,
+          was taking about 200ms in total. as a fix, instead of rendering
+          all of the event google calendar links, simply link to /event/ID/gcal
+          and redirect anyone who clicks on that link to the (generated-once)
+          google calendar link.
+        {% endcomment %}
+        <a href="{% url 'event_gcal_redirect' event.id %}" class="gcal">GCAL</a>
+        
+        <button>Share!</button>
+        
+        <p class="result"></p>
+        
+        <script>
+            const shareData = {
+              title: "{{ event.title }}",
+              text: "some blurb",
+              url: window.location.href,
+            };
+            
+            const btn = document.querySelector('button');
+            const resultPara = document.querySelector('.result');
+            
+            btn.addEventListener('click', () => {
+                if (!navigator.canShare) {
+                resultPara.textContent = 'Web Share API not available';
+                return;
+                }
+                if (!navigator.canShare(shareData)) {
+                resultPara.textContent = 'Share data unsupported, disallowed, or invalid';
+                return;
+                }
+                navigator.share(shareData)
+                .then(() =>
+                    resultPara.textContent = 'MDN shared successfully'
+                )
+                .catch((e) =>
+                    resultPara.textContent = 'Error: ' + e
+                )
+            });
+          </script>
+  
+        {% if event.venue and not event.venue_override and event.venue.google_maps_link %}
+          +
+          <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
+        {% endif %}
+      </span>
+    </div>
+    <div class="event-ticket">
+      {% if event.ticket_hyperlink %}
+        <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
+      {% endif %}
+    </div>
+  </div>
+  
+  {% endblock content %}
