@@ -1,5 +1,23 @@
-<div class="event {% if event.is_cancelled %}cancelled{% endif %}">
+<style>
+  @keyframes highlight {
+    0% {
+        background: #ffa500
+    }
+    100% {
+        background: none;
+    }
+}
+
+  :target {
+     /* border: 2px solid #D4D4D4;
+     background-color: ;
+     color: white; */
+     animation: highlight 2s;
+  }
+</style>
+<div id="event-{{ event.pk }}">
   <div class="event-time-and-content">
+    
     <span class="event-time">
       •
       {% if event.starttime_override %}
@@ -103,6 +121,69 @@
         +
         <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
+      {% load static %}
+      <script>
+        const shareData = {
+          title: "{{ event.title }}",
+          text: "some blurb",
+          url: window.location.href.concat("#event-{{ event.pk }}"),
+        };
+        
+        const btn = document.querySelector('.share-button');
+        const resultPara = document.querySelector('.result');
+        
+        function Share()
+        {
+          const resultPara = document.querySelector('.result');
+          const shareData = {
+            title: "{{ event.title }}",
+            text: "some blurb",
+            url: window.location.href.concat("#event-{{ event.pk }}"),
+          };
+          
+          if (!navigator.canShare) {
+            resultPara.textContent = 'Web Share API not available';
+            return;
+            }
+            if (!navigator.canShare(shareData)) {
+            resultPara.textContent = 'Share data unsupported, disallowed, or invalid';
+            return;
+            }
+            navigator.share(shareData)
+            .then(() =>
+                resultPara.textContent = 'MDN shared successfully'
+            )
+            .catch((e) =>
+                resultPara.textContent = 'Error: ' + e
+            )
+        };
+        
+        // btn.addEventListener('click', () => {
+        //     if (!navigator.canShare) {
+        //     resultPara.textContent = 'Web Share API not available';
+        //     return;
+        //     }
+        //     if (!navigator.canShare(shareData)) {
+        //     resultPara.textContent = 'Share data unsupported, disallowed, or invalid';
+        //     return;
+        //     }
+        //     navigator.share(shareData)
+        //     .then(() =>
+        //         resultPara.textContent = 'MDN shared successfully'
+        //     )
+        //     .catch((e) =>
+        //         resultPara.textContent = 'Error: ' + e
+        //     )
+        // });
+      </script>
+      
+      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share()"
+        style="height: 16px;  width: 16px;"
+      />
+      <p class="result"></p>
+      
+      
+      
     </span>
   </div>
   <div class="event-ticket">
