@@ -121,6 +121,15 @@ article {
   }
 }
 
+@keyframes highlight {
+  0% {
+      background: #ffa500
+  }
+  100% {
+      background: none;
+  }
+}
+
 .event {
   display: flex;
 
@@ -164,6 +173,10 @@ article {
 
   .price {
     font-size: 0.85rem;
+  }
+  
+  :target {
+    animation: highlight 2s;
   }
 }
 
