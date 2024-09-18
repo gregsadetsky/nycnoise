@@ -6,6 +6,7 @@ def get_meta(url='/'):
     return Meta(
         title="nyc noise",
         url=url,
+        object_type='website',
         description=(
             "NYC experimental live music calendar • noise, improv, jazz, new music,"
             " avant-electronics, weirdos • performance against corporate interests!"
