@@ -14,6 +14,7 @@
   - for windows, this might be either `venv/Scripts/activate`, `./venv/Scripts/Activate.ps1` or, when using git bash: `source venv/Scripts/activate`
   - your terminal should now have a `(venv)` prefix -- this means you're in the virtual environment
 - install the dependencies with the venv activated: `pip install -r requirements.txt`
+- install pre-commit hooks: `pre-commit install` -- this will run autoformatting and tests on commit
 - (almost there!)
 - run the migrations: `python manage.py migrate`
   - if this works, that means that Django can talk to your local database. that's really great!
