@@ -14,8 +14,8 @@ def fetch_coordinates(url: str):
     match = reg.search(data)
 
     if match:
-        lat = match.group(2)
-        lon = match.group(3)
+        lon = match.group(2)
+        lat = match.group(3)
         return (lat, lon)
     else:
         return (0, 0)
@@ -70,7 +70,10 @@ def main():
     ]
     for v in venues_list:
         print(f"Url: {v}")
-        print(f"Coordinates: {fetch_coordinates(v)}")
+        lat, lon = fetch_coordinates(v)
+        print(f"Coordinates: {lat, lon}")
+        print(f"Conrol URL: http://maps.google.com/?ll={lat},{lon}")
+        print("-------------")
 
 
 if __name__ == "__main__":
