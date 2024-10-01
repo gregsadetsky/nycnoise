@@ -179,7 +179,7 @@ class UserSubmittedEventTestCase(TestCase):
         open_venue.save()
         closed_venue.save()
 
-        response = self.client.get(self.endpoint)
+        response = self.client.get(reverse('venue-autocomplete'))
         self.assertContains(response, open_venue.name)
         self.assertNotContains(response, closed_venue.name)
 

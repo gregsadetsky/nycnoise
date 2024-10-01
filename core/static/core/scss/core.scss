@@ -294,6 +294,7 @@ main .search {
     }
     div > input,
     select,
+    span.select2-container,
     textarea {
       flex: 2;
     }

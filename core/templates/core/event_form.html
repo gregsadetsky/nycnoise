@@ -1,5 +1,8 @@
 {% extends 'core/base.html' %}
 
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+{% endblock head %}
 
 {% block content %}
 <div class="event-submission">
@@ -7,6 +10,7 @@
   <form action="{% url 'submit_event' %}" method="post">
     {% csrf_token %}
     {{ form }}
+    {{ form.media }}
     <input type="submit" value="submit :D" style="font-size:1.6rem">
 
     <div style="padding:10px;display:block;font-size:0.9rem">if there's rly <b>no link</b> to yr event, plz <a href="mailto:contact@nyc-noise.com"><b>email a flyer</b></a> w/ subject line "[DATE] FLYER" (e.g. "2/14/24 FLYER") & i'll link to that instead; ty!</div>
