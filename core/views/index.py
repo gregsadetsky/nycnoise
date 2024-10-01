@@ -134,7 +134,7 @@ def _get_events_page_for_month(
             "first_day_of_last_month": first_day_of_last_month,
             "first_day_of_this_month": first_day_of_this_month,
             "first_day_of_next_month": first_day_of_next_month,
-            "meta": get_meta()
+            "meta": get_meta(),
         },
     )
 

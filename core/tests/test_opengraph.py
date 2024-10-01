@@ -58,9 +58,9 @@ class OpengraphTagsTestCase(TestCase):
     def test_opengraph_static_page(self):
         page = create_static_test_page()
         response = self.client.get(f"/{page.url_path}/")
-        
+
         expected_static_url = f"{expected_url}{page.url_path}/"
-        
+
         self.assertContains(response, f"<title>{page.title}</title>")
         self.assertContains(
             response, f'<meta property="og:url" content="{expected_static_url}">'
