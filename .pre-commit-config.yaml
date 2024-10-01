@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: Run black
+        args: [--line-length=88]
+        entry: black
+        language: system
+        types: [python]
+      - id: test
+        name: Run django tests
+        entry: python manage.py test
+        always_run: true
+        pass_filenames: false
+        language: system
