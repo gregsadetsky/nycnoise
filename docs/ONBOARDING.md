@@ -15,6 +15,9 @@
   - for windows, this might be either `venv/Scripts/activate`, `./venv/Scripts/Activate.ps1` or, when using git bash: `source venv/Scripts/activate`
   - your terminal should now have a `(venv)` prefix -- this means you're in the virtual environment
 - install the dependencies with the venv activated: `pip install -r requirements.txt`
+- install pre-commit hooks: `pre-commit install` -- this will run autoformatting and tests on commit
+- (see below for the following steps)
+
 #### devcontainer setup
 - [Docker](https://www.docker.com/products/docker-desktop/) has to be installed 
 - [VSCode](https://code.visualstudio.com/Download) (recommended) [setup](https://code.visualstudio.com/docs/devcontainers/containers#_installation)
@@ -23,8 +26,7 @@
 - open a project in a devcontaier
 - create a database named **nycnoise** ` psql -c "CREATE DATABASE nycnoise"`
 
-
-#### (almost there!)
+#### almost there! finally...
 - run the migrations: `python manage.py migrate`
   - if this works, that means that Django can talk to your local database. that's really great!
   - if you have trouble here - it could be due to the Postgres server not running or the database doesn't exist, or the connection string in `.env` is wrong
