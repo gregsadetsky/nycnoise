@@ -211,6 +211,16 @@ class StaticPageAdmin(admin.ModelAdmin):
     ordering = ("url_path",)
     list_per_page = 500
     list_filter = ("is_public",)
+    actions = ["make_page_public","make_page_non_public"]
+    
+    @admin.action(description="Make public")
+    def make_page_public(self, request, queryset):
+        queryset.update(is_public=True)
+        
+        
+    @admin.action(description="Make non-public")
+    def make_page_non_public(self, request, queryset):
+        queryset.update(is_public=False)
 
     # use custom query set that returns all static pages, including
     # not public ones -- which are hidden by the default queryset
