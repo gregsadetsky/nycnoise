@@ -56,7 +56,7 @@ rjsmin==1.2.2
 six==1.16.0
 soupsieve==2.6
 sqlparse==0.5.1
-tomli==2.0.1
+tomli==2.0.2
 tomlkit==0.13.2
 types-pytz==2024.2.0.20240913
 types-PyYAML==6.0.12.20240917
