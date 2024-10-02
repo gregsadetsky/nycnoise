@@ -24,8 +24,8 @@ ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    'dal',
-    'dal_select2',
+    "dal",
+    "dal_select2",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "solo",
     # https://github.com/django-ordered-model/django-ordered-model
     "ordered_model",
+    # https://github.com/nephila/django-meta
+    "meta",
 ]
 
 MIDDLEWARE = [
@@ -195,3 +197,12 @@ if PYINSTRUMENT_ENABLE:
     MIDDLEWARE += [
         "pyinstrument.middleware.ProfilerMiddleware",
     ]
+
+# Django-meta configuration
+META_USE_OG_PROPERTIES = True
+META_USE_TWITTER_PROPERTIES = True
+META_USE_TITLE_TAG = True
+META_SITE_PROTOCOL = "https"
+META_SITE_DOMAIN = "nyc-noise.com"
+META_SITE_TYPE = "website"
+META_TWITTER_TYPE = "summary_large_image"

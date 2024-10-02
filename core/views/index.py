@@ -15,6 +15,8 @@ from ..utils_datemath import (
 from .search import search
 from .static_page import static_page
 
+from ..opengraph import get_meta
+
 
 # month_date is any date within the month
 # for which the calendar should be generated
@@ -132,6 +134,7 @@ def _get_events_page_for_month(
             "first_day_of_last_month": first_day_of_last_month,
             "first_day_of_this_month": first_day_of_this_month,
             "first_day_of_next_month": first_day_of_next_month,
+            "meta": get_meta(),
         },
     )
 
