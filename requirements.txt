@@ -15,6 +15,7 @@ django-autocomplete-light==3.11.0
 django-compressor==4.5
 django-debug-toolbar==4.4.2
 django-js-asset==2.2.0
+django-meta==2.4.2
 django-ordered-model==3.7.4
 django-sass-processor==1.4.1
 django-solo==2.2.0
