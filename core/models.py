@@ -1,4 +1,3 @@
-from typing import Optional
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
