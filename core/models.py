@@ -8,7 +8,6 @@ from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
 from tinymce import models as tinymce_models
 
-from core.maps_util import fetch_coordinates
 from core.utils_event_caching import bake_event_html
 from core.utils_static_page import refresh_searchable_static_page_bits
 
@@ -263,14 +262,6 @@ class Venue(models.Model):
 
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
-
-    def reload_coordinates(self, google_maps_url: Optional[str] = None) -> bool:
-        if self.google_maps_link or google_maps_url:
-            self.latitude, self.longitude = fetch_coordinates(
-                google_maps_url or self.google_maps_link
-            )
-            return True
-        return False
 
     def save(self, *args, **kwargs):
         # actually save data to db

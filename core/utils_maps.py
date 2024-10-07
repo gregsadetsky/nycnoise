@@ -11,8 +11,8 @@ def fetch_coordinates(url: Optional[str]) -> Tuple[Optional[float], Optional[flo
     headers = {"User-Agent": "Wget/1.21"}
 
     if url:
-        respone = requests.get(url, headers=headers)
-        data = respone.text
+        response = requests.get(url, headers=headers)
+        data = response.text
         match = coordinates_regex.search(data)
 
         if match:

@@ -1,13 +1,14 @@
 from typing import Any
 from django.core.management.base import BaseCommand, CommandError
 from core.models import Venue
+from core.utils_maps import fetch_coordinates
 from django.db.models import Q
 import time
 
 
 class Command(BaseCommand):
     help = """
-        Reload coordinates for venues stored in the databse. 
+        Reload coordinates for venues stored in the database. 
         Waits for the venue IDs as input.
         To update all venues with missing coordinates run with -a flag
     """
@@ -24,14 +25,14 @@ class Command(BaseCommand):
             "-a",
             "--all",
             action="store_true",
-            help="Load coodnitates for all empty venues in the database. With --force reloads data for everything",
+            help="Load coordinates for all empty venues in the database. With --force reloads data for everything",
         )
         parser.add_argument(
             "-y", "--yes", action="store_true", help="Answer yes to all prompts"
         )
         parser.add_argument(
             "--sleep",
-            help="Time to sleep in seconds in between interations. Defaults to 90 sec",
+            help="Time to sleep in seconds in between iterations. Defaults to 90 sec",
             default=90,
         )
         parser.add_argument(
@@ -60,21 +61,17 @@ class Command(BaseCommand):
 
         for v in venues:
             if v.google_maps_link or options["force"]:
-                print(f"Loading coodrinates for {v.name}")
+                print(f"Loading coordinates for {v.name}")
                 if v.longitude and v.latitude and not options["force"]:
                     if (
                         input(
-                            f"There ({v.latitude},{v.longitude}) stored for {v.name}. Want to overwrtie? (yes/no) > "
+                            f"There ({v.latitude},{v.longitude}) stored for {v.name}. Want to overwrite? (yes/no) > "
                         )
                         != "yes"
                     ):
                         continue
-                if v.reload_coordinates():
-                    print(
-                        f"Updated location. New location: ({v.latitude},{v.longitude})"
-                    )
-                else:
-                    print("Not updated. A problem")
+                v.latitude, v.longitude = fetch_coordinates(v.google_maps_link)
+                print(f"Updated location. New location: ({v.latitude},{v.longitude})")
                 v.save()
             if v != venues[len(venues) - 1] and not options["skip_sleep"]:
                 print(f"Sleeping {options['sleep']} seconds")
