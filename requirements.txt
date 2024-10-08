@@ -1,7 +1,7 @@
 asgiref==3.8.1
-astroid==3.3.4
+astroid==3.3.5
 beautifulsoup4==4.12.3
-black==24.8.0
+black==24.10.0
 certifi==2024.8.30
 charset-normalizer==3.3.2
 colorama==0.4.6
@@ -39,7 +39,7 @@ pipenv==2024.1.0
 pippip==0.0.10
 platformdirs==4.3.6
 pluggy==1.5.0
-pre-commit==3.8.0
+pre-commit==4.0.0
 psycopg2-binary==2.9.9
 pyinstrument==4.7.3
 pylint==3.3.1
@@ -56,9 +56,9 @@ rjsmin==1.2.2
 six==1.16.0
 soupsieve==2.6
 sqlparse==0.5.1
-tomli==2.0.1
+tomli==2.0.2
 tomlkit==0.13.2
-types-pytz==2024.2.0.20240913
+types-pytz==2024.2.0.20241003
 types-PyYAML==6.0.12.20240917
 typing_extensions==4.12.2
 tzdata==2024.2
