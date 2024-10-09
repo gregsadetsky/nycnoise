@@ -6,6 +6,9 @@ from django.urls import reverse
 from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
 from tinymce import models as tinymce_models
+from django.db.models. signals import post_save
+from django.dispatch import receiver
+from django.core.management import call_command
 
 from core.utils_event_caching import bake_event_html
 from core.utils_static_page import refresh_searchable_static_page_bits
@@ -292,6 +295,8 @@ class StaticPage(models.Model):
     url_path = models.CharField(max_length=255, unique=True)
     title = models.CharField(max_length=255)
     content = tinymce_models.HTMLField(null=True, blank=True)
+    
+    page_image = models.FileField(null=True, upload_to="core/static/core/images/pages")
 
     def get_absolute_url(self):
         return reverse("static_page", kwargs={"url_path": self.url_path})
@@ -306,6 +311,9 @@ class StaticPage(models.Model):
             delete_only=not self.is_public,
         )
 
+@receiver(post_save, sender=StaticPage)
+def run_collectstatic(sender, instance, created, ** kwargs):
+    call_command('collectstatic', '--noinput')
 
 # StaticPage's content fields are too long to be indexed by postgres,
 # which leads to super slow search (which we had to remove after the site launch).
