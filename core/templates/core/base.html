@@ -90,6 +90,41 @@
         }
       });
     </script>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+          if (navigator.canShare) {
+            for (let element of document.getElementsByClassName("share-button")){
+              element.style.display="inline";
+            }
+          }
+      }, false);
+      
+      function Share(title, text, event_anchor)
+        {
+          const resultPara = document.querySelector('.result');
+          const shareData = {
+            title: title,
+            text: text,
+            url: window.location.href.split('#')[0].concat('#'.concat(event_anchor)),
+          };
+          
+          if (!navigator.canShare) {
+            console.log('Web Share API not available');
+            return;
+            }
+            if (!navigator.canShare(shareData)) {
+            console.log('Share data unsupported, disallowed, or invalid');
+            return;
+            }
+            navigator.share(shareData)
+            .then(() =>
+                console.log('Link shared successfully')
+            )
+            .catch((e) =>
+                console.log('Error: ' + e)
+            )
+        };
+    </script>
     {% block head %}{% endblock head %}
 </head>
 
