@@ -206,3 +206,11 @@ META_SITE_PROTOCOL = "https"
 META_SITE_DOMAIN = "nyc-noise.com"
 META_SITE_TYPE = "website"
 META_TWITTER_TYPE = "summary_large_image"
+
+# the admin page for events shows an 'order' input for every event.
+# because of all of the hidden input elements, and the checkboxes next to each event,
+# the event admin page ends up having more than 1000 inputs. this leads
+# this page to error out (when saving the custom event order)
+# as DATA_UPLOAD_MAX_NUMBER_FIELDS is 1000 by default.
+# increasing it below to fix this.
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
