@@ -1,4 +1,4 @@
-<div class="event {% if event.is_cancelled %}cancelled{% endif %}">
+<div id="event-{{ event.pk }}" class="event {% if event.is_cancelled %}cancelled{% endif %}">
   <div class="event-time-and-content">
     <span class="event-time">
       •
@@ -103,6 +103,13 @@
         +
         <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
+      {% load static %}
+      
+      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share(
+        '{{ event.title }}', 'some blurb', 'event-{{ event.pk }}'
+      )"
+        style="height: 16px;  width: 16px; display: none;"
+      />
     </span>
   </div>
   <div class="event-ticket">
