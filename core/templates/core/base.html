@@ -94,18 +94,16 @@
       document.addEventListener('DOMContentLoaded', function() {
           if (navigator.canShare) {
             for (let element of document.getElementsByClassName("share-button")){
-              element.style.display="inline";
+              element.style.display="flex";
             }
           }
       }, false);
       
-      function Share(title, text, event_anchor)
+      function Share(event_id)
         {
           const resultPara = document.querySelector('.result');
           const shareData = {
-            title: title,
-            text: text,
-            url: window.location.href.split('#')[0].concat('#'.concat(event_anchor)),
+            url: window.location.origin.concat('/event/'.concat(event_id)),
           };
           
           if (!navigator.canShare) {

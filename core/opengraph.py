@@ -10,7 +10,7 @@ def get_meta(
         " avant-electronics, weirdos • performance against corporate interests!"
     ),
     redirect=None,
-    redirect_time=10,
+    redirect_time=0,
 ):
     """
     Generate Meta tags for pages.
@@ -22,7 +22,7 @@ def get_meta(
             Defaults to a description about NYC experimental live music.
         redirect (str): If provided, sets up a page redirect to the specified URL.
         redirect_time (int): Sets the delay (in seconds) before redirect occurs.
-            Defaults to 10 seconds if not specified.
+            Defaults to 0 seconds if not specified.
     """
     meta = Meta(
         title=title,
