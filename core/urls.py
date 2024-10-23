@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.urls import include, path, re_path
 
+from core.views.event_redirect import event_redirect
+
 from .views.autocomplete import VenueAutocomplete
 from .views.email_subscribe import email_subscribe
 from .views.event_gcal import event_gcal_redirect
@@ -24,7 +26,8 @@ urlpatterns = [
     path("event/<int:event_id>/ics", event_ics_download, name="event_ics_download"),
     path("email-subscribe", email_subscribe, name="email_subscribe"),
     path("internal-api/db", internal_db_dump, name="internal_db_dump"),
-    path("venue-autocomplete/", VenueAutocomplete.as_view(), name='venue-autocomplete'),
+    path("venue-autocomplete/", VenueAutocomplete.as_view(), name="venue-autocomplete"),
+    path("event/<int:event_id>", event_redirect, name="event_redirect"),
 ]
 
 if settings.DEBUG and settings.SHOW_DEBUG_TOOLBAR:

@@ -9,6 +9,7 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/itsmechlark/features/postgresql:1": {},
+		"ghcr.io/jckimble/devcontainer-features/ngrok:3": {},
 	},
 	
 	// "runArgs": ["--add-host=host.docker.internal:host-gateway"],
