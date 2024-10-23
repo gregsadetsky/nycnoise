@@ -123,10 +123,10 @@ article {
 
 @keyframes highlight {
   0% {
-      background: #ffa500
+      background: #ffa600ae
   }
   100% {
-      background: none;
+      background: #ffa60015;
   }
 }
 
@@ -138,6 +138,12 @@ article {
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  scroll-margin-top: 3em;
+  &:target {
+    animation: highlight 2s;
+    animation-timing-function: ease-out;
+    background: #ffa60015;
+  }
 
   .title-only {
     font-weight: bold;
@@ -191,9 +197,6 @@ article {
     font-size: 0.85rem;
   }
   
-  :target {
-    animation: highlight 4s;
-  }
 }
 
 .time {
