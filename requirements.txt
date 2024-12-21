@@ -32,7 +32,7 @@ lazy-object-proxy==1.10.0
 libsass==0.23.0
 lxml==5.3.0
 mccabe==0.7.0
-mypy==1.13.0
+mypy==1.14.0
 mypy-extensions==1.0.0
 packaging==24.2
 pipenv==2024.4.0
@@ -50,7 +50,7 @@ pytest-django==4.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.2
-rcssmin==1.1.2
+rcssmin==1.2.0
 requests==2.32.3
 rjsmin==1.2.2
 six==1.17.0
@@ -58,8 +58,8 @@ soupsieve==2.6
 sqlparse==0.5.3
 tomli==2.2.1
 tomlkit==0.13.2
-types-pytz==2024.2.0.20241003
-types-PyYAML==6.0.12.20240917
+types-pytz==2024.2.0.20241221
+types-PyYAML==6.0.12.20241221
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
