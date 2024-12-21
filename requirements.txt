@@ -50,7 +50,7 @@ pytest-django==4.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.2
-rcssmin==1.2.0
+rcssmin==1.1.2
 requests==2.32.3
 rjsmin==1.2.2
 six==1.17.0
