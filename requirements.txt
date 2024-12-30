@@ -59,7 +59,7 @@ sqlparse==0.5.3
 tomli==2.2.1
 tomlkit==0.13.2
 types-pytz==2024.2.0.20241221
-types-PyYAML==6.0.12.20241221
+types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.3.0
