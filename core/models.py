@@ -356,7 +356,10 @@ class IndexPageMessages(SingletonModel):
 
 class MenuItem(OrderedModel):
     name = models.CharField(max_length=255)
-    url = models.CharField(max_length=255)
+    url = models.CharField(
+        max_length=255,
+        help_text="This can either be a full url like https://... OR if it links to an internal page i.e. the greg page, you should enter /greg with the slash!",
+    )
     show_in_header = models.BooleanField(default=False)
     show_in_footer = models.BooleanField(default=False)
 
