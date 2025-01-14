@@ -13,14 +13,14 @@ django-admin-sortable2==2.2.4
 django-appconf==1.0.6
 django-autocomplete-light==3.11.0
 django-compressor==4.5.1
-django-debug-toolbar==4.4.6
+django-debug-toolbar==5.0.1
 django-js-asset==3.0.1
 django-meta==2.4.2
 django-ordered-model==3.7.4
 django-sass-processor==1.4.1
 django-solo==2.4.0
-django-stubs==5.1.1
-django-stubs-ext==5.1.1
+django-stubs==5.1.2
+django-stubs-ext==5.1.2
 django-tinymce==4.1.0
 filelock==3.16.1
 gunicorn==23.0.0
@@ -65,4 +65,4 @@ tzdata==2024.2
 urllib3==2.3.0
 virtualenv==20.28.1
 whitenoise==6.8.2
-wrapt==1.17.1
+wrapt==1.17.2
