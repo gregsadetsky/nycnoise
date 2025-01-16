@@ -63,6 +63,6 @@ types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.3.0
-virtualenv==20.28.1
+virtualenv==20.29.0
 whitenoise==6.8.2
 wrapt==1.17.2
