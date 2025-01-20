@@ -1,14 +1,17 @@
 from meta.views import Meta
 from django.templatetags.static import static
 
+DEFAULT_TITLE = "nyc noise"
+DEFAULT_DESCRIPTION = (
+    "NYC experimental live music calendar • noise, improv, jazz, new music,"
+    " avant-electronics, weirdos • performance against corporate interests!"
+)
+
 
 def get_meta(
     url=None,
-    title="nyc noise",
-    description=(
-        "NYC experimental live music calendar • noise, improv, jazz, new music,"
-        " avant-electronics, weirdos • performance against corporate interests!"
-    ),
+    title=DEFAULT_TITLE,
+    description=DEFAULT_DESCRIPTION,
     redirect=None,
     redirect_time=0,
 ):
