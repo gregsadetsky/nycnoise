@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from core.opengraph import get_meta, DEFAULT_TITLE
 from ..models import Event
+from ..utils_datemath import NYCTZ
 
 
 def event_redirect(request, event_id, tempate_path="core/empty.html"):
@@ -13,7 +14,7 @@ def event_redirect(request, event_id, tempate_path="core/empty.html"):
         event_time = (
             event.starttime_override
             if event.starttime_override
-            else event.starttime.strftime("%m/%d/%y %H:%M")
+            else event.starttime.astimezone(NYCTZ).strftime("%m/%d/%y %H:%M")
         )
         description = f"{event_time} @ {venue}"
 
