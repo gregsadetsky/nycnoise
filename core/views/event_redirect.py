@@ -31,7 +31,7 @@ def event_redirect(request, event_id, tempate_path="core/empty.html"):
                     description=description,
                     url=request.build_absolute_uri(),
                     redirect=f"/{event_month}/#event-{event_id}",
-                    redirect_time=120,
+                    redirect_time=0,
                 )
             },
         )
