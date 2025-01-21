@@ -1,19 +1,19 @@
 {% load sass_tags %}
 {% load get_item %}
-{% load opengraph %}
 {% load menu_items %}
+{% load meta %}
 
 <!DOCTYPE html>
 <html>
 
-<head>
+<head {% meta_namespaces %}>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="theme-color" content="#000000">
-    <title>{% meta_title %}</title>
-    <meta name="description" content="{% meta_description %}">
-    {% include 'core/opengraph.html' %}
+    
+    {% include "meta/meta.html" %}
+    
     <link href="{% sass_src 'scss/core.scss' %}" rel="stylesheet" type="text/css" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
