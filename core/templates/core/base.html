@@ -91,36 +91,28 @@
       });
     </script>
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
-          if (navigator.canShare) {
-            for (let element of document.getElementsByClassName("share-button")){
-              element.style.display="flex";
-            }
-          }
-      }, false);
-      
       function Share(event_id)
         {
           const resultPara = document.querySelector('.result');
           const shareData = {
             url: window.location.origin.concat('/event/'.concat(event_id)),
           };
-          
           if (!navigator.canShare) {
             console.log('Web Share API not available');
             return;
-            }
-            if (!navigator.canShare(shareData)) {
+          }
+          if (!navigator.canShare(shareData)) {
             console.log('Share data unsupported, disallowed, or invalid');
             return;
-            }
-            navigator.share(shareData)
-            .then(() =>
-                console.log('Link shared successfully')
-            )
-            .catch((e) =>
-                console.log('Error: ' + e)
-            )
+          }
+
+          navigator.share(shareData)
+          .then(() =>
+              console.log('Link shared successfully')
+          )
+          .catch((e) =>
+              console.log('Error: ' + e)
+          )
         };
     </script>
     {% block head %}{% endblock head %}
