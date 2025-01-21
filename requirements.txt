@@ -24,7 +24,7 @@ django-stubs-ext==5.1.2
 django-tinymce==4.1.0
 filelock==3.16.1
 gunicorn==23.0.0
-icalendar==6.1.0
+icalendar==6.1.1
 idna==3.10
 iniconfig==2.0.0
 isort==5.13.2
@@ -63,6 +63,6 @@ types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.3.0
-virtualenv==20.29.0
+virtualenv==20.29.1
 whitenoise==6.8.2
 wrapt==1.17.2
