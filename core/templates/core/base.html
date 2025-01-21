@@ -119,6 +119,9 @@
         .catch((e) =>
             console.log('Error: ' + e)
         )
+        // returned to the <a> to prevent the default
+        // action, which is to continue to the event share url
+        return false;
       };
     </script>
     {% block head %}{% endblock head %}
