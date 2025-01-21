@@ -121,6 +121,15 @@ article {
   }
 }
 
+@keyframes highlight {
+  0% {
+    background: #ffa600ae;
+  }
+  100% {
+    background: #ffa60015;
+  }
+}
+
 .event {
   display: flex;
 
@@ -129,6 +138,12 @@ article {
   padding-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  scroll-margin-top: 3em;
+  &:target {
+    animation: highlight 2s;
+    animation-timing-function: ease-out;
+    background: #ffa60015;
+  }
 
   .title-only {
     font-weight: bold;
@@ -143,6 +158,7 @@ article {
   .event-time-and-content {
     flex: 1;
   }
+
   .event-ticket {
     flex: 0 0 24px;
     text-align: right;
@@ -211,6 +227,11 @@ article {
 
 .map {
   color: #993366;
+  font-size: 0.85rem;
+}
+
+.share {
+  color: #000000;
   font-size: 0.85rem;
 }
 

@@ -90,6 +90,30 @@
         }
       });
     </script>
+    <script type="text/javascript">
+      function Share(event_id)
+        {
+          const shareData = {
+            url: window.location.origin.concat('/event/'.concat(event_id)),
+          };
+          if (!navigator.canShare) {
+            console.log('Web Share API not available');
+            return;
+          }
+          if (!navigator.canShare(shareData)) {
+            console.log('Share data unsupported, disallowed, or invalid');
+            return;
+          }
+
+          navigator.share(shareData)
+          .then(() =>
+              console.log('Link shared successfully')
+          )
+          .catch((e) =>
+              console.log('Error: ' + e)
+          )
+        };
+    </script>
     {% block head %}{% endblock head %}
 </head>
 

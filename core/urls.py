@@ -5,6 +5,7 @@ from .views.autocomplete import VenueAutocomplete
 from .views.email_subscribe import email_subscribe
 from .views.event_gcal import event_gcal_redirect
 from .views.event_ics_download import event_ics_download
+from .views.event_redirect import event_redirect
 from .views.event_submission import EventCreateView
 from .views.index import index, index_no_cal, past_month_archive
 from .views.internal_db_dump import internal_db_dump
@@ -24,7 +25,8 @@ urlpatterns = [
     path("event/<int:event_id>/ics", event_ics_download, name="event_ics_download"),
     path("email-subscribe", email_subscribe, name="email_subscribe"),
     path("internal-api/db", internal_db_dump, name="internal_db_dump"),
-    path("venue-autocomplete/", VenueAutocomplete.as_view(), name='venue-autocomplete'),
+    path("venue-autocomplete/", VenueAutocomplete.as_view(), name="venue-autocomplete"),
+    path("event/<int:event_id>", event_redirect, name="event_redirect"),
 ]
 
 if settings.DEBUG and settings.SHOW_DEBUG_TOOLBAR:
