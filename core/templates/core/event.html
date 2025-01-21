@@ -1,3 +1,5 @@
+{% load static %}
+
 <div id="event-{{ event.pk }}" class="event {% if event.is_cancelled %}cancelled{% endif %}">
   <div class="event-time-and-content">
     <span class="event-time">
@@ -103,13 +105,8 @@
         +
         <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
-      {% load static %}
-      
-      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share(
-        '{{ event.title }}', 'some blurb', 'event-{{ event.pk }}'
-      )"
-        style="height: 16px;  width: 16px; display: none;"
-      />
+        
+      + <a href="javascript:;" onclick="Share('{{ event.pk }}')" class="share">SHARE</a>
     </span>
   </div>
   <div class="event-right-block">
@@ -117,13 +114,6 @@
       {% if event.ticket_hyperlink %}
         <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
       {% endif %}
-    </div>
-    <div class="share-image">
-      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share(
-        '{{ event.pk }}'
-      )"
-        style="display: none;"
-      />
     </div>
   </div>
 </div>
