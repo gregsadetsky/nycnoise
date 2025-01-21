@@ -112,9 +112,18 @@
       />
     </span>
   </div>
-  <div class="event-ticket">
-    {% if event.ticket_hyperlink %}
-      <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
-    {% endif %}
+  <div class="event-right-block">
+    <div class="event-ticket">
+      {% if event.ticket_hyperlink %}
+        <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
+      {% endif %}
+    </div>
+    <div class="share-image">
+      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share(
+        '{{ event.pk }}'
+      )"
+        style="display: none;"
+      />
+    </div>
   </div>
 </div>
