@@ -109,11 +109,9 @@
       + <a href="javascript:;" onclick="Share('{{ event.pk }}')" class="share">SHARE</a>
     </span>
   </div>
-  <div class="event-right-block">
-    <div class="event-ticket">
-      {% if event.ticket_hyperlink %}
-        <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
-      {% endif %}
-    </div>
+  <div class="event-ticket">
+    {% if event.ticket_hyperlink %}
+     <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
+    {% endif %}
   </div>
 </div>
