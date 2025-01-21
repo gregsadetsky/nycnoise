@@ -39,7 +39,7 @@ pipenv==2024.4.0
 pippip==0.0.10
 platformdirs==4.3.6
 pluggy==1.5.0
-pre-commit==4.0.1
+pre-commit==4.1.0
 psycopg2-binary==2.9.10
 pyinstrument==5.0.0
 pylint==3.3.3
