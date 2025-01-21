@@ -144,7 +144,7 @@
                           {% get_header_menu_items as header_menu_items %}
                           {% for menu_item in header_menu_items %}
                             {% if menu_item.show_in_header %}
-                              <a href="/{{ menu_item.url }}">{{ menu_item.name }}</a>
+                              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
                               {% if not forloop.last %}|{% endif %}
                             {% endif %}
                           {% endfor %}
@@ -162,7 +162,7 @@
 
             {% get_all_menu_items as all_menu_items %}
             {% for menu_item in all_menu_items %}
-              <a href="/{{ menu_item.url }}">{{ menu_item.name }}</a><br/>
+              <a href="{{ menu_item.url }}">{{ menu_item.name }}</a><br/>
             {% endfor %}
           </div>
 
@@ -183,7 +183,7 @@
             <div id='footer'>
               <hr>
               {% for menu_item in all_footer_menu_items %}
-                <a href="/{{ menu_item.url }}">{{ menu_item.name }}</a>
+                <a href="{{ menu_item.url }}">{{ menu_item.name }}</a>
                 {% if not forloop.last %}|{% endif %}
               {% endfor %}
             </div>
