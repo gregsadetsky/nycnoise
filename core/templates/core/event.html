@@ -104,7 +104,7 @@
         <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
         
-      + <a href="javascript:;" onclick="Share('{{ event.pk }}')" class="share">SHARE</a>
+      + <a href="javascript:;" data-event-title="{{ event.title_and_artists }}" onclick="Share(this, '{{ event.pk }}')" class="share">SHARE</a>
     </span>
   </div>
   <div class="event-ticket">
