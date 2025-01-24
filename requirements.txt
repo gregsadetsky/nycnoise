@@ -41,7 +41,7 @@ platformdirs==4.3.6
 pluggy==1.5.0
 pre-commit==4.1.0
 psycopg2-binary==2.9.10
-pyinstrument==5.0.0
+pyinstrument==5.0.1
 pylint==3.3.3
 pylint-django==2.6.1
 pylint-plugin-utils==0.8.2
