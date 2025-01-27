@@ -62,24 +62,26 @@ class Command(BaseCommand):
         )
 
         for v in venues:
-            if v.google_maps_link or options["force"]:
-                print(f"Loading coordinates for {v.name}")
-                if v.longitude and v.latitude and not options["force"]:
-                    if (
-                        input(
-                            f"There ({v.latitude},{v.longitude}) stored for {v.name}. Want to overwrite? (yes/no) > "
-                        )
-                        != "yes"
-                    ):
-                        continue
-                lat, lng = fetch_coordinates(v.google_maps_link)
-                if not lat or not lng:
-                    print(f"Failed to get coordinates for {v.name}")
-                    continue
+            if not v.google_maps_link:
+                continue
 
-                v.latitude, v.longitude = lat, lng
-                print(f"Updated location. New location: ({v.latitude},{v.longitude})")
-                v.save()
-            if v != venues[len(venues) - 1] and not options["skip_sleep"]:
-                print(f"Sleeping {options['sleep']} seconds")
-                time.sleep(options["sleep"])
+            print(f"Loading coordinates for {v.name}")
+            if v.longitude and v.latitude and not options["force"]:
+                if (
+                    input(
+                        f"There ({v.latitude},{v.longitude}) stored for {v.name}. Want to overwrite? (yes/no) > "
+                    )
+                    != "yes"
+                ):
+                    continue
+            lat, lng = fetch_coordinates(v.google_maps_link)
+            if not lat or not lng:
+                print(f"Failed to get coordinates for {v.name}")
+                continue
+
+            v.latitude, v.longitude = lat, lng
+            print(f"Updated location. New location: ({v.latitude},{v.longitude})")
+            v.save()
+
+            print(f"Sleeping {options['sleep']} seconds")
+            time.sleep(options["sleep"])
