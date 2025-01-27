@@ -1,6 +1,7 @@
-import requests
 import re
 from typing import Optional, Tuple
+
+import requests
 
 coordinates_regex = re.compile(
     r"APP_INITIALIZATION_STATE=\[\[\[(-?\d*[.]\d*),(-?\d*[.]\d*),(-?\d*[.]\d*)"
@@ -8,16 +9,23 @@ coordinates_regex = re.compile(
 
 
 def fetch_coordinates(url: Optional[str]) -> Tuple[Optional[float], Optional[float]]:
-    headers = {"User-Agent": "Wget/1.21"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    }
 
-    if url:
-        response = requests.get(url, headers=headers)
-        data = response.text
-        match = coordinates_regex.search(data)
+    if not url:
+        return (None, None)
 
-        if match:
-            lon = float(match.group(2))
-            lat = float(match.group(3))
-            return (lat, lon)
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+    except:
+        return (None, None)
+    data = response.text
+    match = coordinates_regex.search(data)
 
-    return (None, None)
+    if not match:
+        return (None, None)
+
+    lon = float(match.group(2))
+    lat = float(match.group(3))
+    return (lat, lon)
