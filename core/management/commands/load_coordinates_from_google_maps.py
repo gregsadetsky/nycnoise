@@ -1,9 +1,10 @@
+import time
 from typing import Any
-from django.core.management.base import BaseCommand, CommandError
+
 from core.models import Venue
 from core.utils_maps import fetch_coordinates
+from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
-import time
 
 
 class Command(BaseCommand):
@@ -34,6 +35,7 @@ class Command(BaseCommand):
             "--sleep",
             help="Time to sleep in seconds in between iterations. Defaults to 90 sec",
             default=90,
+            type=int,
         )
         parser.add_argument(
             "--skip-sleep", action="store_true", help="Skip sleep in between iterations"

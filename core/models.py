@@ -259,8 +259,8 @@ class Venue(models.Model):
 
     wage_information = tinymce_models.HTMLField(null=True, blank=True)
 
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # actually save data to db
