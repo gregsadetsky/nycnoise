@@ -72,7 +72,12 @@ class Command(BaseCommand):
                         != "yes"
                     ):
                         continue
-                v.latitude, v.longitude = fetch_coordinates(v.google_maps_link)
+                lat, lng = fetch_coordinates(v.google_maps_link)
+                if not lat or not lng:
+                    print(f"Failed to get coordinates for {v.name}")
+                    continue
+
+                v.latitude, v.longitude = lat, lng
                 print(f"Updated location. New location: ({v.latitude},{v.longitude})")
                 v.save()
             if v != venues[len(venues) - 1] and not options["skip_sleep"]:
