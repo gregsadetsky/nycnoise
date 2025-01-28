@@ -1,5 +1,6 @@
 from meta.views import Meta
 from django.templatetags.static import static
+from typing import Optional
 
 DEFAULT_TITLE = "nyc noise"
 DEFAULT_DESCRIPTION = (
@@ -11,7 +12,7 @@ DEFAULT_DESCRIPTION = (
 def get_meta(
     url=None,
     title=DEFAULT_TITLE,
-    description=DEFAULT_DESCRIPTION,
+    description: Optional[str] = DEFAULT_DESCRIPTION,
     redirect=None,
     redirect_time=0,
 ):
