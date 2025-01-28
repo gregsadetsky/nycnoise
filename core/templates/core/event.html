@@ -1,4 +1,11 @@
-<div id="event-{{ event.pk }}" class="event {% if event.is_cancelled %}cancelled{% endif %}">
+<div
+  id="event-{{ event.pk }}"
+  class="event {% if event.is_cancelled %}cancelled{% endif %}"
+  data-date="{{ event.starttime|date:'mdy' }}"
+  data-starttime="{% if event.starttime_override %}{{ event.starttime_override }}{% else %}{{ event.starttime|date:'fA'|lower }}{% endif %}"
+  {% if event.venue.latitude and event.venue.longitude %}data-venue-lnglat="{{ event.venue.longitude }},{{event.venue.latitude }}"{% endif %}
+  data-title-and-artists="{{ event.title_and_artists }}"
+>
   <div class="event-time-and-content">
     <span class="event-time">
       •
