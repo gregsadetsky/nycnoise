@@ -16,24 +16,27 @@ def event_redirect(request, event_id, tempate_path="core/empty.html"):
     event_time = (
         event.starttime_override
         if event.starttime_override
-        else event.starttime.astimezone(NYCTZ).strftime("%m/%d/%y %H:%M")
+        else event.starttime.astimezone(NYCTZ).strftime("%m/%d %-I:%M %p").lower()
     )
-    description = f"{event_time} @ {venue}"
+    event_title = event.title_and_artists if event.title_and_artists else ""
+    title = f"{event_time} @ {venue} - {event_title}"
+
+    redirect_time = (
+        1
+        if request.META["HTTP_USER_AGENT"] == "TelegramBot (like TwitterBot)"
+        else 0
+    )
 
     return render(
         request,
         tempate_path,
         {
             "meta": get_meta(
-                title=(
-                    event.title_and_artists
-                    if event.title_and_artists
-                    else DEFAULT_TITLE
-                ),
-                description=description,
+                title=title,
+                description=None,
                 url=request.build_absolute_uri(),
                 redirect=f"/{event_month}/#event-{event_id}",
-                redirect_time=0,
+                redirect_time=redirect_time,
             )
         },
     )
