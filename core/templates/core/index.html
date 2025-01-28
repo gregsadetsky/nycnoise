@@ -22,12 +22,52 @@
 
         const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-lnglat]`);
 
-        const markers = Array.from(eventDivs).map(eventDiv => {
+        const eventsByVenueId = {};
+        Array.from(eventDivs).forEach(eventDiv => {
+          const isCancelled = eventDiv.getAttribute('data-is-cancelled') === 'True';
+          if (isCancelled) {
+            return;
+          }
           const lnglat = eventDiv.getAttribute('data-venue-lnglat').split(',');
-          return new window.maplibregl.Marker()
-            .setLngLat(lnglat)
-        });
+          const startTime = eventDiv.getAttribute('data-starttime');
+          const titleAndArtists = eventDiv.getAttribute('data-title-and-artists');
+          let subString = titleAndArtists.split(' ').slice(0, 5).join(' ');
+          if (titleAndArtists.length > subString.length) {
+            subString += '...';
+          }
+          const venueId = eventDiv.getAttribute('data-venue-id');
 
+          eventsByVenueId[venueId] = eventsByVenueId[venueId] || [];
+          eventsByVenueId[venueId].push({
+            'type': 'Feature',
+            'id': Math.floor(Math.random() * 0xffffff),
+            'properties': {
+              'divId': eventDiv.id,
+              'startTime': startTime,
+              'description': subString
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [parseFloat(lnglat[0]), parseFloat(lnglat[1])]
+            }
+          });
+        });
+        const features = Object.values(eventsByVenueId).map(events => {
+          // if multiple events, only return the first one but
+          // merge all of the description strings with the '\n' separator
+          const description = events.map(event => event.properties.description).join('\n');
+          const eventTimes = events.map(event => event.properties.startTime).join(', ');
+          const event = events[0];
+          event.properties.startTime = eventTimes;
+          event.properties.description = description;
+          return event;
+        });
+        const allFeatures = {
+          'type': 'FeatureCollection',
+          'features': features
+        };
+
+        let hoveredFeature = null;
         const map = new window.maplibregl.Map({
           container: `map-${date}`,
           zoom: 10,
@@ -35,8 +75,84 @@
           style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c"
         });
         map.on('load', () => {
-          markers.forEach(marker => marker.addTo(map));
-          // map.fitBounds(markers.map(marker => marker.getLngLat()));
+          map.addSource('places', {
+            type: 'geojson',
+            data: allFeatures
+          });
+
+          map.addLayer({
+            'id': 'poi-labels',
+            'type': 'symbol',
+            'source': 'places',
+            'layout': {
+                // 'text-field': ['get', 'description'],
+                'text-field': [
+                  'format',
+                  ['get', 'startTime'],
+                  {
+                    'font-scale': 1.1,
+                    'text-font': [
+                      'literal',
+                      ['Noto Sans Italic']
+                    ]
+                  },
+                  '\n',
+                  {},
+                  ['get', 'description'],
+                  {'font-scale': 0.8}
+                ],
+                'text-line-height': 0.9,
+                'text-font': ['Noto Sans Regular'],
+                'text-justify': 'left',
+                'text-allow-overlap': true,
+                'text-size': 14,
+            },
+            'paint': {
+                'text-color': '#000',
+                'text-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    1,
+                    0.7
+                ]
+            }
+          });
+        });
+        map.on('click', 'poi-labels', (e) => {
+          // scroll to the feature id which is also an anchor
+          const featureId = e.features[0].properties.divId;
+          // go to current url + '#' + featureId
+          // remove any current # in the url first!
+          const currentUrl = window.location.href.split('#')[0];
+          window.location.href = `${currentUrl}#${featureId}`;
+        });
+        map.on('mousemove', 'poi-labels', (e) => {
+          if (e.features.length > 0) {
+            if (hoveredFeature) {
+              map.setFeatureState(
+                {source: 'places', id: hoveredFeature},
+                {hover: false}
+              );
+            }
+            hoveredFeature = e.features[0].id;
+            map.setFeatureState(
+              {source: 'places', id: hoveredFeature},
+              {hover: true}
+            );
+            // change cursor
+            map.getCanvas().style.cursor = 'pointer';
+          }
+        });
+        map.on('mouseleave', 'poi-labels', () => {
+          if (hoveredFeature) {
+            map.setFeatureState(
+              {source: 'places', id: hoveredFeature},
+              {hover: false}
+            );
+          }
+          hoveredFeature = null;
+          // reset cursor
+          map.getCanvas().style.cursor = '';
         });
       });
     })
@@ -84,8 +200,7 @@
           MASK YR SELF!
         </div>
 
-        <div id="map-{{ date.date|date:'mdy' }}" style="display:none; height: 300px;">map!
-        </div>
+        <div id="map-{{ date.date|date:'mdy' }}" style="display:none; height: 300px;"></div>
 
         {% if date.date.date in date_messages %}
           {% for message in date_messages|get_item:date.date.date %}
