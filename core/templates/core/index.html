@@ -16,6 +16,16 @@
         mapDiv.style.display = mapIsShown ? 'none' : 'block';
         link.textContent = mapIsShown ? 'SHOW MAP' : 'HIDE MAP';
 
+        if(mapIsShown) {
+          // hide the map info
+          document.getElementById(`map-${date}-info`).style.display = 'none';
+          return;
+        }
+        // if map already exists, don't recreate it
+        if (mapDiv.children.length > 0) {
+          return;
+        }
+
         // find all of the <div> with class="event"
         // that have a data-date of the same value,
         // and have a data-venue-latlng
@@ -142,10 +152,18 @@
         map.on('click', 'poi-labels', (e) => {
           // scroll to the feature id which is also an anchor
           const featureId = e.features[0].properties.divId;
-          // go to current url + '#' + featureId
-          // remove any current # in the url first!
-          const currentUrl = window.location.href.split('#')[0];
-          window.location.href = `${currentUrl}#${featureId}`;
+
+          // clone the whole featureId div
+          // and insert it into the map-<date>-info div
+          const eventDiv = document.getElementById(featureId);
+          const clonedEventDiv = eventDiv.cloneNode(true);
+          // change the styling on the CHILD
+          // text-indent: -30px; padding-left: 49px;
+          clonedEventDiv.style.textIndent = '-30px';
+          clonedEventDiv.style.paddingLeft = '43px';
+          document.getElementById(`map-${date}-info`).innerHTML = '';
+          document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
+          document.getElementById(`map-${date}-info`).style.display = 'block';
         });
         map.on('mousemove', 'poi-labels', (e) => {
           if (e.features.length > 0) {
@@ -222,6 +240,7 @@
         </div>
 
         <div id="map-{{ date.date|date:'mdy' }}" style="display:none; height: 300px;"></div>
+        <div id="map-{{ date.date|date:'mdy' }}-info" style="background: #eeeeff; padding-left: 10px; padding-right: 10px; display:none"></div>
 
         {% if date.date.date in date_messages %}
           {% for message in date_messages|get_item:date.date.date %}
