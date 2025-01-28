@@ -85,30 +85,29 @@
             'type': 'symbol',
             'source': 'places',
             'layout': {
-                // 'text-field': ['get', 'description'],
-                'text-field': [
-                  'format',
-                  ['get', 'startTime'],
-                  {
-                    'font-scale': 1.1,
-                    'text-font': [
-                      'literal',
-                      ['Noto Sans Italic']
-                    ]
-                  },
-                  '\n',
-                  {},
-                  ['get', 'description'],
-                  {'font-scale': 0.8}
-                ],
-                'text-line-height': 0.9,
-                'text-font': ['Noto Sans Regular'],
-                'text-justify': 'left',
-                'text-allow-overlap': true,
-                'text-size': 14,
+              'text-field': [
+                'format',
+                ['get', 'startTime'],
+                {
+                  'font-scale': 1.1,
+                  'text-font': [
+                    'literal',
+                    ['Noto Sans Italic']
+                  ]
+                },
+                '\n',
+                {},
+                ['get', 'description'],
+                {'font-scale': 0.8}
+              ],
+              'text-line-height': 0.9,
+              'text-font': ['Noto Sans Regular'],
+              'text-justify': 'left',
+              'text-allow-overlap': true,
+              'text-size': 14,
             },
             'paint': {
-                'text-color': '#000',
+                'text-color': '#000000',
                 'text-opacity': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
