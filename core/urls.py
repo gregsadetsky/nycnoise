@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.urls import include, path, re_path
 
-from core.views.event_redirect import event_redirect
-
 from .views.autocomplete import VenueAutocomplete
 from .views.email_subscribe import email_subscribe
 from .views.event_gcal import event_gcal_redirect
 from .views.event_ics_download import event_ics_download
+from .views.event_redirect import event_redirect
 from .views.event_submission import EventCreateView
 from .views.index import index, index_no_cal, past_month_archive
 from .views.internal_db_dump import internal_db_dump

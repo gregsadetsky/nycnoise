@@ -103,23 +103,13 @@
         +
         <a href="{{ event.venue.google_maps_link }}" target="_blank" class="map"><b>MAP</b></a>
       {% endif %}
-      {% load static %}
-      
-      
+        
+      + <a href="{% url 'event_redirect' event.pk %}" data-event-title="{{ event.title_and_artists }}" onclick="return Share(this, '{{ event.pk }}')" class="share">SHARE</a>
     </span>
   </div>
-  <div class="event-right-block">
-    <div class="event-ticket">
-      {% if event.ticket_hyperlink %}
-        <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
-      {% endif %}
-    </div>
-    <div class="share-image">
-      <img alt="Share" src="{% static '/images/share.png' %}" class="share-button" onclick="Share(
-        '{{ event.pk }}'
-      )"
-        style="display: none;"
-      />
-    </div>
+  <div class="event-ticket">
+    {% if event.ticket_hyperlink %}
+     <span><a href="{{ event.ticket_hyperlink }}" target="_blank" class='ticket'>tix</a></span>
+    {% endif %}
   </div>
 </div>

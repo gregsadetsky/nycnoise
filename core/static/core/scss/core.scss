@@ -123,10 +123,10 @@ article {
 
 @keyframes highlight {
   0% {
-      background: #ffa600ae
+    background: #ffa600ae;
   }
   100% {
-      background: #ffa60015;
+    background: #ffa60015;
   }
 }
 
@@ -158,45 +158,29 @@ article {
   .event-time-and-content {
     flex: 1;
   }
-  
-  .event-right-block {
-    flex-direction: column;
-    
-    .event-ticket {
-      flex: 0 0 24px;
-      text-align: right;
 
-      span {
-        background-color: rgba(255, 255, 59, 0.8);
-        font-size: 0.9rem;
-        padding: 0;
-        padding-left: 1px;
-        padding-right: 1px;
-        border: 1px solid black;
+  .event-ticket {
+    flex: 0 0 24px;
+    text-align: right;
 
-        a {
-          color: black;
-          text-decoration: none;
-        }
+    span {
+      background-color: rgba(255, 255, 59, 0.8);
+      font-size: 0.9rem;
+      padding: 0;
+      padding-left: 1px;
+      padding-right: 1px;
+      border: 1px solid black;
+
+      a {
+        color: black;
+        text-decoration: none;
       }
     }
-    
-    .share-image {
-      flex: 0 0 20px;
-      text-align: right;
-      margin-top: 4px;
-      
-      img {
-        height: 20px;
-        width: 20px;
-      }
-    } 
   }
-  
+
   .price {
     font-size: 0.85rem;
   }
-  
 }
 
 .time {
@@ -243,6 +227,11 @@ article {
 
 .map {
   color: #993366;
+  font-size: 0.85rem;
+}
+
+.share {
+  color: #000000;
   font-size: 0.85rem;
 }
 
