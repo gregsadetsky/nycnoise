@@ -72,50 +72,72 @@
           container: `map-${date}`,
           zoom: 10,
           center: [-73.9, 40.72],
-          style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c"
+          style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c",
+          maxPitch: 0,
         });
         map.on('load', () => {
-          map.addSource('places', {
-            type: 'geojson',
-            data: allFeatures
-          });
+          // add /map-icon.png image
+          map.loadImage(
+            `/map-icon.png`
+          ).then(function (image) {
+              map.addImage('custom-marker', image.data);
 
-          map.addLayer({
-            'id': 'poi-labels',
-            'type': 'symbol',
-            'source': 'places',
-            'layout': {
-              'text-field': [
-                'format',
-                ['get', 'startTime'],
-                {
-                  'font-scale': 1.1,
-                  'text-font': [
-                    'literal',
-                    ['Noto Sans Italic']
-                  ]
+              map.addSource('places', {
+                type: 'geojson',
+                data: allFeatures
+              });
+
+              map.addLayer({
+                'id': 'poi-labels',
+                'type': 'symbol',
+                'source': 'places',
+                'layout': {
+                  'text-field': [
+                    'format',
+                    ['get', 'startTime'],
+                    {
+                      'font-scale': 1.1,
+                      'text-font': [
+                        'literal',
+                        ['Noto Sans Italic']
+                      ]
+                    },
+                    '\n',
+                    {},
+                    ['get', 'description'],
+                    {'font-scale': 0.8}
+                  ],
+                  'text-line-height': 0.9,
+                  'text-font': ['Noto Sans Regular'],
+                  'text-justify': 'left',
+                  'text-allow-overlap': true,
+                  'text-size': 14,
+                  'icon-image': 'custom-marker',
+                  'icon-size': 0.5,
+                  'icon-offset': [0, -50],
+                  'icon-allow-overlap': true,
                 },
-                '\n',
-                {},
-                ['get', 'description'],
-                {'font-scale': 0.8}
-              ],
-              'text-line-height': 0.9,
-              'text-font': ['Noto Sans Regular'],
-              'text-justify': 'left',
-              'text-allow-overlap': true,
-              'text-size': 14,
-            },
-            'paint': {
-                'text-color': '#000000',
-                'text-opacity': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    1,
-                    0.7
-                ]
-            }
-          });
+                'paint': {
+                    'text-color': '#333333',
+                    // 'text-opacity': [
+                    //     'case',
+                    //     ['boolean', ['feature-state', 'hover'], false],
+                    //     1,
+                    //     0.7
+                    // ]
+                    'text-opacity': [
+                      // increase from 0 at zoom 10 to 1 at zoom 12
+                      'interpolate',
+                      ['exponential', 0.5],
+                      ['zoom'],
+                      10,
+                      0,
+                      11,
+                      1,
+                    ]
+                }
+              });
+            });
         });
         map.on('click', 'poi-labels', (e) => {
           // scroll to the feature id which is also an anchor
@@ -195,7 +217,7 @@
         <h4><a name="{{ date.date|date:'mdy' }}" href="/{{ date.date|date:'Y-m' }}/#{{ date.date|date:'mdy' }}">{{ date.date|date:"M d (D)"|lower }}</a></h4>
 
         <div class='maskYrSelf'>
-          <a href="#" data-date="{{ date.date|date:'mdy' }}">SHOW MAP</a> •
+          🌎 <a href="#" data-date="{{ date.date|date:'mdy' }}" style="color:white;background:green;">SHOW MAP</a> •
           MASK YR SELF!
         </div>
 
