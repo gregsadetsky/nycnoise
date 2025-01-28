@@ -1,15 +1,28 @@
 ## development cycle i.e. how to contribute code
 
-- we'll use the established model described [here](https://nvie.com/posts/a-successful-git-branching-model/)
-  - TLDR: everyone works in feature branches, those branches get merged to `dev`, and then we merge from there to `main` when we're ready to release
-
 ### step by step
 
-- create a new branch based on `dev` for your feature or fix (e.g. make sure you're on `dev` and have git pulled, then `git checkout -b my-fix`)
-- keep branch up to date with dev (e.g. `git pull origin dev`)
-- push code / branch to repo (e.g. `git push origin my-fix`)
-- open PR on github
-- go through a code review
-- code gets merged to `dev`
-- delete branch
+- please first fork this repo
+- git clone your fork to your computer
+- specify a new remote upstream repository:
+
+```bash
+git remote add upstream https://github.com/gregsadetsky/nycnoise.git
+```
+
+- you can check if it was succesful with: `git remote -v`
+- then fetch && merge to update your project: `git pull upstream/dev`
+
+- create a new branch based on `dev` for your feature or fix (e.g. make sure you're on `dev` and have git pulled from upstream, then `git checkout -b my-fix`)
+- keep branch up to date with the upstream dev
+- push code / branch to your repo (e.g. `git push origin my-fix`)
+- open a PR on github
+- go through the code review
+- code gets merged to the upstream `dev`
+- delete the branch
 - repeat
+
+---
+
+- some instructions from https://stackoverflow.com/a/39822102 thanks!
+- also see https://nvie.com/posts/a-successful-git-branching-model/
