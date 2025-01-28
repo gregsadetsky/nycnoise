@@ -63,7 +63,7 @@
           });
         });
         const features = Object.values(eventsByVenueId).map(events => {
-          // if multiple events, only return the first one but
+          // if multiple events at the same venue, only return the first one but
           // merge all of the description strings with the '\n' separator
           const description = events.map(event => event.properties.description).join('\n');
           const eventTimes = events.map(event => event.properties.startTime).join(', ');
@@ -77,7 +77,6 @@
           'features': features
         };
 
-        let hoveredFeature = null;
         const map = new window.maplibregl.Map({
           container: `map-${date}`,
           zoom: 10,
@@ -86,7 +85,6 @@
           maxPitch: 0,
         });
         map.on('load', () => {
-          // add /map-icon.png image
           map.loadImage(
             `/map-icon.png`
           ).then(function (image) {
@@ -129,12 +127,6 @@
                 },
                 'paint': {
                     'text-color': '#333333',
-                    // 'text-opacity': [
-                    //     'case',
-                    //     ['boolean', ['feature-state', 'hover'], false],
-                    //     1,
-                    //     0.7
-                    // ]
                     'text-opacity': [
                       // increase from 0 at zoom 10 to 1 at zoom 12
                       'interpolate',
@@ -158,7 +150,6 @@
           const eventDiv = document.getElementById(featureId);
           const clonedEventDiv = eventDiv.cloneNode(true);
           // change the styling on the CHILD
-          // text-indent: -30px; padding-left: 49px;
           clonedEventDiv.style.textIndent = '-30px';
           clonedEventDiv.style.paddingLeft = '43px';
           document.getElementById(`map-${date}-info`).innerHTML = '';
@@ -167,29 +158,11 @@
         });
         map.on('mousemove', 'poi-labels', (e) => {
           if (e.features.length > 0) {
-            if (hoveredFeature) {
-              map.setFeatureState(
-                {source: 'places', id: hoveredFeature},
-                {hover: false}
-              );
-            }
-            hoveredFeature = e.features[0].id;
-            map.setFeatureState(
-              {source: 'places', id: hoveredFeature},
-              {hover: true}
-            );
             // change cursor
             map.getCanvas().style.cursor = 'pointer';
           }
         });
         map.on('mouseleave', 'poi-labels', () => {
-          if (hoveredFeature) {
-            map.setFeatureState(
-              {source: 'places', id: hoveredFeature},
-              {hover: false}
-            );
-          }
-          hoveredFeature = null;
           // reset cursor
           map.getCanvas().style.cursor = '';
         });
