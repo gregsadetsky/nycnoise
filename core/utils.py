@@ -17,7 +17,7 @@ def get_ics_string_from_event(event: Event):
     cal_event.add("DTEND", event.starttime + datetime.timedelta(hours=1))
     cal_event.add("CREATED", datetime.datetime.now())
     cal_event.add("UID", uuid.uuid4())
-    cal_event.add("SUMMARY", event.title_and_artists)
+    cal_event.add("SUMMARY", event.calendar_name)
     cal_event.add("DESCRIPTION", strip_tags(event.description))
     cal_event.add("LOCATION", event.venue_name_and_address)
 
@@ -43,7 +43,7 @@ def get_gcal_link_from_event(event: Event):
 
     query_string_params = {
         "action": "TEMPLATE",
-        "text": event.title_and_artists,
+        "text": event.calendar_name,
         "dates": starttime_utc_gcal_iso + "/" + endtime_utc_gcal_iso,
         "details": strip_tags(event.description),
         "sf": "true",
