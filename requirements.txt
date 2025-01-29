@@ -13,7 +13,7 @@ dj-database-url==2.3.0
 Django==4.2.18
 django-admin-sortable2==2.2.4
 django-appconf==1.0.6
-django-autocomplete-light==3.12.0
+django-autocomplete-light==3.11.0
 django-compressor==4.5.1
 django-debug-toolbar==5.0.1
 django-js-asset==3.0.1
