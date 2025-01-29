@@ -197,6 +197,11 @@ class Event(models.Model):
         # should not happen
         return ""
 
+    @property
+    def calendar_name(self):
+        """the event name to show on calendars"""
+        return f"{self.title_and_artists} [nycnoise]"
+
     def __str__(self):
         return self.title_and_artists
 
