@@ -42,6 +42,7 @@ contributors (to the code and/or documentation) are listed below and managed wit
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/reyaw"><img src="https://avatars.githubusercontent.com/u/82685635?v=4?s=100" width="100px;" alt="Reya Wallace"/><br /><sub><b>Reya Wallace</b></sub></a><br /><a href="#code-reyaw" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/astrano"><img src="https://avatars.githubusercontent.com/u/291487?v=4?s=100" width="100px;" alt="Alison Strano"/><br /><sub><b>Alison Strano</b></sub></a><br /><a href="#code-astrano" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/litviakk"><img src="https://avatars.githubusercontent.com/u/12960880?v=4?s=100" width="100px;" alt="litviakk"/><br /><sub><b>litviakk</b></sub></a><br /><a href="#code-litviakk" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.kaleballmon.com"><img src="https://avatars.githubusercontent.com/u/56810618?v=4?s=100" width="100px;" alt="Kaleb Allmon"/><br /><sub><b>Kaleb Allmon</b></sub></a><br /><a href="#code-kaleballmon" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
