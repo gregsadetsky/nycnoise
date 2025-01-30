@@ -127,6 +127,7 @@
                     'icon-size': 0.5,
                     'icon-offset': [0, -50],
                     'icon-allow-overlap': true,
+                    'symbol-z-order': 'source',
                   },
                   'paint': {
                       'text-color': '#333333',
@@ -168,6 +169,15 @@
               'marker-red' // default
             ]
           );
+          map.setLayoutProperty('poi-labels', 'symbol-sort-key',
+            [
+              'match',
+              ['get', 'divId'],
+              e.features[0].properties.divId,
+              1000, // sort key when id is the hovered feature id
+              0 // default
+            ]
+          )
         });
         map.on('mousemove', 'poi-labels', (e) => {
           if (e.features.length > 0) {
