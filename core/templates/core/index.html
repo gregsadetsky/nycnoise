@@ -99,6 +99,22 @@
                 });
 
                 map.addLayer({
+                  'id': 'poi-icons',
+                  'type': 'symbol',
+                  'source': 'places',
+                  'layout': {
+                    'icon-image': 'marker-red',
+                    'icon-size': 0.5,
+                    'icon-offset': [0, -26],
+                    'text-offset': [0, 0.9],
+                    'icon-allow-overlap': true,
+                    'symbol-z-order': 'source',
+                  },
+                  'paint': {
+                  }
+                });
+
+                map.addLayer({
                   'id': 'poi-labels',
                   'type': 'symbol',
                   'source': 'places',
@@ -123,11 +139,7 @@
                     'text-justify': 'left',
                     'text-allow-overlap': true,
                     'text-size': 14,
-                    'icon-image': 'marker-red',
-                    'icon-size': 0.5,
-                    'icon-offset': [0, -50],
-                    'icon-allow-overlap': true,
-                    'symbol-z-order': 'source',
+                    'text-offset': [0, 0.9],
                   },
                   'paint': {
                       'text-color': '#333333',
@@ -146,7 +158,7 @@
             });
           });
         });
-        map.on('click', 'poi-labels', (e) => {
+        map.on('click', 'poi-icons', (e) => {
           const featureId = e.features[0].properties.divId;
 
           // clone the whole featureId div
@@ -160,7 +172,7 @@
           document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
           document.getElementById(`map-${date}-info`).style.display = 'block';
 
-          map.setLayoutProperty('poi-labels', 'icon-image',
+          map.setLayoutProperty('poi-icons', 'icon-image',
             [
               'match',
               ['get', 'divId'],
@@ -169,7 +181,7 @@
               'marker-red' // default
             ]
           );
-          map.setLayoutProperty('poi-labels', 'symbol-sort-key',
+          map.setLayoutProperty('poi-icons', 'symbol-sort-key',
             [
               'match',
               ['get', 'divId'],
@@ -179,13 +191,13 @@
             ]
           )
         });
-        map.on('mousemove', 'poi-labels', (e) => {
+        map.on('mousemove', 'poi-icons', (e) => {
           if (e.features.length > 0) {
             // change cursor
             map.getCanvas().style.cursor = 'pointer';
           }
         });
-        map.on('mouseleave', 'poi-labels', () => {
+        map.on('mouseleave', 'poi-icons', () => {
           // reset cursor
           map.getCanvas().style.cursor = '';
         });
