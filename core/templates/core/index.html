@@ -14,11 +14,10 @@
         const mapDiv = document.querySelector(`#map-${date}`);
         const mapIsShown = mapDiv.style.display === 'block';
         mapDiv.style.display = mapIsShown ? 'none' : 'block';
+        document.getElementById(`map-${date}-info`).style.display = mapIsShown ? 'none' : 'block';
         link.textContent = mapIsShown ? 'SHOW MAP' : 'HIDE MAP';
 
         if(mapIsShown) {
-          // hide the map info
-          document.getElementById(`map-${date}-info`).style.display = 'none';
           return;
         }
         // if map already exists, don't recreate it
@@ -50,7 +49,7 @@
           eventsByVenueId[venueId] = eventsByVenueId[venueId] || [];
           eventsByVenueId[venueId].push({
             'type': 'Feature',
-            'id': Math.floor(Math.random() * 0xffffff),
+            'id': Math.floor(Math.random() * 0xffffffff),
             'properties': {
               'divId': eventDiv.id,
               'startTime': startTime,
@@ -86,63 +85,67 @@
         });
         map.on('load', () => {
           map.loadImage(
-            `/map-icon.png`
-          ).then(function (image) {
-              map.addImage('custom-marker', image.data);
+            '/marker-blue.png'
+          ).then(function(imageBlue) {
+            map.addImage('marker-blue', imageBlue.data);
+            map.loadImage(
+              '/marker-red.png'
+            ).then(function (imageRed) {
+                map.addImage('marker-red', imageRed.data);
 
-              map.addSource('places', {
-                type: 'geojson',
-                data: allFeatures
-              });
+                map.addSource('places', {
+                  type: 'geojson',
+                  data: allFeatures
+                });
 
-              map.addLayer({
-                'id': 'poi-labels',
-                'type': 'symbol',
-                'source': 'places',
-                'layout': {
-                  'text-field': [
-                    'format',
-                    ['get', 'startTime'],
-                    {
-                      'font-scale': 1.1,
-                      'text-font': [
-                        'literal',
-                        ['Noto Sans Italic']
+                map.addLayer({
+                  'id': 'poi-labels',
+                  'type': 'symbol',
+                  'source': 'places',
+                  'layout': {
+                    'text-field': [
+                      'format',
+                      ['get', 'startTime'],
+                      {
+                        'font-scale': 1.1,
+                        'text-font': [
+                          'literal',
+                          ['Noto Sans Italic']
+                        ]
+                      },
+                      '\n',
+                      {},
+                      ['get', 'description'],
+                      {'font-scale': 0.8}
+                    ],
+                    'text-line-height': 0.9,
+                    'text-font': ['Noto Sans Regular'],
+                    'text-justify': 'left',
+                    'text-allow-overlap': true,
+                    'text-size': 14,
+                    'icon-image': 'marker-red',
+                    'icon-size': 0.5,
+                    'icon-offset': [0, -50],
+                    'icon-allow-overlap': true,
+                  },
+                  'paint': {
+                      'text-color': '#333333',
+                      'text-opacity': [
+                        // increase from 0 at zoom 10 to 1 at zoom 12
+                        'interpolate',
+                        ['exponential', 0.5],
+                        ['zoom'],
+                        10,
+                        0,
+                        11,
+                        1,
                       ]
-                    },
-                    '\n',
-                    {},
-                    ['get', 'description'],
-                    {'font-scale': 0.8}
-                  ],
-                  'text-line-height': 0.9,
-                  'text-font': ['Noto Sans Regular'],
-                  'text-justify': 'left',
-                  'text-allow-overlap': true,
-                  'text-size': 14,
-                  'icon-image': 'custom-marker',
-                  'icon-size': 0.5,
-                  'icon-offset': [0, -50],
-                  'icon-allow-overlap': true,
-                },
-                'paint': {
-                    'text-color': '#333333',
-                    'text-opacity': [
-                      // increase from 0 at zoom 10 to 1 at zoom 12
-                      'interpolate',
-                      ['exponential', 0.5],
-                      ['zoom'],
-                      10,
-                      0,
-                      11,
-                      1,
-                    ]
-                }
-              });
+                  }
+                });
             });
+          });
         });
         map.on('click', 'poi-labels', (e) => {
-          // scroll to the feature id which is also an anchor
           const featureId = e.features[0].properties.divId;
 
           // clone the whole featureId div
@@ -155,6 +158,16 @@
           document.getElementById(`map-${date}-info`).innerHTML = '';
           document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
           document.getElementById(`map-${date}-info`).style.display = 'block';
+
+          map.setLayoutProperty('poi-labels', 'icon-image',
+            [
+              'match',
+              ['get', 'divId'],
+              e.features[0].properties.divId,
+              'marker-blue', //image when id is the hovered feature id
+              'marker-red' // default
+            ]
+          );
         });
         map.on('mousemove', 'poi-labels', (e) => {
           if (e.features.length > 0) {
