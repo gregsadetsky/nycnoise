@@ -66,7 +66,7 @@ sqlparse==0.5.3
 tomli==2.2.1
 tomlkit==0.13.2
 tqdm==4.67.1
-types-pytz==2024.2.0.20241221
+types-pytz==2025.1.0.20250204
 types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2025.1
