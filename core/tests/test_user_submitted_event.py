@@ -110,25 +110,13 @@ class UserSubmittedEventTestCase(TestCase):
         assert not form.is_valid()
 
     def test_user_must_include_venue(self):
-        """user must include venue info in either venue or venue_override
-        field"""
+        """user must include venue info in venue field"""
         form = UserSubmittedEventForm(
             dict(
                 starttime=timezone.now(),
                 title="brutal prog matinée",
                 artists="grand ulena",
                 venue=self.venue,
-            )
-        )
-        assert form.is_valid(), form.errors
-        form.save()
-
-        form = UserSubmittedEventForm(
-            dict(
-                starttime=timezone.now(),
-                title="brutal prog matinée",
-                artists="grand ulena",
-                venue_override="not sure yet",
             )
         )
         assert form.is_valid(), form.errors
