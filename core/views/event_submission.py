@@ -39,8 +39,8 @@ class UserSubmittedEventForm(forms.ModelForm):
         labels = {
             "hyperlink": "main link",
             "ticket_hyperlink": "ticket link",
-            "user_submission_email": "yr email*",
-            "starttime": "date + time*",
+            "user_submission_email": "yr email",
+            "starttime": "date + time",
             "hyperlink": "link",
             "title": mark_safe("title (if any)"),
             "ticket_hyperlink": "ticket link",
