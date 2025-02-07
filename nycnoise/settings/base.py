@@ -221,8 +221,9 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 # I'm no referrer policy expert but I think these policies are
 # pretty secure, especially considering we don't have user data
 # in any URL patterns. We specificy three policies and Django uses,
-# the last one it understands
+# the last one the browser understands.
 # (i.e. in this case it uses strict-origin-when-cross-origin if all are understood)
+# Some browsers don't support all referrer policies
 SECURE_REFERRER_POLICY = (
     "origin-when-cross-origin",
     "strict-origin",
