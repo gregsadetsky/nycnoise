@@ -214,3 +214,18 @@ META_TWITTER_TYPE = "summary_large_image"
 # as DATA_UPLOAD_MAX_NUMBER_FIELDS is 1000 by default.
 # increasing it below to fix this.
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
+# We have to set the referrer policy or else Django
+# defaults to same-origin which means not sending any
+# referrer information at all across sites which is bad for nyc-noise.
+# I'm no referrer policy expert but I think these policies are
+# pretty secure, especially considering we don't have user data
+# in any URL patterns. We specificy three policies and Django uses,
+# the last one the browser understands.
+# (i.e. in this case it uses strict-origin-when-cross-origin if all are understood)
+# Some browsers don't support all referrer policies
+SECURE_REFERRER_POLICY = (
+    "origin-when-cross-origin",
+    "strict-origin",
+    "strict-origin-when-cross-origin",
+)
