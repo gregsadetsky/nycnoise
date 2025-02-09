@@ -7,8 +7,13 @@
 
   <article>
     {% for results_event in results_events %}
-      {{ results_event.starttime|date:"M d (D)"|lower }}
-      {% include 'core/event.html' with event=results_event only %}
+      <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.3); margin-bottom: 10px;">
+        <a href="/{{ results_event.starttime|date:'Y-m' }}/#{{ results_event.starttime|date:'mdy' }}">
+          {{ results_event.starttime|date:"M d (D) Y"|lower }}
+        </a>
+
+        {% include 'core/event.html' with event=results_event only %}
+      </div>
     {% empty %}
       No results found.
     {% endfor %}
@@ -21,7 +26,7 @@
       <a href="{{ results_page.get_absolute_url }}">{{ results_page.title }}</a>
     </div>
   {% empty %}
-    <li>No results found.</li>
+    No results found.
   {% endfor %}
 
 {% endblock content %}
