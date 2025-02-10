@@ -27,13 +27,13 @@ django-tinymce==4.1.0
 filelock==3.17.0
 gunicorn==23.0.0
 icalendar==6.1.1
-identify==2.6.6
+identify==2.6.7
 idna==3.10
 iniconfig==2.0.0
 isort==6.0.0
 lazy-object-proxy==1.10.0
 libsass==0.23.0
-lxml==5.3.0
+lxml==5.3.1
 mccabe==0.7.0
 mypy==1.15.0
 mypy-extensions==1.0.0
