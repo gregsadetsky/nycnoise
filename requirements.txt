@@ -51,7 +51,7 @@ pylint==3.3.4
 pylint-django==2.6.1
 pylint-plugin-utils==0.8.2
 pytest==8.3.4
-pytest-django==4.9.0
+pytest-django==4.10.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
@@ -71,6 +71,6 @@ types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
-virtualenv==20.29.1
+virtualenv==20.29.2
 whitenoise==6.9.0
 wrapt==1.17.2
