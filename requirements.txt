@@ -12,7 +12,7 @@ distlib==0.3.9
 dj-database-url==2.3.0
 Django==4.2.19
 django-admin-sortable2==2.2.4
-django-appconf==1.0.6
+django-appconf==1.1.0
 django-autocomplete-light==3.11.0
 django-compressor==4.5.1
 django-debug-toolbar==5.0.1
@@ -27,13 +27,13 @@ django-tinymce==4.1.0
 filelock==3.17.0
 gunicorn==23.0.0
 icalendar==6.1.1
-identify==2.6.6
+identify==2.6.7
 idna==3.10
 iniconfig==2.0.0
 isort==6.0.0
 lazy-object-proxy==1.10.0
 libsass==0.23.0
-lxml==5.3.0
+lxml==5.3.1
 mccabe==0.7.0
 mypy==1.15.0
 mypy-extensions==1.0.0
@@ -51,7 +51,7 @@ pylint==3.3.4
 pylint-django==2.6.1
 pylint-plugin-utils==0.8.2
 pytest==8.3.4
-pytest-django==4.9.0
+pytest-django==4.10.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
@@ -71,6 +71,6 @@ types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
-virtualenv==20.29.1
+virtualenv==20.29.2
 whitenoise==6.9.0
 wrapt==1.17.2
