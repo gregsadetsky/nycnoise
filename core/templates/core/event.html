@@ -1,3 +1,17 @@
+{% comment %}
+  most of the data- fields below are for the day-map
+  which """self scrapes""" the events and gets their infos and
+  thus creates the map.
+  i.e. event info is not passed to the map in a different way (through some json structure, or some api)
+  but rather simply appear in the html. this could be improved!
+
+  also! note that the event.html template is CACHED on event and venue save()
+  i.e. changing the template below and simply reloading will NOT show you any change
+  unless you re-save the event (or run the management command that re-saves all events)
+
+  there MIGHT be an advantage to NOT use the cache when DEBUG=True, but it's also
+  useful to see what the cache does in production... TODO, maybe.
+{% endcomment %}
 <div
   id="event-{{ event.pk }}"
   class="event {% if event.is_cancelled %}cancelled{% endif %}"

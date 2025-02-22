@@ -44,6 +44,10 @@ class Event(models.Model):
     objects = EventManager()
     all_objects = models.Manager()
 
+    # for convenience aka this won't be exposed in the admin or elsewhere,
+    # but is useful to be able to sort events in the order that they were created
+    created_at = models.DateTimeField(auto_now_add=True)
+
     # title and artists are separate fields
     # when both are present, title will be not bold and artists will be bold
     # when either are present, whichever is present will be shown in bold
@@ -53,9 +57,8 @@ class Event(models.Model):
     # user-submitted events will not be included in the event calendar until
     # they are approved by an admin.
     user_submitted = models.BooleanField(default=False)
-    is_approved = models.BooleanField(
-        default=True
-    )  # set to false in the submission view
+    # `is_approved` is set to false in the submission view
+    is_approved = models.BooleanField(default=True)
     user_submission_email = models.EmailField(
         null=True,
         blank=True,
@@ -79,7 +82,7 @@ class Event(models.Model):
     # could use HMTLField from tinymce here too, probably, but stick with TextField
     # which we know works.
     description = models.TextField(null=True, blank=True)
-    hyperlink = models.CharField(max_length=255, null=True, blank=True)  #
+    hyperlink = models.CharField(max_length=255, null=True, blank=True)
 
     # some events override the venue's age policy
     age_policy_override = models.CharField(
