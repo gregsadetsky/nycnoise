@@ -15,6 +15,13 @@ class DateTimePickerInput(forms.DateTimeInput):
 class UserSubmittedEventForm(forms.ModelForm):
     template_name = "core/event_form_fields.html"
 
+    venue_override = forms.CharField(
+        label=mark_safe("<small>(if missing) venue</small>"),
+        required=False,
+        help_text=mark_safe(
+            "<small><i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i></small>"
+        ),
+    )
     venue = forms.models.ModelChoiceField(
         label="venue",
         queryset=Venue.objects.filter(is_open=True),
@@ -27,14 +34,16 @@ class UserSubmittedEventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = [
+            "user_submission_email",
             "starttime",
             "hyperlink",
             "title",
             "artists",
             "venue",
-            "ticket_hyperlink",
+            "venue_override",
             "price",
-            "user_submission_email",
+            "ticket_hyperlink",
+            "description",
         ]
         labels = {
             "hyperlink": "main link",
@@ -42,10 +51,11 @@ class UserSubmittedEventForm(forms.ModelForm):
             "user_submission_email": "yr email",
             "starttime": "date + time",
             "hyperlink": "link",
-            "title": mark_safe("title (if any)"),
+            "title": mark_safe("<i>(optional)</i> title"),
             "ticket_hyperlink": "ticket link",
             "artists": "artists",
             "price": "price",
+            "description": "extra info (prolly won't include ¯\_(ツ)_/¯)",
         }
         widgets = {
             "starttime": DateTimePickerInput(),
@@ -69,7 +79,7 @@ class UserSubmittedEventForm(forms.ModelForm):
         if data.get("title") is None and data.get("artists") is None:
             raise ValidationError("event must include title or artists")
         venue_override = data.get("venue_override")
-        if data.get("venue") is None:
+        if data.get("venue") is None and venue_override.strip() == "":
             raise ValidationError("event must contain some venue information")
 
 
