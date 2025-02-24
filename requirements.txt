@@ -27,7 +27,7 @@ django-tinymce==4.1.0
 filelock==3.17.0
 gunicorn==23.0.0
 icalendar==6.1.1
-identify==2.6.7
+identify==2.6.8
 idna==3.10
 iniconfig==2.0.0
 isort==6.0.0
