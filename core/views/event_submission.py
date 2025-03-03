@@ -14,13 +14,6 @@ class DateTimePickerInput(forms.DateTimeInput):
 class UserSubmittedEventForm(forms.ModelForm):
     template_name = "core/event_form_fields.html"
 
-    venue_override = forms.CharField(
-        label=mark_safe("<small>(if missing) venue</small>"),
-        required=False,
-        help_text=mark_safe(
-            "<small><i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i></small>"
-        ),
-    )
     venue = forms.models.ModelChoiceField(
         label="venue",
         queryset=Venue.objects.filter(is_open=True),
@@ -41,7 +34,6 @@ class UserSubmittedEventForm(forms.ModelForm):
             "title",
             "artists",
             "venue",
-            "venue_override",
             "price",
             "ticket_hyperlink",
             "description",
@@ -54,7 +46,7 @@ class UserSubmittedEventForm(forms.ModelForm):
             "ticket_hyperlink": "ticket link",
             "artists": "artists",
             "price": "price",
-            "description": "extra info (prolly won't include ¯\\_(ツ)_/¯)",
+            "description": "extra info (e.g., venue if not in drop-down)"
         }
         widgets = {
             "starttime": DateTimePickerInput(),
@@ -82,7 +74,8 @@ class UserSubmittedEventForm(forms.ModelForm):
             raise ValidationError("event must include title or artists")
 
         venue_override = data.get("venue_override")
-        if data.get("venue") is None and venue_override.strip() == "":
+        venue = data.get("venue")
+        if venue is None and (venue_override is None or venue_override.strip() == ""):
             raise ValidationError("event must contain some venue information")
 
 
