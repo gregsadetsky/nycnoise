@@ -1,6 +1,8 @@
 from core.models import Event, Venue
+from core.utils_aws import aws_mail_sender
 from dal import autocomplete
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils.html import escape, mark_safe
@@ -46,7 +48,7 @@ class UserSubmittedEventForm(forms.ModelForm):
             "ticket_hyperlink": "ticket link",
             "artists": "artists",
             "price": "price",
-            "description": "extra info (e.g., venue if not in drop-down)"
+            "description": "extra info (e.g., venue if not in drop-down)",
         }
         widgets = {
             "starttime": DateTimePickerInput(),
@@ -59,13 +61,34 @@ class UserSubmittedEventForm(forms.ModelForm):
         obj.user_submitted = True
         if commit:
             obj.save()
+
+        # let Jessica know!
+        if settings.ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION:
+            aws_mail_sender.send_email(
+                source=settings.DEFAULT_FROM_EMAIL,
+                destination=settings.JESSICA_EMAIL,
+                subject="NEW EVENT SUBMISSION",
+                text=f"new event submission: {obj.title}",
+                html=f"""
+                <p><strong>start time:</strong> {obj.starttime}</p>
+                <p><strong>hyperlink:</strong> {obj.hyperlink}</p>
+                <p><strong>title:</strong> {obj.title}</p>
+                <p><strong>artists:</strong> {obj.artists}</p>
+                <p><strong>venue:</strong> {obj.venue}</p>
+                <p><strong>ticket hyperlink:</strong> {obj.ticket_hyperlink}</p>
+                <p><strong>description:</strong> {obj.description}</p>
+                <p><strong>price:</strong> {obj.price}</p>
+                <p><strong>user submission email:</strong> {obj.user_submission_email}</p>
+                """,
+            )
+
         return obj
 
     def clean(self):
         data = super().clean()
 
         # escape all text-based fields
-        text_fields = ["title", "artists", "description", "venue_override"]
+        text_fields = ["title", "artists", "description"]
         for field in text_fields:
             if data.get(field):
                 data[field] = escape(data[field])
@@ -73,9 +96,8 @@ class UserSubmittedEventForm(forms.ModelForm):
         if data.get("title") is None and data.get("artists") is None:
             raise ValidationError("event must include title or artists")
 
-        venue_override = data.get("venue_override")
         venue = data.get("venue")
-        if venue is None and (venue_override is None or venue_override.strip() == ""):
+        if venue is None:
             raise ValidationError("event must contain some venue information")
 
 
