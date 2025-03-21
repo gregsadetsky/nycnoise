@@ -72,13 +72,13 @@
         @
 
         {% if event.age_policy and event.venue.neighborhood_and_borough %}
-          <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
+          <b>{{ event.venue }}</b> ({{ event.age_policy }}), {{ event.venue.neighborhood_and_borough }}
         {% elif event.age_policy %}
-          <b>{{ event.venue.full_name_with_the }}</b> ({{ event.age_policy }})
+          <b>{{ event.venue }}</b> ({{ event.age_policy }})
         {% elif event.venue.neighborhood_and_borough %}
-          <b>{{ event.venue.full_name_with_the }}</b>, {{ event.venue.neighborhood_and_borough }}
+          <b>{{ event.venue }}</b>, {{ event.venue.neighborhood_and_borough }}
         {% else %}
-          <b>{{ event.venue.full_name_with_the }}</b>
+          <b>{{ event.venue }}</b>
         {% endif %}
 
       {% else %}

@@ -280,9 +280,6 @@ class Venue(models.Model):
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
 
-    def full_name_with_the(self):
-        return f"{'the ' if self.name_the else ''}{self.name}"
-
 
 # custom manager that returns only public StaticPages by default
 # so that most code (except for the admin) will do the right thing
