@@ -24,11 +24,3 @@ WHITENOISE_AUTOREFRESH = True
 # don't email Jessica during testing!!
 # don't email Jessica during testing!!
 ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION = False
-
-print("this is the settings/test.py !!!!!")
-print(
-    "ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION",
-    ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION,
-)
-
-# TESTING = "test" in sys.argv
