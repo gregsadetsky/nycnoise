@@ -15,7 +15,7 @@ django-admin-sortable2==2.2.4
 django-appconf==1.1.0
 django-autocomplete-light==3.11.0
 django-compressor==4.5.1
-django-debug-toolbar==5.0.1
+django-debug-toolbar==5.1.0
 django-js-asset==3.1.2
 django-meta==2.4.2
 django-ordered-model==3.7.4
@@ -59,7 +59,7 @@ PyYAML==6.0.2
 rcssmin==1.1.2
 requests==2.32.3
 rjsmin==1.2.2
-setuptools==77.0.1
+setuptools==77.0.3
 six==1.17.0
 soupsieve==2.6
 sqlparse==0.5.3
