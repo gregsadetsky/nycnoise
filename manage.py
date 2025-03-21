@@ -5,11 +5,8 @@ import sys
 
 
 def main():
-    print("sys.argv", sys.argv)
-
     """Run administrative tasks."""
     if "test" in sys.argv:
-        print("THIS IS THE TEST MANAGEPY")
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nycnoise.settings.test")
     else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nycnoise.settings.dev")

@@ -64,8 +64,7 @@ class UserSubmittedEventForm(forms.ModelForm):
 
         # let Jessica know!
         if settings.ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION:
-            print("I AM EMAILING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            False and aws_mail_sender.send_email(
+            aws_mail_sender.send_email(
                 source=settings.DEFAULT_FROM_EMAIL,
                 destination=settings.JESSICA_EMAIL,
                 subject="NEW EVENT SUBMISSION",
