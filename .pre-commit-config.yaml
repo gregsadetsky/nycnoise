@@ -9,7 +9,7 @@ repos:
         types: [python]
       - id: test
         name: Run django tests
-        entry: python manage.py test
+        entry: python manage.py test -v 2
         always_run: true
         pass_filenames: false
         language: system
