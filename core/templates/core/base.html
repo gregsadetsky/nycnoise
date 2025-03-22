@@ -92,15 +92,28 @@
     </script>
     <script type="text/javascript">
       function Share(linkElement, eventId) {
-        const shareData = {
-          url: window.location.origin.concat('/event/'.concat(eventId)),
-        };
+        let shareData = {}
 
-        // linkElement is the 'this' of the <a> being clicked
-        // which has a data-event-title property. attempt to retrieve that
-        // and add it to the shareData
-        if (linkElement.dataset.eventTitle) {
-          shareData.title = linkElement.dataset.eventTitle;
+        if (eventId) {
+          shareData = {
+            url: window.location.origin.concat('/event/'.concat(eventId)),
+          };
+
+          // linkElement is the 'this' of the <a> being clicked
+          // which has a data-event-title property. attempt to retrieve that
+          // and add it to the shareData
+          if (linkElement.dataset.eventTitle) {
+            shareData.title = linkElement.dataset.eventTitle;
+          }
+        } else {
+          // If the eventId is null, this is a share button for a date
+          shareData = {
+            url: window.location.origin.concat(linkElement.getAttribute('href')),
+          };
+
+          if (linkElement.dataset.dateTitle) {
+            shareData.title = linkElement.dataset.dateTitle;
+          }
         }
 
         if (!navigator.canShare) {
