@@ -244,7 +244,8 @@
 
         <div class='maskYrSelf'>
           🌎 <a href="#" data-date="{{ date.date|date:'mdy' }}" style="color:white;background:green;">SHOW MAP</a> •
-          MASK YR SELF!
+          MASK YR SELF! •
+          <a href="/{{ date.date|date:'Y-m' }}/#{{ date.date|date:'mdy' }}" data-date-title="{{ date.date|date:'M d (D)'|lower }}" onclick="return Share(this, null)" class="share">^^^SHARE^^^</a>
         </div>
 
         <div id="map-{{ date.date|date:'mdy' }}" style="display:none; height: 300px;"></div>
