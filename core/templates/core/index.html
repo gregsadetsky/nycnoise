@@ -1,9 +1,11 @@
 {% extends 'core/base.html' %}
 
+{% load static %}
+
 {% block head %}
 
-<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.2.0/dist/maplibre-gl.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.2.0/dist/maplibre-gl.min.css">
+<script src="{% static '/core/lib/maplibre-gl.min.js' %}"></script>
+<link rel="stylesheet" href="{% static '/core/lib/maplibre-gl.min.css' %}">
 
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
