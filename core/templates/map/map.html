@@ -170,9 +170,9 @@
         map.on('click', 'poi-icons', (e) => {
           // Get all divs at this venue on this date
           const venueId = e.features[0].properties.venueId;
-          const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-id="${venueId}"]`);
 
           document.getElementById(`map-${date}-info`).innerHTML = '';
+          const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-id="${venueId}"]`);
           eventDivs.forEach(eventDiv => {
             // clone the whole eventDiv
             // and insert it into the map-<date>-info div
