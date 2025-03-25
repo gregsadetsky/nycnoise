@@ -1,7 +1,9 @@
 {% load static %}
 
+{% comment %}
 <script src="{% static '/core/lib/maplibre-gl.min.js' %}"></script>
 <link rel="stylesheet" href="{% static '/core/lib/maplibre-gl.min.css' %}">
+{% endcomment %}
 
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
@@ -207,8 +209,17 @@
 
     // IF we're on the index page, then actually CLICK the very first
     // SHOW MAP link..........!!!!!!!!!!!!!!!!!!!
-    if (window.location.pathname === '/') {
-      dateLinks[0].click();
-    }
+
+    // FIXME
+    // FIXME
+    // FIXME
+    // FIXME
+    // FIXME
+    // FIXME
+    // FIXME
+    // FIXME
+    // if (window.location.pathname === '/') {
+    //   dateLinks[0].click();
+    // }
   });
 </script>
