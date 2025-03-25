@@ -7,7 +7,11 @@ from .views.event_gcal import event_gcal_redirect
 from .views.event_ics_download import event_ics_download
 from .views.event_redirect import event_redirect
 from .views.event_submission import EventCreateView
-from .views.index import index, past_month_archive
+
+# FIXME
+# FIXME
+# FIXME
+from .views.index import index, map_test, past_month_archive
 from .views.internal_db_dump import internal_db_dump
 
 urlpatterns = [
@@ -35,6 +39,10 @@ urlpatterns = [
     # next url is password-protected and lets developers get a copy
     # of the prod data locally
     path("internal-api/db", internal_db_dump, name="internal_db_dump"),
+    # FIXME
+    # FIXME
+    # FIXME
+    path("___map_test___", map_test),
 ]
 
 if settings.DEBUG and settings.SHOW_DEBUG_TOOLBAR:
