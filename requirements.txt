@@ -2,7 +2,7 @@ asgiref==3.8.1
 astroid==3.3.9
 beautifulsoup4==4.13.3
 black==25.1.0
-boto3==1.37.17
+boto3==1.37.19
 certifi==2025.1.31
 cfgv==3.4.0
 charset-normalizer==3.4.1
@@ -54,13 +54,13 @@ pylint-plugin-utils==0.8.2
 pytest==8.3.5
 pytest-django==4.10.0
 python-dateutil==2.9.0.post0
-python-dotenv==1.0.1
-pytz==2025.1
+python-dotenv==1.1.0
+pytz==2025.2
 PyYAML==6.0.2
 rcssmin==1.1.2
 requests==2.32.3
 rjsmin==1.2.2
-setuptools==77.0.3
+setuptools==78.0.2
 six==1.17.0
 soupsieve==2.6
 sqlparse==0.5.3
@@ -70,7 +70,7 @@ tqdm==4.67.1
 types-pytz==2025.1.0.20250318
 types-PyYAML==6.0.12.20241230
 typing_extensions==4.12.2
-tzdata==2025.1
+tzdata==2025.2
 urllib3==2.3.0
 virtualenv==20.29.3
 whitenoise==6.9.0
