@@ -17,10 +17,6 @@ from .search import search
 from .static_page import static_page
 
 
-def map_test(request):
-    return render(request, "map/map.html")
-
-
 # _get_calendar_dates can be used for the index page,
 # where it is the entire current month (i.e. if now is march 4th, show march)
 # OR in case of a month archive (i.e. /2024-03/), it returns that full month
