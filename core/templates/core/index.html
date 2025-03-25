@@ -3,212 +3,7 @@
 {% load static %}
 
 {% block head %}
-
-<script src="{% static '/core/lib/maplibre-gl.min.js' %}"></script>
-<link rel="stylesheet" href="{% static '/core/lib/maplibre-gl.min.css' %}">
-
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function() {
-    const dateLinks = document.querySelectorAll('a[data-date]')
-    dateLinks.forEach(link => {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
-        
-        const date = link.getAttribute('data-date');
-        const mapDiv = document.querySelector(`#map-${date}`);
-        const mapIsShown = mapDiv.style.display === 'block';
-        mapDiv.style.display = mapIsShown ? 'none' : 'block';
-        document.getElementById(`map-${date}-info`).style.display = mapIsShown ? 'none' : 'block';
-        link.textContent = mapIsShown ? 'SHOW MAP' : 'HIDE MAP';
-
-        if(mapIsShown) {
-          return;
-        }
-        // if map already exists, don't recreate it
-        if (mapDiv.children.length > 0) {
-          return;
-        }
-
-        // find all of the <div> with class="event"
-        // that have a data-date of the same value,
-        // and have a data-venue-latlng
-
-        const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-lnglat]`);
-
-        const eventsByVenueId = {};
-        Array.from(eventDivs).forEach(eventDiv => {
-          const isCancelled = eventDiv.getAttribute('data-is-cancelled') === 'True';
-          if (isCancelled) {
-            return;
-          }
-          const lnglat = eventDiv.getAttribute('data-venue-lnglat').split(',');
-          const startTime = eventDiv.getAttribute('data-starttime');
-          const titleAndArtists = eventDiv.getAttribute('data-title-and-artists');
-          let subString = titleAndArtists.split(' ').slice(0, 5).join(' ');
-          if (titleAndArtists.length > subString.length) {
-            subString += '...';
-          }
-          const venueId = eventDiv.getAttribute('data-venue-id');
-
-          eventsByVenueId[venueId] = eventsByVenueId[venueId] || [];
-          eventsByVenueId[venueId].push({
-            'type': 'Feature',
-            'id': Math.floor(Math.random() * 0xffffffff),
-            'properties': {
-              'divId': eventDiv.id,
-              'startTime': startTime,
-              'description': subString
-            },
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [parseFloat(lnglat[0]), parseFloat(lnglat[1])]
-            }
-          });
-        });
-        const features = Object.values(eventsByVenueId).map(events => {
-          // if multiple events at the same venue, only return the first one but
-          // merge all of the description strings with the '\n' separator
-          const description = events.map(event => event.properties.description).join('\n');
-          const eventTimes = events.map(event => event.properties.startTime).join(', ');
-          const event = events[0];
-          event.properties.startTime = eventTimes;
-          event.properties.description = description;
-          return event;
-        });
-        const allFeatures = {
-          'type': 'FeatureCollection',
-          'features': features
-        };
-
-        const map = new window.maplibregl.Map({
-          container: `map-${date}`,
-          zoom: 10,
-          center: [-73.9, 40.72],
-          style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c",
-          maxPitch: 0,
-        });
-        map.on('load', () => {
-          map.loadImage(
-            '/marker-blue.png'
-          ).then(function(imageBlue) {
-            map.addImage('marker-blue', imageBlue.data);
-            map.loadImage(
-              '/marker-red.png'
-            ).then(function (imageRed) {
-                map.addImage('marker-red', imageRed.data);
-
-                map.addSource('places', {
-                  type: 'geojson',
-                  data: allFeatures
-                });
-
-                map.addLayer({
-                  'id': 'poi-icons',
-                  'type': 'symbol',
-                  'source': 'places',
-                  'layout': {
-                    'icon-image': 'marker-red',
-                    'icon-size': 0.5,
-                    'icon-offset': [0, -26],
-                    'text-offset': [0, 0.9],
-                    'icon-allow-overlap': true,
-                    'symbol-z-order': 'source',
-                  },
-                  'paint': {
-                  }
-                });
-
-                map.addLayer({
-                  'id': 'poi-labels',
-                  'type': 'symbol',
-                  'source': 'places',
-                  'layout': {
-                    'text-field': [
-                      'format',
-                      ['get', 'startTime'],
-                      {
-                        'font-scale': 1.1,
-                        'text-font': [
-                          'literal',
-                          ['Noto Sans Italic']
-                        ]
-                      },
-                      '\n',
-                      {},
-                      ['get', 'description'],
-                      {'font-scale': 0.8}
-                    ],
-                    'text-line-height': 0.9,
-                    'text-font': ['Noto Sans Regular'],
-                    'text-justify': 'left',
-                    'text-allow-overlap': true,
-                    'text-size': 14,
-                    'text-offset': [0, 0.9],
-                  },
-                  'paint': {
-                      'text-color': '#333333',
-                      'text-opacity': [
-                        // increase from 0 at zoom 10 to 1 at zoom 12
-                        'interpolate',
-                        ['exponential', 0.5],
-                        ['zoom'],
-                        10,
-                        0,
-                        11,
-                        1,
-                      ]
-                  }
-                });
-            });
-          });
-        });
-        map.on('click', 'poi-icons', (e) => {
-          const featureId = e.features[0].properties.divId;
-
-          // clone the whole featureId div
-          // and insert it into the map-<date>-info div
-          const eventDiv = document.getElementById(featureId);
-          const clonedEventDiv = eventDiv.cloneNode(true);
-          // change the styling on the CHILD
-          clonedEventDiv.style.textIndent = '-30px';
-          clonedEventDiv.style.paddingLeft = '34px';
-          document.getElementById(`map-${date}-info`).innerHTML = '';
-          document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
-          document.getElementById(`map-${date}-info`).style.display = 'block';
-
-          map.setLayoutProperty('poi-icons', 'icon-image',
-            [
-              'match',
-              ['get', 'divId'],
-              e.features[0].properties.divId,
-              'marker-blue', //image when id is the hovered feature id
-              'marker-red' // default
-            ]
-          );
-          map.setLayoutProperty('poi-icons', 'symbol-sort-key',
-            [
-              'match',
-              ['get', 'divId'],
-              e.features[0].properties.divId,
-              1000, // sort key when id is the hovered feature id
-              0 // default
-            ]
-          )
-        });
-        map.on('mousemove', 'poi-icons', (e) => {
-          if (e.features.length > 0) {
-            // change cursor
-            map.getCanvas().style.cursor = 'pointer';
-          }
-        });
-        map.on('mouseleave', 'poi-icons', () => {
-          // reset cursor
-          map.getCanvas().style.cursor = '';
-        });
-      });
-    })
-  });
-</script>
+  {% include "map/map.html" %}
 {% endblock head %}
 
 {% block month_year_header %}
@@ -219,6 +14,11 @@
 
 {% block content %}
 
+  {% comment %}
+    'index_page_messages' is a misnomer as the messages appear above and below the calendar
+    on all pages ie on the /yyyy-mm/ archive pages AND on the index page.
+  {% endcomment %}
+
   {% if index_page_messages and index_page_messages.pre_cal_msg %}
     <div id="pre-cal-msg">
       <p>{{ index_page_messages.pre_cal_msg|safe }}</p>
@@ -227,12 +27,19 @@
 
   {% include "calendar/calendar.html" with calendar_dates=calendar_dates only %}
 
+  <div class='noCalMonthLinks'>
+    <a href="/{{ first_day_of_last_month|date:'Y-m' }}/">← {{ first_day_of_last_month|date:'M'|lower }}</a>
+    <a href="/{{ first_day_of_this_month|date:'Y-m' }}/">🗓️ {{ first_day_of_this_month|date:'M'|lower }}</a>
+    <a href="/{{ first_day_of_next_month|date:'Y-m' }}/">{{ first_day_of_next_month|date:'M'|lower }} →</a>
+  </div>
+
   {% if index_page_messages and index_page_messages.post_cal_msg %}
     <div id="post-cal-msg">
       <p>{{ index_page_messages.post_cal_msg|safe }}</p>
     </div>
   {% endif %}
 
+  <!--
   <div class="emailForm">
     <form method='POST' action="{% url 'email_subscribe' %}">
       {% csrf_token %}
@@ -240,38 +47,55 @@
       <input type='submit' value='subscribe'>
     </form>
   </div>
+  -->
+  
+  {% for date_events in grouped_events_as_list %}
+    <article>
+      <h4><a name="{{ date_events.date|date:'mdy' }}" href="/{{ date_events.date|date:'Y-m' }}/#{{ date_events.date|date:'mdy' }}">{{ date_events.date|date:"M d (D)"|lower }}</a></h4>
 
-  {% for date in calendar_dates %}
-    {% if date.is_current_page_month %}
-      <article>
-        <h4><a name="{{ date.date|date:'mdy' }}" href="/{{ date.date|date:'Y-m' }}/#{{ date.date|date:'mdy' }}">{{ date.date|date:"M d (D)"|lower }}</a></h4>
+      <div class='maskYrSelf'>
+        🌎 <a href="#" data-date="{{ date_events.date|date:'mdy' }}" style="color:white;background:green;">SHOW MAP</a> •
+        MASK YR SELF!
+      </div>
 
-        <div class='maskYrSelf'>
-          🌎 <a href="#" data-date="{{ date.date|date:'mdy' }}" style="color:white;background:green;">SHOW MAP</a> •
-          MASK YR SELF!
-        </div>
+      <div id="map-{{ date_events.date|date:'mdy' }}" style="display:none; height: 300px; margin-bottom: 10px;"></div>
+      <div id="map-{{ date_events.date|date:'mdy' }}-info" style="background: #eeeeff; padding-left: 10px; padding-right: 10px; display:none"></div>
 
-        <div id="map-{{ date.date|date:'mdy' }}" style="display:none; height: 300px;"></div>
-        <div id="map-{{ date.date|date:'mdy' }}-info" style="background: #eeeeff; padding-left: 10px; padding-right: 10px; display:none"></div>
+      {% if date_events.date in date_messages %}
+        {% for message in date_messages|get_item:date_events.date %}
+          <div class='dateMessage'>{{ message|safe }}</div>
+        {% endfor %}
+      {% endif %}
 
-        {% if date.date.date in date_messages %}
-          {% for message in date_messages|get_item:date.date.date %}
-            <div class='dateMessage'>{{ message|safe }}</div>
-          {% endfor %}
-        {% endif %}
+      {% for event in date_events.events %}
+        {{ event.get_baked_html|safe }}
 
-        {% if date.date.date in all_events %}
-          {% for event in all_events|get_item:date.date.date %}
-            {{ event.get_baked_html|safe }}
+        {% comment %}
+          for local development, it's typically easier/better to
+          uncomment the include below, and to comment the get_baked_html above...
+          ... but then you have to remember to undo this.
+          very not ideal. it can be a good thing to see what production does
+          ie use baked html locally, but it's also almost impossible to work with
+          locally. I don't know what to do here.
+          maybe a "dev dev" mode and a "dev prod" mode...?? a little bit
+          like a django toolbar - ie have some "dev ui" locally that lets you switch
+          between the two?
+        {% endcomment %}
 
-            {% comment %}
-              {% include "core/event.html" with event=event only %}
-            {% endcomment %}
-          {% endfor %}
-        {% endif %}
-        
-      </article>
-      <div class="goToTopLink">[<a href="#"><b>go to top</b></a>]</div>
-    {% endif %}
+        {% comment %}
+          {% include "core/event.html" with event=event only %}
+        {% endcomment %}
+
+      {% endfor %}
+
+    </article>
+    <div class="goToTopLink">[<a href="#"><b>go to top</b></a>]</div>
   {% endfor %}
+
+  <div class='noCalMonthLinks' style="margin-top:30px;margin-bottom:30px;">
+    <a href="/{{ first_day_of_last_month|date:'Y-m' }}/">← {{ first_day_of_last_month|date:'M'|lower }}</a>
+    <a href="/{{ first_day_of_this_month|date:'Y-m' }}/">🗓️ {{ first_day_of_this_month|date:'M'|lower }}</a>
+    <a href="/{{ first_day_of_next_month|date:'Y-m' }}/">{{ first_day_of_next_month|date:'M'|lower }} →</a>
+  </div>
+
 {% endblock content %}

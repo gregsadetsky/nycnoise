@@ -23,11 +23,7 @@
           if not the current month, link to that day (which will be a separate page) + #(date)
         {% endcomment %}
 
-        {% if date.is_current_page_month %}
-          <a href="#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
-        {% else %}
-          <a href="/{{ date.date|date:'Y-m' }}#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
-        {% endif %}
+        <a href="/{{ date.date|date:'Y-m' }}#{{ date.date|date:'mdy' }}">{{ date.date.day }}</a>
     </td>
   {% endfor %}
 

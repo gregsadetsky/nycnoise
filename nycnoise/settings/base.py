@@ -24,6 +24,7 @@ ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    # https://django-autocomplete-light.readthedocs.io/en/master/
     "dal",
     "dal_select2",
     "django.contrib.admin",

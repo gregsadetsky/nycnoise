@@ -347,6 +347,11 @@ class EmailSubscriber(models.Model):
         return self.email
 
 
+# 'IndexPageMessages' is a misnomer, as this
+# singleton Pre + Post cal messages appear on EVERY
+# archive page i.e. not only the / page, but also
+# on every /2025-02/ ie archive page.
+# TODO rename this to .... PrePostCalMessage? or CalMessages?
 class IndexPageMessages(SingletonModel):
     pre_cal_msg = tinymce_models.HTMLField(
         "Pre calendar message", null=True, blank=True
