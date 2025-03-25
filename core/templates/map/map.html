@@ -53,6 +53,7 @@
             'id': Math.floor(Math.random() * 0xffffffff),
             'properties': {
               'divId': eventDiv.id,
+              'venueId': venueId,
               'startTime': startTime,
               'description': subString
             },
@@ -110,6 +111,13 @@
                     'text-offset': [0, 0.9],
                     'icon-allow-overlap': true,
                     'symbol-z-order': 'source',
+                    'symbol-sort-key': [
+                      'match',
+                      ['get', 'divId'],
+                      '', // initialize to not match anything
+                      1000, // sort key when id is the hovered feature id
+                      0 // default
+                    ],
                   },
                   'paint': {
                   }
@@ -160,17 +168,20 @@
           });
         });
         map.on('click', 'poi-icons', (e) => {
-          const featureId = e.features[0].properties.divId;
+          // Get all divs at this venue on this date
+          const venueId = e.features[0].properties.venueId;
+          const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-id="${venueId}"]`);
 
-          // clone the whole featureId div
-          // and insert it into the map-<date>-info div
-          const eventDiv = document.getElementById(featureId);
-          const clonedEventDiv = eventDiv.cloneNode(true);
-          // change the styling on the CHILD
-          clonedEventDiv.style.textIndent = '-30px';
-          clonedEventDiv.style.paddingLeft = '34px';
           document.getElementById(`map-${date}-info`).innerHTML = '';
-          document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
+          eventDivs.forEach(eventDiv => {
+            // clone the whole eventDiv
+            // and insert it into the map-<date>-info div
+            const clonedEventDiv = eventDiv.cloneNode(true);
+            // change the styling on the CHILD
+            clonedEventDiv.style.textIndent = '-30px';
+            clonedEventDiv.style.paddingLeft = '34px';
+            document.getElementById(`map-${date}-info`).appendChild(clonedEventDiv);
+          })
           document.getElementById(`map-${date}-info`).style.display = 'block';
 
           map.setLayoutProperty('poi-icons', 'icon-image',
