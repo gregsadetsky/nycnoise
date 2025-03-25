@@ -44,6 +44,7 @@ contributors (to the code and/or documentation) are listed below and managed wit
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/litviakk"><img src="https://avatars.githubusercontent.com/u/12960880?v=4?s=100" width="100px;" alt="litviakk"/><br /><sub><b>litviakk</b></sub></a><br /><a href="#code-litviakk" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.kaleballmon.com"><img src="https://avatars.githubusercontent.com/u/56810618?v=4?s=100" width="100px;" alt="Kaleb Allmon"/><br /><sub><b>Kaleb Allmon</b></sub></a><br /><a href="#code-kaleballmon" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/skeryl"><img src="https://avatars.githubusercontent.com/u/3475474?v=4?s=100" width="100px;" alt="Shane"/><br /><sub><b>Shane</b></sub></a><br /><a href="#code-skeryl" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vivngo"><img src="https://avatars.githubusercontent.com/u/9523397?v=4?s=100" width="100px;" alt="Vivien Ngo"/><br /><sub><b>Vivien Ngo</b></sub></a><br /><a href="#code-vivngo" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
