@@ -78,12 +78,14 @@ def _fetch_events_from_start_to_end_time_group_by_date_as_list(
         grouped_events[event.date].append(event)
 
     grouped_events_as_list = []
+    all_event_dates = []
 
     # ITERATE from start to end,
     # and add an object of {"date": date, "events": (list)}
     # to every date
     for day_index in range((events_end_time - events_start_time).days):
         curr_date = (events_start_time + timedelta(days=day_index)).date()
+        all_event_dates.append(curr_date)
         grouped_events_as_list.append(
             {
                 "date": curr_date,
@@ -91,7 +93,7 @@ def _fetch_events_from_start_to_end_time_group_by_date_as_list(
             }
         )
 
-    return grouped_events_as_list
+    return grouped_events_as_list, all_event_dates
 
 
 def _get_date_and_page_messages_from_start_to_end_time(
@@ -141,7 +143,10 @@ def _get_events_page_for_month(
         events_start_time = first_day_of_this_month
         events_end_time = first_day_of_next_month
 
-    grouped_events_as_list = _fetch_events_from_start_to_end_time_group_by_date_as_list(
+    (
+        grouped_events_as_list,
+        all_event_dates,
+    ) = _fetch_events_from_start_to_end_time_group_by_date_as_list(
         events_start_time, events_end_time
     )
 
@@ -164,6 +169,7 @@ def _get_events_page_for_month(
             "calendar_dates": _get_calendar_dates(
                 month_datetime=events_start_time,
             ),
+            "all_event_dates": all_event_dates,
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
             "index_page_messages": index_page_messages,

@@ -25,7 +25,7 @@
     </div>
   {% endif %}
 
-  {% include "calendar/calendar.html" with calendar_dates=calendar_dates only %}
+  {% include "calendar/calendar.html" with calendar_dates=calendar_dates all_event_dates=all_event_dates only %}
 
   <div class='noCalMonthLinks'>
     <a href="/{{ first_day_of_last_month|date:'Y-m' }}/">← {{ first_day_of_last_month|date:'M'|lower }}</a>
