@@ -110,6 +110,13 @@
                     'text-offset': [0, 0.9],
                     'icon-allow-overlap': true,
                     'symbol-z-order': 'source',
+                    'symbol-sort-key': [
+                      'match',
+                      ['get', 'divId'],
+                      '', // initialize to not match anything
+                      1000, // sort key when id is the hovered feature id
+                      0 // default
+                    ],
                   },
                   'paint': {
                   }
