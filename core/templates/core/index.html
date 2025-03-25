@@ -59,7 +59,7 @@
       </div>
 
       <div id="map-{{ date_events.date|date:'mdy' }}" style="display:none; height: 300px; margin-bottom: 10px;"></div>
-      <div id="map-{{ date_events.date|date:'mdy' }}-info" style="background: #eeeeff; padding-left: 10px; padding-right: 10px; display:none"></div>
+      <div id="map-{{ date_events.date|date:'mdy' }}-info" style="background: #eeeeff; padding-left: 10px; padding-right: 10px; display:none; margin-bottom: 10px;"></div>
 
       {% if date_events.date in date_messages %}
         {% for message in date_messages|get_item:date_events.date %}
