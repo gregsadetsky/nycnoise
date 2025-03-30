@@ -1,9 +1,11 @@
+{% load sass_tags %}
 {% load meta %}
 <!DOCTYPE html>
 <html>
 
 <head {% meta_namespaces %}>
     {% include "meta/meta.html" %}
+    <link href="{% sass_src 'scss/core.scss' %}" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <p>Please wait, redirecting you shortly...</p>
