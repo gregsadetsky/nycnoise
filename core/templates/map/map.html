@@ -85,6 +85,19 @@
           style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c",
           maxPitch: 0,
         });
+        // fit bounds of all points
+        const bounds = new maplibregl.LngLatBounds();
+        features.forEach(feature => {
+          bounds.extend(feature.geometry.coordinates);
+        });
+        map.fitBounds(bounds, {
+          padding: {top: 25, bottom: 10}, // more room at top for marker height
+          animate: false,
+        });
+        if (map.getZoom() > 10) {
+          // choosing to not zoom in from a lower number to make sure all points are visible
+          map.setZoom(10);
+        }
         map.on('load', () => {
           map.loadImage(
             '/marker-blue.png'
