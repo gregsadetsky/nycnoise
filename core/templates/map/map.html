@@ -7,6 +7,16 @@
   document.addEventListener("DOMContentLoaded", function() {
     const dateLinks = document.querySelectorAll('a[data-date]')
 
+    // function to check if venues are within ~10 meters of eachother
+    const areWithinTenMeters = (lnglatA, lnglatB) => {
+      // convert each string to an 2D array of numbers
+      const pointsA = lnglatA.split(',').map(d => parseFloat(d));
+      const pointsB = lnglatB.split(',').map(d => parseFloat(d));
+
+      const distance = Math.sqrt((pointsA[0]-pointsB[0]) ** 2 + (pointsA[1]-pointsB[1]) ** 2);
+      return distance < 0.0001;
+    }
+
     dateLinks.forEach(link => {
       link.addEventListener('click', function(event) {
         event.preventDefault();
@@ -32,6 +42,34 @@
 
         const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-lnglat]`);
 
+        // create a dictionary of all of our venues and their lnglats
+        const lnglatsByVenueId = {}
+        Array.from(eventDivs).filter((obj, index, arr) =>  // filter to unique venue ids
+            index === arr.findIndex(obj2 => obj.getAttribute('data-venue-id') === obj2.getAttribute('data-venue-id'))
+          ).forEach(eventDiv => {
+            const venueId = eventDiv.getAttribute('data-venue-id');
+            lnglatsByVenueId[venueId] = eventDiv.getAttribute('data-venue-lnglat');
+          });
+
+        // each element is an array of venue IDs within ~10m of each other
+        const mergedVenues = [];
+        Object.entries(lnglatsByVenueId).forEach(([venueId, venueLngLat]) => {
+          let foundMatchingVenue = false;
+          mergedVenues.forEach((venueList, index) => {
+            if (areWithinTenMeters(venueLngLat, lnglatsByVenueId[venueList[0]])) {
+              mergedVenues[index].push(venueId);
+              foundMatchingVenue = true;
+            }
+          });
+
+          if (!foundMatchingVenue) {
+            mergedVenues.push([venueId]);
+          }
+        });
+        // convert this array or arrays to an array of strings
+        // these will become our venueIds for the map & eventsByVenueId object
+        const mergedVenueIds = mergedVenues.map(el => el.join(','));
+
         const eventsByVenueId = {};
         Array.from(eventDivs).forEach(eventDiv => {
           const isCancelled = eventDiv.getAttribute('data-is-cancelled') === 'True';
@@ -46,14 +84,15 @@
             subString += '...';
           }
           const venueId = eventDiv.getAttribute('data-venue-id');
+          const mergedVenueId = mergedVenueIds.find(string => string.includes(venueId))
 
-          eventsByVenueId[venueId] = eventsByVenueId[venueId] || [];
-          eventsByVenueId[venueId].push({
+          eventsByVenueId[mergedVenueId] = eventsByVenueId[mergedVenueId] || [];
+          eventsByVenueId[mergedVenueId].push({
             'type': 'Feature',
             'id': Math.floor(Math.random() * 0xffffffff),
             'properties': {
               'divId': eventDiv.id,
-              'venueId': venueId,
+              'venueIds': mergedVenueId,
               'startTime': startTime,
               'description': subString
             },
@@ -85,6 +124,19 @@
           style: "https://api.protomaps.com/styles/v4/light/en.json?key=744c0d83a2202e0c",
           maxPitch: 0,
         });
+        // fit bounds of all points
+        const bounds = new maplibregl.LngLatBounds();
+        features.forEach(feature => {
+          bounds.extend(feature.geometry.coordinates);
+        });
+        map.fitBounds(bounds, {
+          padding: {top: 25, bottom: 10}, // more room at top for marker height
+          animate: false,
+        });
+        if (map.getZoom() > 10) {
+          // choosing to not zoom in from a lower number to make sure all points are visible
+          map.setZoom(10);
+        }
         map.on('load', () => {
           map.loadImage(
             '/marker-blue.png'
@@ -148,7 +200,8 @@
                     'text-justify': 'left',
                     'text-allow-overlap': true,
                     'text-size': 14,
-                    'text-offset': [0, 0.9],
+                    'text-offset': [0, 0],
+                    'text-anchor': 'top',
                   },
                   'paint': {
                       'text-color': '#333333',
@@ -168,11 +221,14 @@
           });
         });
         map.on('click', 'poi-icons', (e) => {
-          // Get all divs at this venue on this date
-          const venueId = e.features[0].properties.venueId;
-
           document.getElementById(`map-${date}-info`).innerHTML = '';
-          const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-id="${venueId}"]`);
+
+          // Get all divs at this venue (or venues) on this date
+          const venueIds = e.features[0].properties.venueIds.split(',');
+          const eventsQuerySelector = venueIds
+            .map(venueId => `div.event[data-date="${date}"][data-venue-id="${venueId}"]`)
+            .join(', ');
+          const eventDivs = document.querySelectorAll(eventsQuerySelector);
           eventDivs.forEach(eventDiv => {
             // clone the whole eventDiv
             // and insert it into the map-<date>-info div
