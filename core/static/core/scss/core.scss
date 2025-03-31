@@ -101,6 +101,7 @@ article {
     top: 0;
     // padding: 1em 0;
     position: sticky;
+    z-index: 3;
     background-color: $background-main;
     text-align: center;
     font-size: 2em;
