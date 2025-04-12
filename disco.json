@@ -1,0 +1,22 @@
+{
+    "version": "1.0",
+    "services":
+    {
+        "web":
+        {
+            "port": 8000,
+            "volumes":
+            [
+                {
+                    "name": "dataimport",
+                    "destinationPath": "/dataimport"
+                }
+            ]
+        },
+        "hook:deploy:start:before":
+        {
+            "type": "command",
+            "command": "python manage.py migrate"
+        }
+    }
+}
