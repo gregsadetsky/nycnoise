@@ -118,26 +118,3 @@ class ArchivePageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "core/index.html")
         self.assertNotContains(response, event_title)
-
-    def test_event_next_month_does_not_show_up_on_index_page(self):
-        nyctz = tz.gettz("America/New_York")
-        now_datetime = datetime.now().astimezone(nyctz)
-        start_of_next_month = now_datetime.replace(day=1) + relativedelta.relativedelta(
-            months=1
-        )
-
-        # roughly check that start_of_next_month is basically ok
-        # next month could be any day -- even tomorrow -- so only do this one sanity check
-        assert start_of_next_month > now_datetime
-
-        event_title = f"event {uuid.uuid4()}"
-        Event.objects.create(
-            venue=self.venue,
-            title=event_title,
-            starttime=start_of_next_month,
-        )
-
-        response = self.client.get("/")
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "core/index.html")
-        self.assertNotContains(response, event_title)

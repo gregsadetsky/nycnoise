@@ -82,6 +82,11 @@ a {
 /** Event styles                    **/
 /*************************************/
 
+/* THANKS @skeryl !! */
+main article:first-of-type h4 {
+  margin-top: 5px;
+}
+
 article {
   .dateMessage {
     text-align: center;
@@ -96,13 +101,14 @@ article {
     top: 0;
     // padding: 1em 0;
     position: sticky;
+    z-index: 3;
     background-color: $background-main;
     text-align: center;
     font-size: 2em;
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     a {
       color: black;

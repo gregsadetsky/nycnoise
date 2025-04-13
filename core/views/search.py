@@ -40,7 +40,7 @@ def search(request):
             )
         )
         .filter(search=query)
-        .order_by("starttime")
+        .order_by("-starttime")
         .distinct()
         .all()
     )

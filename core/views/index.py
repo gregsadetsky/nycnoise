@@ -6,6 +6,7 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 from ..models import DateMessage, Event, IndexPageMessages, StaticPage
+from ..opengraph import get_meta
 from ..utils_datemath import (
     NYCTZ,
     beginning_of_day,
@@ -15,32 +16,29 @@ from ..utils_datemath import (
 from .search import search
 from .static_page import static_page
 
-from ..opengraph import get_meta
 
+# _get_calendar_dates can be used for the index page,
+# where it is the entire current month (i.e. if now is march 4th, show march)
+# OR in case of a month archive (i.e. /2024-03/), it returns that full month
+def _get_calendar_dates(month_datetime):
+    _, first_day_of_month, _ = get_previous_current_next_month_start(month_datetime)
 
-# month_date is any date within the month
-# for which the calendar should be generated
-def _get_calendar_dates(month_datetime, start_today_and_show_3_weeks=False):
-    if start_today_and_show_3_weeks:
-        first_day_on_calendar = beginning_of_day(get_current_new_york_datetime())
+    # this is math from Rob Simmons to make sure that we always show the entire
+    # week that has the first of the month ie if the 1st of the month is a Thursday,
+    # we want first_day_on_calendar to be (i.e. start at) the previous Sunday
+    # so that the first row of the calendar is "full" ie it starts on the Sunday
+    # of the previous month, and then continues for a whole week.
+    # NOTE that this means that whenever the first of the month starts on a Sunday,
+    # we will not show any dates (on the calendar) from the previous month.
+    first_day_on_calendar = first_day_of_month - timedelta(
+        days=(first_day_of_month.weekday() + 1) % 7
+    )
 
-        dates_for_calendar = [
-            first_day_on_calendar + timedelta(days=i)
-            # 21 days == 3 weeks
-            for i in range(0, 3 * 7)
-        ]
-    else:
-        _, first_day_of_month, _ = get_previous_current_next_month_start(month_datetime)
-
-        first_day_on_calendar = first_day_of_month - timedelta(
-            days=(first_day_of_month.weekday() + 1) % 7
-        )
-
-        dates_for_calendar = [
-            first_day_on_calendar + timedelta(days=i)
-            # 42 days == 6 weeks
-            for i in range(0, 42)
-        ]
+    dates_for_calendar = [
+        first_day_on_calendar + timedelta(days=i)
+        # 42 days == 6 weeks
+        for i in range(0, 42)
+    ]
 
     current_datetime = get_current_new_york_datetime()
 
@@ -56,32 +54,10 @@ def _get_calendar_dates(month_datetime, start_today_and_show_3_weeks=False):
     return date_events
 
 
-# month_datetime can be any (localized!) date time within the month
-def _get_events_page_for_month(
-    request,
-    month_datetime,
-    is_index,
-    template_path="core/index.html",
-    start_today_and_show_3_weeks=False,
+def _fetch_events_from_start_to_end_time_group_by_date_as_list(
+    events_start_time, events_end_time
 ):
-    # assert that we're dealing with a new york timezone
-    assert month_datetime.tzinfo == NYCTZ
-
-    # these are re-used a few times below
-    (
-        first_day_of_last_month,
-        first_day_of_this_month,
-        first_day_of_next_month,
-    ) = get_previous_current_next_month_start(month_datetime)
-
-    if start_today_and_show_3_weeks:
-        events_start_time = beginning_of_day(get_current_new_york_datetime())
-        events_end_time = events_start_time + timedelta(weeks=3)
-    else:
-        events_start_time = first_day_of_this_month
-        events_end_time = first_day_of_next_month
-
-    all_events_for_this_month = (
+    fetched_events = (
         # it is very very very important to do a select_related here
         # otherwise this will 100% lead to n+1 sql queries i.e.
         # each time a venue's info is fetched, it will create a new database query.
@@ -98,9 +74,31 @@ def _get_events_page_for_month(
     )
 
     grouped_events = defaultdict(list)
-    for event in all_events_for_this_month:
+    for event in fetched_events:
         grouped_events[event.date].append(event)
 
+    grouped_events_as_list = []
+    all_event_dates = []
+
+    # ITERATE from start to end,
+    # and add an object of {"date": date, "events": (list)}
+    # to every date
+    for day_index in range((events_end_time - events_start_time).days):
+        curr_date = (events_start_time + timedelta(days=day_index)).date()
+        all_event_dates.append(curr_date)
+        grouped_events_as_list.append(
+            {
+                "date": curr_date,
+                "events": grouped_events.get(curr_date, []),
+            }
+        )
+
+    return grouped_events_as_list, all_event_dates
+
+
+def _get_date_and_page_messages_from_start_to_end_time(
+    events_start_time, events_end_time
+):
     all_messages_for_this_month = DateMessage.objects.filter(
         date__gte=events_start_time, date__lt=events_end_time
     )
@@ -114,23 +112,67 @@ def _get_events_page_for_month(
     # using .get() would raise an exception if the object does not exist in the database
     index_page_messages = IndexPageMessages.objects.first()
 
+    return (date_messages, index_page_messages)
+
+
+# month_datetime can be any (localized!) date time within the month
+def _get_events_page_for_month(
+    request,
+    month_datetime,
+    is_index,
+):
+    # assert that we're dealing with a new york timezone
+    assert month_datetime.tzinfo == NYCTZ
+
+    # these are used on both index and archive pages
+    # to show links at the top and bottom to go to the previews,
+    # current and next month.
+    # (going to the current month makes sense because the index
+    # page now starts at today and shows 3 months, so the current
+    # month link allows you to see the full current month.)
+    (
+        first_day_of_last_month,
+        first_day_of_this_month,
+        first_day_of_next_month,
+    ) = get_previous_current_next_month_start(month_datetime)
+
+    if is_index:
+        events_start_time = beginning_of_day(get_current_new_york_datetime())
+        events_end_time = events_start_time + timedelta(weeks=3)
+    else:
+        events_start_time = first_day_of_this_month
+        events_end_time = first_day_of_next_month
+
+    (
+        grouped_events_as_list,
+        all_event_dates,
+    ) = _fetch_events_from_start_to_end_time_group_by_date_as_list(
+        events_start_time, events_end_time
+    )
+
+    (
+        date_messages,
+        index_page_messages,
+    ) = _get_date_and_page_messages_from_start_to_end_time(
+        events_start_time, events_end_time
+    )
+
     return render(
         request,
-        template_path,
+        "core/index.html",
         {
             "is_index": is_index,
             "month_year_header": month_datetime.strftime("%Y %B").lower(),
             # casting to dict since django doesn't deal with defaultdicts well
             # https://stackoverflow.com/a/64666307
-            "all_events": dict(grouped_events),
+            "grouped_events_as_list": grouped_events_as_list,
             "calendar_dates": _get_calendar_dates(
                 month_datetime=events_start_time,
-                start_today_and_show_3_weeks=start_today_and_show_3_weeks,
             ),
+            "all_event_dates": all_event_dates,
             # as above, don't pass defaultdict's to django templates..!
             "date_messages": dict(date_messages),
             "index_page_messages": index_page_messages,
-            "show_last_curr_next_month_links": start_today_and_show_3_weeks,
             "first_day_of_last_month": first_day_of_last_month,
             "first_day_of_this_month": first_day_of_this_month,
             "first_day_of_next_month": first_day_of_next_month,
@@ -187,22 +229,4 @@ def index(request):
     # get the events page based on today
     return _get_events_page_for_month(
         request, month_datetime=current_datetime, is_index=True
-    )
-
-
-def index_no_cal(request):
-    if request.method == "GET" and request.GET.get("s"):
-        # this is actually a search, let the search view handle it!
-        return search(request)
-
-    # get current new york first day of month date
-    current_datetime = get_current_new_york_datetime()
-
-    # get the events page based on today
-    return _get_events_page_for_month(
-        request,
-        month_datetime=current_datetime,
-        is_index=True,
-        template_path="core/index_no_cal.html",
-        start_today_and_show_3_weeks=True,
     )

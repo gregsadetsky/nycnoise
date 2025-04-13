@@ -24,6 +24,7 @@ ALLOWED_HOSTS = os.environ["ALLOWED_HOSTS"].split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    # https://django-autocomplete-light.readthedocs.io/en/master/
     "dal",
     "dal_select2",
     "django.contrib.admin",
@@ -229,3 +230,9 @@ SECURE_REFERRER_POLICY = (
     "strict-origin",
     "strict-origin-when-cross-origin",
 )
+
+ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION = (
+    os.environ["ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION"] == "True"
+)
+DEFAULT_FROM_EMAIL = "hi@greg.technology"
+JESSICA_EMAIL = "contact+submissions@nyc-noise.com"

@@ -280,9 +280,6 @@ class Venue(models.Model):
     def __str__(self):
         return f"{'the ' if self.name_the else ''}{self.name}"
 
-    def full_name_with_the(self):
-        return f"{'the ' if self.name_the else ''}{self.name}"
-
 
 # custom manager that returns only public StaticPages by default
 # so that most code (except for the admin) will do the right thing
@@ -350,6 +347,11 @@ class EmailSubscriber(models.Model):
         return self.email
 
 
+# 'IndexPageMessages' is a misnomer, as this
+# singleton Pre + Post cal messages appear on EVERY
+# archive page i.e. not only the / page, but also
+# on every /2025-02/ ie archive page.
+# TODO rename this to .... PrePostCalMessage? or CalMessages?
 class IndexPageMessages(SingletonModel):
     pre_cal_msg = tinymce_models.HTMLField(
         "Pre calendar message", null=True, blank=True

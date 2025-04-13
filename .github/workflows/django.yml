@@ -52,3 +52,4 @@ jobs:
           PROD_INTERNAL_API_SERVER: "https://nyc-noise.com"
           DEBUG_TOOLBAR_ENABLE: "false"
           PYINSTRUMENT_ENABLE: "false"
+          ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION: "false"

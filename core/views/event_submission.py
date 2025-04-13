@@ -1,6 +1,8 @@
 from core.models import Event, Venue
+from core.utils_aws import aws_mail_sender
 from dal import autocomplete
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.utils.html import escape, mark_safe
@@ -14,13 +16,6 @@ class DateTimePickerInput(forms.DateTimeInput):
 class UserSubmittedEventForm(forms.ModelForm):
     template_name = "core/event_form_fields.html"
 
-    venue_override = forms.CharField(
-        label=mark_safe("<small>(if missing) venue</small>"),
-        required=False,
-        help_text=mark_safe(
-            "<small><i>plz include 1) address (or contact email if private), 2) age policy, & 3) wheelchair access basics for entry & restrooms</i></small>"
-        ),
-    )
     venue = forms.models.ModelChoiceField(
         label="venue",
         queryset=Venue.objects.filter(is_open=True),
@@ -41,7 +36,6 @@ class UserSubmittedEventForm(forms.ModelForm):
             "title",
             "artists",
             "venue",
-            "venue_override",
             "price",
             "ticket_hyperlink",
             "description",
@@ -54,7 +48,7 @@ class UserSubmittedEventForm(forms.ModelForm):
             "ticket_hyperlink": "ticket link",
             "artists": "artists",
             "price": "price",
-            "description": "extra info (prolly won't include ¯\\_(ツ)_/¯)",
+            "description": "extra info (e.g., venue if not in drop-down)",
         }
         widgets = {
             "starttime": DateTimePickerInput(),
@@ -67,13 +61,34 @@ class UserSubmittedEventForm(forms.ModelForm):
         obj.user_submitted = True
         if commit:
             obj.save()
+
+        # let Jessica know!
+        if settings.ENABLE_EMAILING_JESSICA_ON_EVENT_SUBMISSION:
+            aws_mail_sender.send_email(
+                source=settings.DEFAULT_FROM_EMAIL,
+                destination=settings.JESSICA_EMAIL,
+                subject="NEW EVENT SUBMISSION",
+                text=f"new event submission: {obj.title}",
+                html=f"""
+                <p><strong>start time:</strong> {obj.starttime}</p>
+                <p><strong>hyperlink:</strong> {obj.hyperlink}</p>
+                <p><strong>title:</strong> {obj.title}</p>
+                <p><strong>artists:</strong> {obj.artists}</p>
+                <p><strong>venue:</strong> {obj.venue}</p>
+                <p><strong>ticket hyperlink:</strong> {obj.ticket_hyperlink}</p>
+                <p><strong>description:</strong> {obj.description}</p>
+                <p><strong>price:</strong> {obj.price}</p>
+                <p><strong>user submission email:</strong> {obj.user_submission_email}</p>
+                """,
+            )
+
         return obj
 
     def clean(self):
         data = super().clean()
 
         # escape all text-based fields
-        text_fields = ["title", "artists", "description", "venue_override"]
+        text_fields = ["title", "artists", "description"]
         for field in text_fields:
             if data.get(field):
                 data[field] = escape(data[field])
@@ -81,8 +96,8 @@ class UserSubmittedEventForm(forms.ModelForm):
         if data.get("title") is None and data.get("artists") is None:
             raise ValidationError("event must include title or artists")
 
-        venue_override = data.get("venue_override")
-        if data.get("venue") is None and venue_override.strip() == "":
+        venue = data.get("venue")
+        if venue is None:
             raise ValidationError("event must contain some venue information")
 
 
