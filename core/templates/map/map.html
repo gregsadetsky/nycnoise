@@ -17,6 +17,35 @@
       return distance < 0.0001;
     }
 
+    // do some preprocessing to figure out venues ~10m of each other
+    // first, create a dictionary of all of our venues and their lnglats
+    const lnglatsByVenueId = {}
+    const allEventDivs = document.querySelectorAll(`div.event[data-venue-lnglat]`)
+    Array.from(allEventDivs).filter((obj, index, arr) =>  // filter to unique venue ids
+        index === arr.findIndex(obj2 => obj.getAttribute('data-venue-id') === obj2.getAttribute('data-venue-id'))
+      ).forEach(eventDiv => {
+        const venueId = eventDiv.getAttribute('data-venue-id');
+        lnglatsByVenueId[venueId] = eventDiv.getAttribute('data-venue-lnglat');
+      });
+    // an array where each element is an array of venue IDs within ~10m of each other
+    const mergedVenues = [];
+    Object.entries(lnglatsByVenueId).forEach(([venueId, venueLngLat]) => {
+      let foundMatchingVenue = false;
+      mergedVenues.forEach((venueList, index) => {
+        if (areWithinTenMeters(venueLngLat, lnglatsByVenueId[venueList[0]])) {
+          mergedVenues[index].push(venueId);
+          foundMatchingVenue = true;
+        }
+      });
+
+      if (!foundMatchingVenue) {
+        mergedVenues.push([venueId]);
+      }
+    });
+    // convert this array or arrays to an array of strings
+    // these will become our venueIds for the map & eventsByVenueId object
+    const mergedVenueIds = mergedVenues.map(el => el.join(','));
+
     dateLinks.forEach(link => {
       link.addEventListener('click', function(event) {
         event.preventDefault();
@@ -39,36 +68,7 @@
         // find all of the <div> with class="event"
         // that have a data-date of the same value,
         // and have a data-venue-latlng
-
         const eventDivs = document.querySelectorAll(`div.event[data-date="${date}"][data-venue-lnglat]`);
-
-        // create a dictionary of all of our venues and their lnglats
-        const lnglatsByVenueId = {}
-        Array.from(eventDivs).filter((obj, index, arr) =>  // filter to unique venue ids
-            index === arr.findIndex(obj2 => obj.getAttribute('data-venue-id') === obj2.getAttribute('data-venue-id'))
-          ).forEach(eventDiv => {
-            const venueId = eventDiv.getAttribute('data-venue-id');
-            lnglatsByVenueId[venueId] = eventDiv.getAttribute('data-venue-lnglat');
-          });
-
-        // each element is an array of venue IDs within ~10m of each other
-        const mergedVenues = [];
-        Object.entries(lnglatsByVenueId).forEach(([venueId, venueLngLat]) => {
-          let foundMatchingVenue = false;
-          mergedVenues.forEach((venueList, index) => {
-            if (areWithinTenMeters(venueLngLat, lnglatsByVenueId[venueList[0]])) {
-              mergedVenues[index].push(venueId);
-              foundMatchingVenue = true;
-            }
-          });
-
-          if (!foundMatchingVenue) {
-            mergedVenues.push([venueId]);
-          }
-        });
-        // convert this array or arrays to an array of strings
-        // these will become our venueIds for the map & eventsByVenueId object
-        const mergedVenueIds = mergedVenues.map(el => el.join(','));
 
         const eventsByVenueId = {};
         Array.from(eventDivs).forEach(eventDiv => {
